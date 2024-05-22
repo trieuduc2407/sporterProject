@@ -15,17 +15,20 @@
 </head>
 <body>
 <div class="container">
-       <div class="row">
-           <div class="col">
-               <a href="/nation">nation</a>
-           </div>
-           <div class="col">
-               <a href="displayTeam.html">team</a>
-           </div>
-           <div class="col">
-               <a href="/login">login</a>
-           </div>
-       </div>
+    <div class="row">
+        <div class="col">
+            <a href="/nations">nation</a>
+        </div>
+        <div class="col">
+            <a href="displayTeam.html">team</a>
+        </div>
+        <div class="col">
+            <a href="/login">login</a>
+        </div>
+        {% if user %}
+            <h1>hello {{user[1]}}</h1>
+        {% endif %}
+    </div>
     <div class="row">
         <a href="/team/manu">
             <img style="background-color: black"
