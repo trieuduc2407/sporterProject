@@ -20,13 +20,20 @@
             <a href="/nations">nation</a>
         </div>
         <div class="col">
-            <a href="displayTeam.html">team</a>
+            <a href="/team">team</a>
         </div>
+        {% if not user %}
         <div class="col">
             <a href="/login">login</a>
         </div>
+        <div class="col">
+            <a href="/register">register</a>
+        </div>
+        {% endif %}
+
         {% if user %}
-            <h1>hello {{user[1]}}</h1>
+            <h1>hello {{user}}</h1>
+        <a href="/logout">logout</a>
         {% endif %}
     </div>
     <div class="row">
