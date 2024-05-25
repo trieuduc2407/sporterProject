@@ -13,7 +13,7 @@ def index():
         # Kiem tra neu ton tai gia tri 'logged_in' trong session (User da dang nhap)
         # Render file index.html, truyen vao gia tri:
         # user=session['lname']: Gia tri cua lname trong table users
-        return render_template('index.html', user=session['lname'])
+        return render_template('index.html', user=session['lname'], teams=teams())
     # Neu khong ton tai gia tri ['logged_in'] trong session (User chua dang nhap)
     # Render file index.html va khong truyen vao tham so
     return render_template('index.html')
@@ -22,13 +22,17 @@ def index():
 # Dinh tuyen ham team cho url '/team'
 @app.route('/team', methods=['GET'])
 def team():
+    # Render file displayTeam.html va truyen vao gia tri cua bien result
+    return render_template('displayTeam.html', imgs=teams())
+
+
+def teams():
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    c.execute('SELECT teamImg FROM team')
+    c.execute('SELECT * FROM team')
     result = c.fetchall()
     conn.close()
-    print(result)
-    return render_template('displayTeam.html', imgs=result)
+    return result
 
 
 # Dinh tuyen ham getTeam cho url '/team/ten doi bong' vd: '/team/manu'
@@ -55,6 +59,18 @@ def nations():
     conn.close()
     # Render file nation.html va truyen vao gia tri cua bien products
     return render_template('nation.html', products=products)
+
+
+# Dinh tuyen ham search cho url '/search'
+@app.route('/search', methods=['POST'])
+def search():
+    searchText = request.form['search']
+    conn = sqlite3.connect(sqldbname)
+    c = conn.cursor()
+    c.execute("SELECT * FROM products WHERE name LIKE '%"+searchText+"%'")
+    products = c.fetchall()
+    conn.close()
+    return render_template('search.html', products=products)
 
 
 # Dinh tuyen ham login cho url '/login'
@@ -92,6 +108,7 @@ def logout():
     return redirect(url_for('index'))
 
 
+# Dinh tuyen ham register cho url '/register'
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
