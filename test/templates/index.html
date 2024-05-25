@@ -35,12 +35,15 @@
         <h1>hello {{user}}</h1>
         <a href="/logout">logout</a>
         {% endif %}
+        <div class="col">
+            <a href="/cart">cart</a>
+        </div>
     </div>
     <div class="row">
         {% for team in teams %}
         <div class="col">
             <a href="/team/{{team[1]}}">
-                <img style="background-color: black"
+                <img class="img-fluid" style="background-color: black"
                      src="{{team[2]}}" alt="">
             </a>
         </div>

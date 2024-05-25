@@ -15,11 +15,16 @@
 </head>
 <body>
 <div class="container">
-    {% for img in imgs %}
     <div class="row">
-        <img src="{{img[2]}}" style="background-color: black" alt="">
+        {% for team in teams %}
+        <div class="col">
+            <a href="/team/{{team[1]}}">
+                <img class="img-fluid" style="background-color: black"
+                     src="{{team[2]}}" alt="">
+            </a>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 </body>
 </html>

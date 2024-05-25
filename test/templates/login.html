@@ -15,6 +15,9 @@
 </head>
 <body>
 <div class="container">
+    {% if cartError %}
+    <h1>login to view cart</h1>
+    {% endif %}
     <form method="post" action="/login">
         <label for="username">
             Username:
