@@ -32,7 +32,7 @@ def get_max_cart_id():
     c = conn.cursor()
     c.execute('SELECT MAX(cartId) FROM cart')
     max_id = c.fetchone()[0]
-    if max_id > 0:
+    if max_id:
         max_id = max_id+1
     else:
         max_id = 1
@@ -42,7 +42,7 @@ def get_max_cart_id():
 def get_cart(id):
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    c.execute('SELECT productImg, productName, productPrice, quantity FROM cart WHERE userId = ?', (id,))
+    c.execute('SELECT productName, productPrice, quantity FROM cart WHERE userId = ?', (id,))
     products = c.fetchall()
     return products
 
@@ -99,7 +99,7 @@ def search():
     search_text = request.form['search']
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    c.execute("SELECT * FROM products WHERE name LIKE '%"+search_text+"%'")
+    c.execute("SELECT productId, name, price FROM products WHERE name LIKE '%"+search_text+"%'")
     # Tim cac san pham co ten gan dung voi search_text va luu vao bien products
     products = c.fetchall()
     conn.close()
@@ -111,7 +111,7 @@ def search():
 def product(id):
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    c.execute('SELECT * FROM products WHERE productId = ?')
+    c.execute('SELECT * FROM products WHERE productId = ?', (id,))
     product = c.fetchone()
     conn.close()
     return render_template('product.html', product=product)
@@ -205,11 +205,14 @@ def add_to_cart():
         max_id = get_max_cart_id()
         conn = sqlite3.connect(sqldbname)
         c = conn.cursor()
-        c.execute('INSERT INTO cart VALUES (?,?,?,?,?,?,?)', (max_id, session['id'], product_id, quantity))
+        c.execute('SELECT name, price FROM products WHERE productId = ?', (product_id,))
+        result = c.fetchone()
+        c.execute('INSERT INTO cart VALUES (?,?,?,?,?,?)', (max_id, session['id'], product_id, result[0], result[1], quantity))
         conn.commit()
         conn.close()
     # Cap nhat lai cart
     session['cart'] = get_cart(session['id'])
+    print(session['cart'])
     msg = 'added'
     return msg
 
@@ -222,7 +225,7 @@ def cart():
         get_cart(session['id'])
         cart = session.get('cart', [])
         # Render file cart.html, truyen vao gia tri bien cart
-        return render_template('cart.html', items=cart)
+        return render_template('cart.html', items=cart, id=session['id'])
     else:
         # Neu khong ton tai gia tri 'logged_in' trong session (User chua dang nhap)
         # Redirect ve trang login va hien thong bao yeu cau dang nhap de xem gio hang
