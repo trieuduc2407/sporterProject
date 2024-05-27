@@ -1,0 +1,88 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+    font-family: sans-serif;
+}
+
+body {
+    background: #ff6f28;
+}
+
+.container {
+    background: #fff;
+    max-width: 40rem;
+    margin: 4rem auto;
+    border-radius: 1rem;
+    padding: 2.4rem 1.8rem;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 2.4rem;
+}
+
+
+
+
+input, .btn {
+    width: 100%;
+    padding: 1.2rem;
+    font-size: 1.4rem;
+    border-radius: 5px;
+    border:1px solid #333;
+    margin-bottom: 1.8rem;
+    display: inline-block;
+    position: relative;
+
+}
+
+label {
+    display: inline-block;
+    font-size: 1.4em;
+    margin-bottom: 0.8rem;
+    align-self: start;
+    float: left;
+}
+
+a {
+    text-decoration: none;
+}
+
+.link {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    display: inline-block;
+    margin-left: 1rem;
+}
+
+.face{
+    margin-top: 1rem;
+    background: #4267b2;
+    color: #fff;
+}
+
+.google {
+  color: black;
+}
+
+.fa-brands{
+    left:5%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    /* nếu muốn hình ảnh không bị vượt ra khỏi container */
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.line {
+    display:inline-block;
+    border-bottom: 1px solid black;
+    width: 45%;
+    color: #777;
+}

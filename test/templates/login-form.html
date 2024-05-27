@@ -5,29 +5,25 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
     <title>Document</title>
-    <link rel="stylesheet" href="/test/static/CSS/login-form.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="/test/static/CSS/login-form.css">
 </head>
 <body>
 <div class="container">
     <form action="#">
-        <h1>Sigup</h1>
-        <label for=" ">First name</label><br>
-        <input type="text" placeholder="First name" name="fname"><br>
-        <label>Last name</label><br>
-        <input type="text" placeholder="Last name" name="lname"><br>
+        <h1>Login</h1>
         <label for="email">Email</label> <br>
         <input type="email" id="email" placeholder="Enter your email"><br>
-        <label>Username</label><br>
-        <input type="text" placeholder="Username" name="username"><br>
         <label for="password">Password</label><br>
         <input type="password" id="password" placeholder="Enter your password"><br>
-        <label for="password">Confirm password</label><br>
-        <input type="password" id="password" placeholder="Confirm your password"><br>
-        <input type="submit" value="Sigup" class="btn" style="background-color: #ff6f28; color: #fff;"><br>
-
+        <input type="submit" value="Login" class="btn" style="background-color: #ff6f28; color: #fff;"><br>
+        <label  style="float: none;">Don`t have an account?</label><a href="/test/templates/register.html" class="link"  >Signup</a><br>
+        <span class="line"></span><span style="font-size: 1.4rem; padding-bottom: 1.4rem;">Or</span><span class="line"></span><br>
+        <a href="#" class="btn face"><i class="fa-brands fa-facebook fa-lg" style="color: #ffffff;"></i>Login with Facebook</a><br>
+        <a href="#" class="btn google"><i class="fa-brands fa-google fa-lg" style="color: #e6700f;"></i>Login with Google</a>
     </form>
+</div>
 </body>
 </html>
