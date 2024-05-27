@@ -14,27 +14,19 @@
     <title>Document</title>
 </head>
 <body>
-<div class="container">
-    {% if cartError %}
-    <h1>login to view cart</h1>
-    {% endif %}
-    <form method="post" action="/login">
-        <label for="username">
-            Username:
-        </label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <br>
-        <input type="password" id="password" name="password" placeholder="password" required>
-        <br>
-        <br>
-        <button type="submit">
-            login
-        </button>
-    </form>
-    {% if error %}
-    <h1>{{error}}</h1>
-    {% endif %}
-</div>
+    <div class="container">
+        {% if id %}
+        <h1>{{id}}</h1>
+        {% else %}
+        <h1>no id</h1>
+        {% endif %}
+        {% for item in items %}
+            <div class="row">
+                <div class="col">{{item[0]}}</div>
+                <div class="col">{{item[1]}}</div>
+                <div class="col">{{item[2]}}</div>
+            </div>
+        {% endfor %}
+    </div>
 </body>
 </html>
