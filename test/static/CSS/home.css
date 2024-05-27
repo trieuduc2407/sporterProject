@@ -1,0 +1,125 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Roboto Condensed", sans-serif;;
+}
+
+.header{
+    position: absolute;
+}
+
+.top-header{
+    height: 1.3em;
+    background: black;
+    width: 100%;
+}
+
+.icon-top-header{
+    float: right;
+    padding: 0 0.2em;
+}
+
+.center-header{
+    height: 81px;
+    background: #fff;
+    position: relative;
+
+}
+
+.center-header a img{
+    display: block;
+    margin: 0 auto;
+}
+
+.center-header>a{
+    display: block;
+    width: 30%;
+    margin: 0 auto;
+}
+
+.center-header .logo-icon{
+    position: absolute;
+    right:2em;
+    top:50%;
+}
+
+.center-header .logo-icon .fa-solid{
+    padding: 0 0.2em;
+}
+
+.big-logo{
+    height: 81px;
+    line-height: 81px;
+}
+#search-form{
+    display: none;
+}
+
+#keyword{
+    border-radius: 20px;
+    padding:0.3rem;
+    height: 4rem;
+    font-size: 2rem;
+    margin-top: 50%;
+    font-family: sans-serif;
+    font-style: inherit;
+    border: 1px solid #333;
+    outline: none;
+    padding-left: 1rem;
+}
+
+/*#search-form.hidden {*/
+/*    display: none;*/
+/*}*/
+
+
+.search-conrtainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+;
+
+}
+
+.fa-magnifying-glass{
+    cursor: pointer;
+}
+
+.bottom-header{
+    background: #000000;
+    height: 2.3em;
+    display: flex;
+    justify-content: center;
+
+}
+
+.list-menu{
+    text-decoration: none;
+    color: #dedede;
+    padding: 0 1rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 2.8em;
+    font-size: 0.8em;
+    font-family: "Roboto Condensed", sans-serif;;
+}
+
+.list-menu:hover{
+    color: #fff ;
+}
+
+.big-banner{
+    position: absolute;
+    background: url("https://www.sporter.vn/wp-content/uploads/2023/11/2023_Homepage_Banner_1.jpg");
+}
+
+.img-big-banner{
+    position: relative;
+    right:0;
+    left: 0;
+    background-size: cover;
+}
+
