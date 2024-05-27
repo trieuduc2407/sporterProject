@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 
 app = Flask(__name__)
@@ -9,7 +9,7 @@ sqldbname = 'database.db'
 def teams():
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    c.execute('SELECT * FROM team')
+    c.execute('SELECT * FROM teams')
     result = c.fetchall()
     conn.close()
     return result
@@ -18,7 +18,7 @@ def teams():
 def get_max_user_id():
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    c.execute('SELECT MAX(id) FROM "users "')
+    c.execute('SELECT MAX(userId) FROM users')
     max_id = c.fetchone()[0]
     if max_id > 0:
         max_id = max_id+1
@@ -43,8 +43,8 @@ def get_cart(id):
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
     c.execute('SELECT productName, productPrice, quantity FROM cart WHERE userId = ?', (id,))
-    products = c.fetchall()
-    return products
+    result = c.fetchall()
+    return result
 
 
 # Dinh tuyen ham index cho url '/'
@@ -72,12 +72,18 @@ def team():
 def get_team(fteam):
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    c.execute('SELECT * FROM products WHERE team = ?', (fteam,))
+    c.execute('SELECT productId, name, price FROM products WHERE team = ?', (fteam,))
     # Tim kiem cac san pham la ao dau cua manu va luu vao products
     products = c.fetchall()
+    result = []
+    for product in products:
+        c.execute("SELECT img1 FROM images WHERE productId = ?", (product[0],))
+        img = c.fetchone()[0]
+        dict = {"productId": product[0], "productName": product[1], "productPrice": product[2], "productImg": img}
+        result.append(dict)
     conn.close()
     # Render file team.html va truyen vao gia tri cua bien products
-    return render_template('team.html', products=products)
+    return render_template('team.html', items=result)
 
 
 # Dinh tuyen ham nation cho url '/nations'
@@ -85,36 +91,55 @@ def get_team(fteam):
 def nations():
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    c.execute('SELECT * FROM products WHERE nation NOTNULL')
+    c.execute('SELECT productId, name, price FROM products WHERE nation NOTNULL')
     # Tim kiem cac ban ghi co gia tri nation NOTNULL va luu vao products
     products = c.fetchall()
+    result = []
+    for product in products:
+        c.execute("SELECT img1 FROM images WHERE productId = ?", (product[0],))
+        img = c.fetchone()[0]
+        dict = {"productId": product[0], "productName": product[1], "productPrice": product[2], "productImg": img}
+        result.append(dict)
     conn.close()
     # Render file nation.html va truyen vao gia tri cua bien products
-    return render_template('nation.html', products=products)
+    return render_template('nation.html', items=result)
 
 
 # Dinh tuyen ham search cho url '/search'
 @app.route('/search', methods=['POST'])
 def search():
-    search_text = request.form['search']
+    search_text = request.form['keyword']
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
     c.execute("SELECT productId, name, price FROM products WHERE name LIKE '%"+search_text+"%'")
     # Tim cac san pham co ten gan dung voi search_text va luu vao bien products
     products = c.fetchall()
+    result = []
+    for product in products:
+        c.execute("SELECT img1 FROM images WHERE productId = ?", (product[0],))
+        img = c.fetchone()[0]
+        dict = {"productId": product[0], "productName": product[1], "productPrice": product[2], "productImg": img}
+        result.append(dict)
     conn.close()
     # Render file search.html va truyen vao gia tri cua products
-    return render_template('search.html', products=products)
+    return render_template('search.html', items=result)
 
 
 @app.route('/product/<id>', methods=['GET'])
 def product(id):
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    c.execute('SELECT * FROM products WHERE productId = ?', (id,))
+    c.execute(
+        'SELECT name, price, sizeTitle, sizeText, infoTitle1, infoText1, infoTitle2, infoText2 FROM products WHERE productId = ?',
+        (id,)
+    )
     product = c.fetchone()
     conn.close()
-    return render_template('product.html', product=product)
+    dict = {
+        "productName": product[0], "productPrice": product[1], "sizeTitle": product[2], "sizeText": product[3],
+        "infoTitle1": product[4], "infoText1": product[5], "infoTitle2": product[6], "infoText2": product[7]
+    }
+    return render_template('product.html', item=dict)
 
 
 # Dinh tuyen ham login cho url '/login'
@@ -126,7 +151,7 @@ def login():
         password = request.form['password']
         conn = sqlite3.connect(sqldbname)
         c = conn.cursor()
-        c.execute('SELECT * FROM "users " WHERE username = ? AND password = ?', (username, password))
+        c.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, password))
         # Tim kiem ban ghi thoa man username va password luu vao bien user
         user = c.fetchone()
         if user:
@@ -141,8 +166,8 @@ def login():
             return redirect(url_for('index'))
         else:
             # Neu khong ton tai user, hien thong bao va yeu cau nhap lai
-            return render_template('login.html', error='Invalid username or password')
-    return render_template('login.html')
+            return render_template('login-form.html', error='Invalid username or password')
+    return render_template('login-form.html')
 
 
 # Dinh tuyen ham logout cho url '/logout'
@@ -168,12 +193,12 @@ def register():
         lname = request.form['lname']
         conn = sqlite3.connect(sqldbname)
         c = conn.cursor()
-        c.execute('SELECT * FROM "users " WHERE username = ? OR email = ?', (username, email,))
+        c.execute('SELECT * FROM users WHERE username = ? OR email = ?', (username, email,))
         # Tim kiem ban ghi thoa man username hoac email va luu vao bien check
         check = c.fetchone()
         if not check:
             max_id = get_max_user_id()
-            c.execute('INSERT INTO "users " VALUES (?,?,?,?,?,?)', (max_id, username, password, email, fname, lname))
+            c.execute('INSERT INTO users VALUES (?,?,?,?,?,?)', (max_id, username, password, email, fname, lname))
             conn.commit()
             # Chen ban ghi moi vao table users va redirect ve login
             return redirect(url_for('login'))
@@ -207,12 +232,13 @@ def add_to_cart():
         c = conn.cursor()
         c.execute('SELECT name, price FROM products WHERE productId = ?', (product_id,))
         result = c.fetchone()
-        c.execute('INSERT INTO cart VALUES (?,?,?,?,?,?)', (max_id, session['id'], product_id, result[0], result[1], quantity))
+        c.execute(
+            'INSERT INTO cart VALUES (?,?,?,?,?,?)', (max_id, session['id'], product_id, result[0], result[1], quantity)
+        )
         conn.commit()
         conn.close()
     # Cap nhat lai cart
     session['cart'] = get_cart(session['id'])
-    print(session['cart'])
     msg = 'added'
     return msg
 
@@ -229,7 +255,7 @@ def cart():
     else:
         # Neu khong ton tai gia tri 'logged_in' trong session (User chua dang nhap)
         # Redirect ve trang login va hien thong bao yeu cau dang nhap de xem gio hang
-        return render_template('login.html', cartError=True)
+        return render_template('login-form.html', cartError=True)
 
 
 if __name__ == '__main__':
