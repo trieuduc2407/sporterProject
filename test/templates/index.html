@@ -20,40 +20,24 @@
             <a href="/nations">nation</a>
         </div>
         <div class="col">
-            <a href="/team">team</a>
+            <a href="displayTeam.html">team</a>
         </div>
-        {% if not user %}
         <div class="col">
             <a href="/login">login</a>
         </div>
-        <div class="col">
-            <a href="/register">register</a>
-        </div>
-        {% endif %}
-
         {% if user %}
-        <h1>hello {{user}}</h1>
-        <a href="/logout">logout</a>
+            <h1>hello {{user[1]}}</h1>
         {% endif %}
-        <div class="col">
-            <a href="/cart">cart</a>
-        </div>
     </div>
     <div class="row">
-        {% for team in teams %}
-        <div class="col">
-            <a href="/team/{{team[1]}}">
-                <img class="img-fluid" style="background-color: black"
-                     src="{{team[2]}}" alt="">
-            </a>
-        </div>
-        {% endfor %}
-    </div>
-    <div class="row">
-        <form action="/search" method="post">
-            <input type="text" name="search">
-            <button type="submit">search</button>
-        </form>
+        <a href="/team/manu">
+            <img style="background-color: black"
+                 src="https://www.sporter.vn/wp-content/uploads/2023/11/Logo-manchester-united-white.png" alt="">
+        </a>
+        <a href="/team/chel">
+            <img style="background-color: black"
+                 src="https://www.sporter.vn/wp-content/uploads/2023/11/Logo-chelsea-white.png" alt="">
+        </a>
     </div>
 </div>
 </body>

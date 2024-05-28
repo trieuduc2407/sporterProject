@@ -15,26 +15,11 @@
 </head>
 <body>
 <div class="container">
-    {% if cartError %}
-    <h1>login to view cart</h1>
-    {% endif %}
     <form method="post" action="/login">
-        <label for="username">
-            Username:
-        </label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <br>
-        <input type="password" id="password" name="password" placeholder="password" required>
-        <br>
-        <br>
-        <button type="submit">
-            login
-        </button>
+        <input type="text" id="username" name="username" placeholder="username">
+        <input type="text" id="password" name="password" placeholder="pass">
+        <button type="submit">login</button>
     </form>
-    {% if error %}
-    <h1>{{error}}</h1>
-    {% endif %}
 </div>
 </body>
 </html>
