@@ -5,28 +5,28 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="/test/static/CSS/login-form.css">
+    <link rel="stylesheet" href="../static/CSS/login-form.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <title>Register</title>
 </head>
 <body>
 <div class="container">
-    <form action="#">
-        <h1>Sigup</h1>
-        <label for=" ">First name</label><br>
-        <input type="text" placeholder="First name" name="fname"><br>
-        <label>Last name</label><br>
-        <input type="text" placeholder="Last name" name="lname"><br>
+    <form action="/register" method="post">
+        <h1>Sign up</h1>
+        <label for="fname">First name</label><br>
+        <input type="text" name="fname" id="fname" placeholder="First name"><br>
+        <label for="lname">Last name</label><br>
+        <input type="text" name="lname" id="lname" placeholder="Last name"><br>
         <label for="email">Email</label> <br>
-        <input type="email" id="email" placeholder="Enter your email"><br>
-        <label>Username</label><br>
-        <input type="text" placeholder="Username" name="username"><br>
+        <input type="email" name="email" id="email" placeholder="Enter your email"><br>
+        <label for="username">Username</label><br>
+        <input type="text" name="username" id="username" placeholder="Username"><br>
         <label for="password">Password</label><br>
-        <input type="password" id="password" placeholder="Enter your password"><br>
-        <label for="password">Confirm password</label><br>
-        <input type="password" id="password" placeholder="Confirm your password"><br>
-        <input type="submit" value="Sigup" class="btn" style="background-color: #ff6f28; color: #fff;"><br>
-
+        <input type="password" name="password" id="password" placeholder="Enter your password"><br>
+        <label for="password-c">Confirm password</label><br>
+        <input type="password" id="password-c" placeholder="Confirm your password"><br>
+        <input type="submit" value="Sign up" class="btn" style="background-color: #ff6f28; color: #fff;"><br>
     </form>
+</div>
 </body>
 </html>

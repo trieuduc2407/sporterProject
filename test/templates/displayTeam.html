@@ -16,30 +16,6 @@
 <body>
 <div class="container">
     <div class="row">
-        <div class="col">
-            <a href="/nations">nation</a>
-        </div>
-        <div class="col">
-            <a href="/team">team</a>
-        </div>
-        {% if not user %}
-        <div class="col">
-            <a href="/login">login</a>
-        </div>
-        <div class="col">
-            <a href="/register">register</a>
-        </div>
-        {% endif %}
-
-        {% if user %}
-        <h1>hello {{user}}</h1>
-        <a href="/logout">logout</a>
-        {% endif %}
-        <div class="col">
-            <a href="/cart">cart</a>
-        </div>
-    </div>
-    <div class="row">
         {% for team in teams %}
         <div class="col">
             <a href="/team/{{team[1]}}">
@@ -48,12 +24,6 @@
             </a>
         </div>
         {% endfor %}
-    </div>
-    <div class="row">
-        <form action="/search" method="post">
-            <input type="text" name="search">
-            <button type="submit">search</button>
-        </form>
     </div>
 </div>
 </body>
