@@ -46,9 +46,8 @@
     <div class="slider ">
         <div class="big-banner">
             <div style="position: relative; display: flex">
-                <a href="" class="click-banner"> <img
-                        src="https://www.sporter.vn/wp-content/uploads/2023/11/2023_Homepage_Banner_1.jpg" alt="" class="img-big-banner"> </a>
-                <div class="row footer-banner" style="position: absolute; margin: 0 auto; justify-content: center">
+                 <img src="https://www.sporter.vn/wp-content/uploads/2023/11/2023_Homepage_Banner_1.jpg" alt="" class="img-big-banner">
+                <div class="row footer-banner" style="position: absolute;">
                     <div class="col ">
                         <p>Sporter là nơi bạn có thể đặt áo bóng đá với giá tốt nhất tại TP.HCM mà bạn không thể bỏ qua…</p>
                         <div class="btn-block">
@@ -65,6 +64,16 @@
         <div class="title-slider-show">
             <h3> <i class="fa-regular fa-star fa-xl" style="color: orange"></i> CLICK CHUỘT VÀO LOGO CLB ĐỂ XEM CHI TIẾT ÁO ĐẤU</h3>
         </div>
+        <div class="row">
+            {% for team in teams %}
+            <div class="col-2 mt-1">
+                <a href="/team/{{team[1]}}">
+                    <img class="img-fluid" style="background-color: black"
+                         src="{{team[2]}}" alt="">
+                </a>
+            </div>
+            {% endfor %}
+        </divs
     </div>
 </div>
 
