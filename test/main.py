@@ -1,8 +1,24 @@
 import sqlite3
 from flask import Flask, render_template, request, session, redirect, url_for
+
 app = Flask(__name__)
 app.secret_key = 'e6008a019495ffa0b29f43ad'
 sqldbname = 'database.db'
+
+
+def carousel():
+    conn = sqlite3.connect(sqldbname)
+    c = conn.cursor()
+    c.execute("SELECT productId, name, price FROM products ORDER BY RANDOM() LIMIT 5")
+    products = c.fetchall()
+    result = []
+    for product in products:
+        c.execute("SELECT img1 FROM images WHERE productId = ?", (product[0],))
+        img = c.fetchone()
+        dict = {"productName": product[1], "productPrice": product[2], "productImg": img[0]}
+        result.append(dict)
+    conn.close()
+    return result
 
 
 def teams():
@@ -10,6 +26,19 @@ def teams():
     c = conn.cursor()
     c.execute('SELECT * FROM teams')
     result = c.fetchall()
+    conn.close()
+    return result
+
+
+def result_dict(products):
+    result = []
+    conn = sqlite3.connect(sqldbname)
+    c = conn.cursor()
+    for product in products:
+        c.execute("SELECT img1 FROM images WHERE productId = ?", (product[0],))
+        img = c.fetchone()[0]
+        dict = {"productId": product[0], "productName": product[1], "productPrice": product[2], "productImg": img}
+        result.append(dict)
     conn.close()
     return result
 
@@ -41,8 +70,18 @@ def get_max_cart_id():
 def get_cart(id):
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    c.execute('SELECT productName, productPrice, quantity FROM cart WHERE userId = ?', (id,))
-    result = c.fetchall()
+    c.execute('SELECT productId, productName, productPrice, quantity FROM cart WHERE userId = ?', (id,))
+    products = c.fetchall()
+    result = []
+    for product in products:
+        c.execute("SELECT img1 FROM images WHERE productId = ?", (product[0],))
+        img = c.fetchone()[0]
+        dict = {
+            "productId": product[0], "productName": product[1], "productPrice": product[2], "productImg": img,
+            "quantity": product[3]
+        }
+        result.append(dict)
+    conn.close()
     return result
 
 
@@ -53,10 +92,10 @@ def index():
         # Kiem tra neu ton tai gia tri 'logged_in' trong session (User da dang nhap)
         # Render file index.html, truyen vao gia tri:
         # user=session['lname']: Gia tri cua lname trong table users
-        return render_template('home.html', user=session['lname'], teams=teams())
+        return render_template('index.html', user=session['lname'], teams=teams(), carousel=carousel())
     # Neu khong ton tai gia tri ['logged_in'] trong session (User chua dang nhap)
     # Render file index.html va khong truyen vao tham so
-    return render_template('home.html', teams=teams())
+    return render_template('index.html', teams=teams(), carousel=carousel())
 
 
 # Dinh tuyen ham team cho url '/team'
@@ -74,15 +113,8 @@ def get_team(fteam):
     c.execute('SELECT productId, name, price FROM products WHERE team = ?', (fteam,))
     # Tim kiem cac san pham la ao dau cua manu va luu vao products
     products = c.fetchall()
-    result = []
-    for product in products:
-        c.execute("SELECT img1 FROM images WHERE productId = ?", (product[0],))
-        img = c.fetchone()[0]
-        dict = {"productId": product[0], "productName": product[1], "productPrice": product[2], "productImg": img}
-        result.append(dict)
-    conn.close()
     # Render file team.html va truyen vao gia tri cua bien products
-    return render_template('team.html', items=result)
+    return render_template('team.html', items=result_dict(products))
 
 
 # Dinh tuyen ham nation cho url '/nations'
@@ -93,35 +125,20 @@ def nations():
     c.execute('SELECT productId, name, price FROM products WHERE nation NOTNULL')
     # Tim kiem cac ban ghi co gia tri nation NOTNULL va luu vao products
     products = c.fetchall()
-    result = []
-    for product in products:
-        c.execute("SELECT img1 FROM images WHERE productId = ?", (product[0],))
-        img = c.fetchone()[0]
-        dict = {"productId": product[0], "productName": product[1], "productPrice": product[2], "productImg": img}
-        result.append(dict)
-    conn.close()
     # Render file nation.html va truyen vao gia tri cua bien products
-    return render_template('nation.html', items=result)
+    return render_template('nation.html', items=result_dict(products))
 
 
 # Dinh tuyen ham search cho url '/search'
 @app.route('/search', methods=['POST'])
 def search():
-    search_text = request.form['keyword']
+    search_text = request.form['search']
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
     c.execute("SELECT productId, name, price FROM products WHERE name LIKE '%"+search_text+"%'")
     # Tim cac san pham co ten gan dung voi search_text va luu vao bien products
     products = c.fetchall()
-    result = []
-    for product in products:
-        c.execute("SELECT img1 FROM images WHERE productId = ?", (product[0],))
-        img = c.fetchone()[0]
-        dict = {"productId": product[0], "productName": product[1], "productPrice": product[2], "productImg": img}
-        result.append(dict)
-    conn.close()
-    # Render file search.html va truyen vao gia tri cua products
-    return render_template('search.html', items=result)
+    return render_template('search.html', items=result_dict(products))
 
 
 @app.route('/product/<id>', methods=['GET'])
@@ -133,12 +150,15 @@ def product(id):
         (id,)
     )
     product = c.fetchone()
+    c.execute("SELECT * FROM images WHERE productId = ?", (id,))
+    img = c.fetchone()
     conn.close()
-    dict = {
+    result = {
         "productName": product[0], "productPrice": product[1], "sizeTitle": product[2], "sizeText": product[3],
-        "infoTitle1": product[4], "infoText1": product[5], "infoTitle2": product[6], "infoText2": product[7]
+        "infoTitle1": product[4], "infoText1": product[5], "infoTitle2": product[6], "infoText2": product[7],
+        "sizeImg1": img[2], "sizeImg2": img[3], "img1": img[4], "img2": img[5], "img3": img[6], "img4": img[7],
     }
-    return render_template('product.html', item=dict)
+    return render_template('product.html', item=result)
 
 
 # Dinh tuyen ham login cho url '/login'
@@ -213,22 +233,24 @@ def register():
 @app.route('/cart/add', methods=['POST'])
 def add_to_cart():
     # Lay cac gia tri product_id, quantity tu html form
-    product_id = request.form['productId']
+    product_id = int(request.form['productId'])
     quantity = int(request.form['quantity'])
     # Cap nhat cart
     cart = session.get('cart', [])
     check = False
+    conn = sqlite3.connect(sqldbname)
+    c = conn.cursor()
     for item in cart:
         # Kiem tra neu item da co trong cart thi tang quantity
-        if item[2] == product_id:
-            item[3] += quantity
+        if item['productId'] == product_id:
+            item['quantity'] += quantity
             check = True
+            c.execute("UPDATE cart SET quantity = ? WHERE productId = ?", (item['quantity'], item['productId']))
+            conn.commit()
             break
     if not check:
         # Neu item chua co trong cart thi them moi item vao table cart
         max_id = get_max_cart_id()
-        conn = sqlite3.connect(sqldbname)
-        c = conn.cursor()
         c.execute('SELECT name, price FROM products WHERE productId = ?', (product_id,))
         result = c.fetchone()
         c.execute(
@@ -242,15 +264,38 @@ def add_to_cart():
     return msg
 
 
+@app.route('/update', methods=['POST'])
+def update_cart():
+    product_id = request.form['productId']
+    quantity = request.form['quantity']
+    conn = sqlite3.connect(sqldbname)
+    c = conn.cursor()
+    c.execute("UPDATE cart SET quantity = ? WHERE productId = ?", (quantity, product_id))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('view_cart'))
+
+
+@app.route('/delete', methods=['POST'])
+def delete_cart():
+    product_id = request.form['productId']
+    conn = sqlite3.connect(sqldbname)
+    c = conn.cursor()
+    c.execute("DELETE FROM cart WHERE productId = ?", (product_id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('view_cart'))
+
+
 # Dinh tuyen ham cart cho url '/cart'
 @app.route('/cart', methods=['GET'])
-def cart():
+def view_cart():
     if 'logged_in' in session:
         # Kiem tra neu ton tai gia tri 'logged_in' trong session (User da dang nhap) thi goi ham getCart()
-        get_cart(session['id'])
+        session['cart'] = get_cart(session['id'])
         cart = session.get('cart', [])
         # Render file cart.html, truyen vao gia tri bien cart
-        return render_template('cart.html', items=cart, id=session['id'])
+        return render_template('cart.html', items=cart)
     else:
         # Neu khong ton tai gia tri 'logged_in' trong session (User chua dang nhap)
         # Redirect ve trang login va hien thong bao yeu cau dang nhap de xem gio hang

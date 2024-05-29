@@ -55,6 +55,15 @@
             <button type="submit">search</button>
         </form>
     </div>
+    <div class="row">
+        {% for item in carousel %}
+            <div class="col">{{item["productName"]}}</div>
+            <div class="col">{{item["productPrice"]}}</div>
+            <div class="col">
+                <img class="img-fluid" src="{{item["productImg"]}}" alt="">
+            </div>
+        {% endfor %}
+    </div>
 </div>
 </body>
 </html>
