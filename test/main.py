@@ -1,6 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
-
+from flask import Flask, render_template, request, session, redirect, url_for
 app = Flask(__name__)
 app.secret_key = 'e6008a019495ffa0b29f43ad'
 sqldbname = 'database.db'
@@ -54,10 +53,10 @@ def index():
         # Kiem tra neu ton tai gia tri 'logged_in' trong session (User da dang nhap)
         # Render file index.html, truyen vao gia tri:
         # user=session['lname']: Gia tri cua lname trong table users
-        return render_template('index.html', user=session['lname'], teams=teams())
+        return render_template('home.html', user=session['lname'], teams=teams())
     # Neu khong ton tai gia tri ['logged_in'] trong session (User chua dang nhap)
     # Render file index.html va khong truyen vao tham so
-    return render_template('index.html', teams=teams())
+    return render_template('home.html', teams=teams())
 
 
 # Dinh tuyen ham team cho url '/team'
