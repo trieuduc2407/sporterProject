@@ -6,82 +6,108 @@ app.secret_key = 'e6008a019495ffa0b29f43ad'
 sqldbname = 'database.db'
 
 
+# Ham carousel dung de chon nhau nhien 1 so luong san pham nhat dinh tu table products
 def carousel():
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
     c.execute("SELECT productId, name, price FROM products ORDER BY RANDOM() LIMIT 5")
+    # Chon ngau nhien 5 san pham tu table products va luu vao bien products
     products = c.fetchall()
-    result = []
-    for product in products:
-        c.execute("SELECT img1 FROM images WHERE productId = ?", (product[0],))
-        img = c.fetchone()
-        dict = {"productName": product[1], "productPrice": product[2], "productImg": img[0]}
-        result.append(dict)
-    conn.close()
-    return result
+    # Goi ham result_to_dict va truyen vao bien products
+    return result_to_dict(products)
 
 
+# Ham teams dung de hien lay ra cac record tu table teams
 def teams():
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    c.execute('SELECT * FROM teams')
-    result = c.fetchall()
+    c.execute('SELECT teamName, teamImg FROM teams')
+    # Tim kiem teamName, teamImg tu table teams va luu vao bien teams
+    teams = c.fetchall()
+    # Tao bien result la 1 empty list
+    result = []
+    for team in teams:
+        dict = {"teamName": team[0], "teamImg": team[1]}
+        # Tao moi bien dict voi kieu dictionary va them vao list result
+        result.append(dict)
     conn.close()
+    # Tra ve bien result
     return result
 
 
-def result_dict(products):
+# Ham result_to_dict dung de chuyen products tu list ve dictionary
+def result_to_dict(products):
+    # Tao bien result la 1 empty list
     result = []
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
     for product in products:
         c.execute("SELECT img1 FROM images WHERE productId = ?", (product[0],))
+        # Tim kiem anh san pham tu table images theo productId va luu vao bien img
         img = c.fetchone()[0]
         dict = {"productId": product[0], "productName": product[1], "productPrice": product[2], "productImg": img}
+        # Tao moi 1 bien dict voi kieu dictionary va them vao list result
         result.append(dict)
     conn.close()
+    # Tra ve bien result
     return result
 
 
-def get_max_user_id():
+# Ham get_max_id su dung de lay ra maxId tu mot table
+def get_max_id(table_name):
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    c.execute('SELECT MAX(userId) FROM users')
-    max_id = c.fetchone()[0]
-    if max_id > 0:
-        max_id = max_id+1
-    else:
-        max_id = 1
-    return max_id
+    if table_name == 'users':
+        c.execute('SELECT MAX(userId) FROM users')
+        # Tim kiem userId lon nhat trong table cart va luu vao max_id
+        max_id = c.fetchone()[0]
+        # Neu max_id == True (Trong table users co it nhat 1 row)
+        if max_id:
+            # Tang gia tri cua max_id len 1
+            max_id = max_id+1
+        else:
+            # Max_id == False (Trong table cart chua co ban ghi nao)
+            # Gan max_id = 1
+            max_id = 1
+        # Tra ve max_id
+        return max_id
+    elif table_name == 'carts':
+        c.execute('SELECT MAX(cartId) FROM cart')
+        # Tim kiem cartId lon nhat trong table cart va luu vao max_id
+        max_id = c.fetchone()[0]
+        # Neu max_id == True (Trong table cart co it nhat 1 row)
+        if max_id:
+            # Tang gia tri cua max_id len 1
+            max_id = max_id+1
+        else:
+            # Max_id == False (Trong table cart chua co ban ghi nao)
+            # Gan max_id = 1
+            max_id = 1
+        # Tra ve max_id
+        return max_id
 
 
-def get_max_cart_id():
-    conn = sqlite3.connect(sqldbname)
-    c = conn.cursor()
-    c.execute('SELECT MAX(cartId) FROM cart')
-    max_id = c.fetchone()[0]
-    if max_id:
-        max_id = max_id+1
-    else:
-        max_id = 1
-    return max_id
-
-
+# Ham get_cart voi tham so id dung de lay ra cac ban ghi trong table cart
 def get_cart(id):
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
     c.execute('SELECT productId, productName, productPrice, quantity FROM cart WHERE userId = ?', (id,))
+    # Tim kiem productId, productName, productPrice, quantity trong table cart theo userId va luu vao bien products
     products = c.fetchall()
+    # Tao bien result la 1 empty list
     result = []
     for product in products:
         c.execute("SELECT img1 FROM images WHERE productId = ?", (product[0],))
+        # Tim kiem anh san pham tu table images theo productId va luu vao bien img
         img = c.fetchone()[0]
         dict = {
             "productId": product[0], "productName": product[1], "productPrice": product[2], "productImg": img,
             "quantity": product[3]
         }
+        # Tao moi 1 bien dict voi kieu dictionary va them vao list result
         result.append(dict)
     conn.close()
+    # Tra ve bien result
     return result
 
 
@@ -114,7 +140,7 @@ def get_team(fteam):
     # Tim kiem cac san pham la ao dau cua manu va luu vao products
     products = c.fetchall()
     # Render file team.html va truyen vao gia tri cua bien products
-    return render_template('team.html', items=result_dict(products))
+    return render_template('team.html', items=result_to_dict(products))
 
 
 # Dinh tuyen ham nation cho url '/nations'
@@ -126,7 +152,7 @@ def nations():
     # Tim kiem cac ban ghi co gia tri nation NOTNULL va luu vao products
     products = c.fetchall()
     # Render file nation.html va truyen vao gia tri cua bien products
-    return render_template('nation.html', items=result_dict(products))
+    return render_template('nation.html', items=result_to_dict(products))
 
 
 # Dinh tuyen ham search cho url '/search'
@@ -138,9 +164,10 @@ def search():
     c.execute("SELECT productId, name, price FROM products WHERE name LIKE '%"+search_text+"%'")
     # Tim cac san pham co ten gan dung voi search_text va luu vao bien products
     products = c.fetchall()
-    return render_template('search.html', items=result_dict(products))
+    return render_template('search.html', items=result_to_dict(products))
 
 
+# Dinh tuyen ham product cho url '/product/id' VD: '/product/1/
 @app.route('/product/<id>', methods=['GET'])
 def product(id):
     conn = sqlite3.connect(sqldbname)
@@ -149,15 +176,19 @@ def product(id):
         'SELECT name, price, sizeTitle, sizeText, infoTitle1, infoText1, infoTitle2, infoText2 FROM products WHERE productId = ?',
         (id,)
     )
+    # Tim kiem san pham theo productId = id va luu vao product
     product = c.fetchone()
     c.execute("SELECT * FROM images WHERE productId = ?", (id,))
+    # Tim kiem anh san pham theo productId va luu vao img
     img = c.fetchone()
     conn.close()
+    # Luu cac gia tri can thiet vao bien result duoi dang dictionary
     result = {
         "productName": product[0], "productPrice": product[1], "sizeTitle": product[2], "sizeText": product[3],
         "infoTitle1": product[4], "infoText1": product[5], "infoTitle2": product[6], "infoText2": product[7],
         "sizeImg1": img[2], "sizeImg2": img[3], "img1": img[4], "img2": img[5], "img3": img[6], "img4": img[7],
     }
+    # Render file product.html va truyen vao gia tri bien result
     return render_template('product.html', item=result)
 
 
@@ -216,7 +247,7 @@ def register():
         # Tim kiem ban ghi thoa man username hoac email va luu vao bien check
         check = c.fetchone()
         if not check:
-            max_id = get_max_user_id()
+            max_id = get_max_id('users')
             c.execute('INSERT INTO users VALUES (?,?,?,?,?,?)', (max_id, username, password, email, fname, lname))
             conn.commit()
             # Chen ban ghi moi vao table users va redirect ve login
@@ -250,7 +281,7 @@ def add_to_cart():
             break
     if not check:
         # Neu item chua co trong cart thi them moi item vao table cart
-        max_id = get_max_cart_id()
+        max_id = get_max_id('carts')
         c.execute('SELECT name, price FROM products WHERE productId = ?', (product_id,))
         result = c.fetchone()
         c.execute(
@@ -264,26 +295,34 @@ def add_to_cart():
     return msg
 
 
+# Dinh tuyen ham update_cart cho url '/update'
 @app.route('/update', methods=['POST'])
 def update_cart():
+    # Lay gia tri product_id, quantity tu html form
     product_id = request.form['productId']
     quantity = request.form['quantity']
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
+    # Thay doi gia tri cua quantity trong table carts
     c.execute("UPDATE cart SET quantity = ? WHERE productId = ?", (quantity, product_id))
     conn.commit()
     conn.close()
+    # Redirect ve ham view_cart
     return redirect(url_for('view_cart'))
 
 
+# Dinh tuyen ham delete cho url '/delete'
 @app.route('/delete', methods=['POST'])
 def delete_cart():
+    # Lay gia tri cua product_id tu html form
     product_id = request.form['productId']
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
+    # Xoa ban ghi co gia tri bang product_id trong table carts
     c.execute("DELETE FROM cart WHERE productId = ?", (product_id,))
     conn.commit()
     conn.close()
+    # Redirect ve ham view_cart
     return redirect(url_for('view_cart'))
 
 
