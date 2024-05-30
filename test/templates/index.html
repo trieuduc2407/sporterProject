@@ -40,11 +40,11 @@
         </div>
     </div>
     <div class="row">
-        {% for team in teams %}
+        {% for item in teams %}
         <div class="col">
-            <a href="/team/{{team[1]}}">
+            <a href="/team/{{item["teamName"]}}">
                 <img class="img-fluid" style="background-color: black"
-                     src="{{team[2]}}" alt="">
+                     src="{{item["teamImg"]}}" alt="">
             </a>
         </div>
         {% endfor %}
