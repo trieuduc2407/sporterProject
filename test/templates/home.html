@@ -79,9 +79,9 @@
         <div class="row">
             {% for team in teams %}
             <div class="col-2 mt-1">
-                <a href="/team/{{team[1]}}">
+                <a href="/team/{{team["teamName"]}}">
                     <img class="img-fluid" style="background-color: black; max-width: 7rem"
-                         src="{{team[2]}}" alt="">
+                         src="{{team["teamImg"]}}" alt="">
                 </a>
             </div>
             {% endfor %}
