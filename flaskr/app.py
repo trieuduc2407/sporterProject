@@ -1,5 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
-import sqlite3
+from flask import Flask
 
 app = Flask(__name__)
 sqldbname = 'database.db'

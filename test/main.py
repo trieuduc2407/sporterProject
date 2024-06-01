@@ -6,35 +6,6 @@ app.secret_key = 'e6008a019495ffa0b29f43ad'
 sqldbname = 'database.db'
 
 
-# Ham carousel dung de chon nhau nhien 1 so luong san pham nhat dinh tu table products
-def carousel():
-    conn = sqlite3.connect(sqldbname)
-    c = conn.cursor()
-    c.execute("SELECT productId, name, price FROM products ORDER BY RANDOM() LIMIT 5")
-    # Chon ngau nhien 5 san pham tu table products va luu vao bien products
-    products = c.fetchall()
-    # Goi ham result_to_dict va truyen vao bien products
-    return result_to_dict(products)
-
-
-# Ham teams dung de hien lay ra cac record tu table teams
-def teams():
-    conn = sqlite3.connect(sqldbname)
-    c = conn.cursor()
-    c.execute('SELECT teamName, teamImg FROM teams')
-    # Tim kiem teamName, teamImg tu table teams va luu vao bien teams
-    teams = c.fetchall()
-    # Tao bien result la 1 empty list
-    result = []
-    for team in teams:
-        dict = {"teamName": team[0], "teamImg": team[1]}
-        # Tao moi bien dict voi kieu dictionary va them vao list result
-        result.append(dict)
-    conn.close()
-    # Tra ve bien result
-    return result
-
-
 # Ham result_to_dict dung de chuyen products tu list ve dictionary
 def result_to_dict(products):
     # Tao bien result la 1 empty list
@@ -87,28 +58,15 @@ def get_max_id(table_name):
         return max_id
 
 
-# Ham get_cart voi tham so id dung de lay ra cac ban ghi trong table cart
-def get_cart(id):
+# Ham carousel dung de chon nhau nhien 1 so luong san pham nhat dinh tu table products
+def carousel():
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    c.execute('SELECT productId, productName, productPrice, quantity FROM cart WHERE userId = ?', (id,))
-    # Tim kiem productId, productName, productPrice, quantity trong table cart theo userId va luu vao bien products
+    c.execute("SELECT productId, name, price FROM products ORDER BY RANDOM() LIMIT 5")
+    # Chon ngau nhien 5 san pham tu table products va luu vao bien products
     products = c.fetchall()
-    # Tao bien result la 1 empty list
-    result = []
-    for product in products:
-        c.execute("SELECT img1 FROM images WHERE productId = ?", (product[0],))
-        # Tim kiem anh san pham tu table images theo productId va luu vao bien img
-        img = c.fetchone()[0]
-        dict = {
-            "productId": product[0], "productName": product[1], "productPrice": product[2], "productImg": img,
-            "quantity": product[3]
-        }
-        # Tao moi 1 bien dict voi kieu dictionary va them vao list result
-        result.append(dict)
-    conn.close()
-    # Tra ve bien result
-    return result
+    # Goi ham result_to_dict va truyen vao bien products
+    return result_to_dict(products)
 
 
 # Dinh tuyen ham index cho url '/'
@@ -118,10 +76,28 @@ def index():
         # Kiem tra neu ton tai gia tri 'logged_in' trong session (User da dang nhap)
         # Render file index.html, truyen vao gia tri:
         # user=session['lname']: Gia tri cua lname trong table users
-        return render_template('index.html', user=session['lname'], teams=teams(), carousel=carousel())
+        return render_template('home.html', user=session['lname'], teams=teams(), carousel=carousel())
     # Neu khong ton tai gia tri ['logged_in'] trong session (User chua dang nhap)
     # Render file index.html va khong truyen vao tham so
-    return render_template('index.html', teams=teams(), carousel=carousel())
+    return render_template('home.html', teams=teams(), carousel=carousel())
+
+
+# Ham teams dung de hien lay ra cac record tu table teams
+def teams():
+    conn = sqlite3.connect(sqldbname)
+    c = conn.cursor()
+    c.execute('SELECT teamName, teamImg FROM teams')
+    # Tim kiem teamName, teamImg tu table teams va luu vao bien teams
+    teams = c.fetchall()
+    # Tao bien result la 1 empty list
+    result = []
+    for team in teams:
+        dict = {"teamName": team[0], "teamImg": team[1]}
+        # Tao moi bien dict voi kieu dictionary va them vao list result
+        result.append(dict)
+    conn.close()
+    # Tra ve bien result
+    return result
 
 
 # Dinh tuyen ham team cho url '/team'
@@ -131,7 +107,7 @@ def team():
     return render_template('displayTeam.html', teams=teams())
 
 
-# Dinh tuyen ham get_team cho url '/team/ten doi bong' vd: '/team/manu'
+# Dinh tuyen ham get_team cho url '/team/ten doi bong' VD: '/team/manu'
 @app.route('/team/<fteam>', methods=['GET'])
 def get_team(fteam):
     conn = sqlite3.connect(sqldbname)
@@ -164,6 +140,7 @@ def search():
     c.execute("SELECT productId, name, price FROM products WHERE name LIKE '%"+search_text+"%'")
     # Tim cac san pham co ten gan dung voi search_text va luu vao bien products
     products = c.fetchall()
+    # Render file search.html, truyen vao gia tri cua bien products da duoc bien doi thanh dictionary
     return render_template('search.html', items=result_to_dict(products))
 
 
@@ -196,7 +173,7 @@ def product(id):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        # Lay gia tri username va password tu html form
+        # Neu method la POST, ay gia tri username va password tu html form
         username = request.form['username']
         password = request.form['password']
         conn = sqlite3.connect(sqldbname)
@@ -205,28 +182,28 @@ def login():
         # Tim kiem ban ghi thoa man username va password luu vao bien user
         user = c.fetchone()
         if user:
-            # Neu ton tai user
-            session['logged_in'] = True
-            session['username'] = username
-            session['id'] = user[0]
-            session['lname'] = user[5]
+            session['user'] = True
+            session['user_id'] = user[0]
+            session['user_username'] = username
+            session['user_lname'] = user[5]
             cart = get_cart(user[0])
             session['cart'] = cart
-            # Tao session moi voi cac gia tri username, logged_in, lname, cart va redirect ve index
+            # Neu ton tai user, tao cac gia tri session can thiet va redirect ve index
             return redirect(url_for('index'))
         else:
             # Neu khong ton tai user, hien thong bao va yeu cau nhap lai
             return render_template('login-form.html', error='Invalid username or password')
+    # Neu method la GET, render file login-form.html
     return render_template('login-form.html')
 
 
 # Dinh tuyen ham logout cho url '/logout'
 @app.route('/logout')
 def logout():
-    session.pop('logged_in', None)
-    session.pop('id', None)
-    session.pop('username', None)
-    session.pop('lname', None)
+    session.pop('user', None)
+    session.pop('user_id', None)
+    session.pop('user_username', None)
+    session.pop('user_lname', None)
     # Xoa cac gia tri session va redirect ve index
     return redirect(url_for('index'))
 
@@ -250,14 +227,39 @@ def register():
             max_id = get_max_id('users')
             c.execute('INSERT INTO users VALUES (?,?,?,?,?,?)', (max_id, username, password, email, fname, lname))
             conn.commit()
-            # Chen ban ghi moi vao table users va redirect ve login
+            # Them ban ghi moi vao table users va redirect ve login
             return redirect(url_for('login'))
         else:
             # Neu ton tai check (Da co ban ghi thoa man username hoac email)
             # Render register.html, truyen vao thong bao loi
             return render_template('register.html', error='Username or email already registered')
     else:
+        # Neu method la GET, render file register.html
         return render_template('register.html')
+
+
+# Ham get_cart voi tham so id dung de lay ra cac ban ghi trong table cart
+def get_cart(id):
+    conn = sqlite3.connect(sqldbname)
+    c = conn.cursor()
+    c.execute('SELECT productId, productName, productPrice, quantity FROM cart WHERE userId = ?', (id,))
+    # Tim kiem productId, productName, productPrice, quantity trong table cart theo userId va luu vao bien products
+    products = c.fetchall()
+    # Tao bien result la 1 empty list
+    result = []
+    for product in products:
+        c.execute("SELECT img1 FROM images WHERE productId = ?", (product[0],))
+        # Tim kiem anh san pham tu table images theo productId va luu vao bien img
+        img = c.fetchone()[0]
+        dict = {
+            "productId": product[0], "productName": product[1], "productPrice": product[2], "productImg": img,
+            "quantity": product[3]
+        }
+        # Tao moi 1 bien dict voi kieu dictionary va them vao list result
+        result.append(dict)
+    conn.close()
+    # Tra ve bien result
+    return result
 
 
 # Dinh tuyen ham add_to_cart cho url '/cart/add'
@@ -339,6 +341,85 @@ def view_cart():
         # Neu khong ton tai gia tri 'logged_in' trong session (User chua dang nhap)
         # Redirect ve trang login va hien thong bao yeu cau dang nhap de xem gio hang
         return render_template('login-form.html', cartError=True)
+
+
+# Ham check_admin dung dee kiem tra tai khoan admin da duoc dang nhap chua
+def check_admin():
+    # Kiem tra neu 'admin' co trong session (Tai khoan admin da duoc dang nhap)
+    if 'admin' in session:
+        # Neu co, tra ve gia tri True
+        return True
+    else:
+        # Neu khong, tra ve gia tri False
+        return False
+
+
+# Dinh tuyen ham admin_view cho url '/admin'
+@app.route('/admin', methods=['GET'])
+def admin_view():
+    # Goi ham check admin de kiem tra session
+    if check_admin():
+        # Render file adminView.html, truyen vao gia tri cua session['lname']
+        return render_template('adminView.html', admin=session['lname'])
+    else:
+        # Redirect ve trang dang nhap admin
+        return redirect(url_for('admin_login'))
+
+
+# Dinh tuyen ham admin_login cho url '/admin/login'
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    # Goi ham check admin de kiem tra session
+    if check_admin():
+        if request.method == 'POST':
+            # Meu method la POST, lay gia tri username, password tu html form
+            username = request.form['username']
+            password = request.form['password']
+            conn = sqlite3.connect(sqldbname)
+            c = conn.cursor()
+            c.execute("SELECT * FROM admin WHERE username = ? AND password = ?", (username, password,))
+            # Tim kiem trong table admin theo gia tri username, password va luu vao admin
+            admin = c.fetchone()
+            if admin:
+                session['admin'] = True
+                session['admin_id'] = admin[0]
+                session['admin_username'] = username
+                session['admin_lname'] = admin[5]
+                # Neu ton tai admin tao cac gia tri session can thiet va redirect ve admin_view
+                return redirect(url_for('admin_view'))
+            else:
+                # Neu khong ton tai admin, render file adminLogin.html va truyen vao thong bao loi
+                return render_template('adminLogin.html', error='Invalid username or password')
+        else:
+            # Neu method la GET, render file adminLogin.html
+            return render_template('adminLogin.html')
+
+
+# Dinh tuyen ham admin_logout cho url '/admin/logout'
+@app.route('/admin/logout')
+def admin_logout():
+    session.pop('admin', None)
+    session.pop('admin_id', None)
+    session.pop('admin_username', None)
+    session.pop('admin_lname', None)
+    # Xoa cac gia tri session va redirect ve admin_view
+    return redirect(url_for('admin_view'))
+
+
+# Dinh tuyen ham admin_search cho url '/admin/search'
+@app.route('/admin/search', methods=['POST'])
+def admin_search():
+    # Goi ham check admin de kiem tra session
+    if check_admin():
+        # Lay gia tri search tu html form
+        search = request.form['search']
+        conn = sqlite3.connect(sqldbname)
+        c = conn.cursor()
+        c.execute("SELECT productId, name, price FROM products WHERE name LIKE '%"+search+"%'")
+        # Tim cac san pham co ten gan dung voi search va luu vao bien products
+        products = c.fetchall()
+        # Render file adminSearch.html, truyen vao gia tri cua bien products da duoc bien doi thanh dictionary
+        return render_template('adminSearch.html', admin=session['lname'], items=result_to_dict(products))
 
 
 if __name__ == '__main__':
