@@ -6,3 +6,13 @@
     </div>
 </div>
 {% endblock %}
+<div class="row">
+    <div class="col">{{item['productName']}}</div>
+    <div class="col">{{item['productPrice']}}</div>
+    <div class="col">
+        <img class="img-fluid" src="{{item['productImg']}}" alt="">
+    </div>
+    <div class="col">
+        <a href="/admin/update/{{item['productId']}}"></a>
+    </div>
+</div>
