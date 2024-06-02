@@ -150,7 +150,7 @@ def product(id):
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
     c.execute(
-        'SELECT name, price, sizeTitle, sizeText, infoTitle1, infoText1, infoTitle2, infoText2 FROM products WHERE productId = ?',
+        'SELECT name, price, sizeTitle, infoTitle FROM products WHERE productId = ?',
         (id,)
     )
     # Tim kiem san pham theo productId = id va luu vao product
@@ -343,7 +343,7 @@ def view_cart():
         return render_template('login-form.html', cartError=True)
 
 
-# Ham check_admin dung dee kiem tra tai khoan admin da duoc dang nhap chua
+# Ham check_admin dung de kiem tra tai khoan admin da duoc dang nhap chua
 def check_admin():
     # Kiem tra neu 'admin' co trong session (Tai khoan admin da duoc dang nhap)
     if 'admin' in session:
@@ -360,7 +360,7 @@ def admin_view():
     # Goi ham check admin de kiem tra session
     if check_admin():
         # Render file adminView.html, truyen vao gia tri cua session['lname']
-        return render_template('adminView.html', admin=session['lname'])
+        return render_template('adminView.html', admin=session['admin_lname'])
     else:
         # Redirect ve trang dang nhap admin
         return redirect(url_for('admin_login'))
@@ -370,29 +370,28 @@ def admin_view():
 @app.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
     # Goi ham check admin de kiem tra session
-    if check_admin():
-        if request.method == 'POST':
-            # Meu method la POST, lay gia tri username, password tu html form
-            username = request.form['username']
-            password = request.form['password']
-            conn = sqlite3.connect(sqldbname)
-            c = conn.cursor()
-            c.execute("SELECT * FROM admin WHERE username = ? AND password = ?", (username, password,))
-            # Tim kiem trong table admin theo gia tri username, password va luu vao admin
-            admin = c.fetchone()
-            if admin:
-                session['admin'] = True
-                session['admin_id'] = admin[0]
-                session['admin_username'] = username
-                session['admin_lname'] = admin[5]
-                # Neu ton tai admin tao cac gia tri session can thiet va redirect ve admin_view
-                return redirect(url_for('admin_view'))
-            else:
-                # Neu khong ton tai admin, render file adminLogin.html va truyen vao thong bao loi
-                return render_template('adminLogin.html', error='Invalid username or password')
+    if request.method == 'POST':
+        # Meu method la POST, lay gia tri username, password tu html form
+        username = request.form['username']
+        password = request.form['password']
+        conn = sqlite3.connect(sqldbname)
+        c = conn.cursor()
+        c.execute("SELECT * FROM admin WHERE username = ? AND password = ?", (username, password,))
+        # Tim kiem trong table admin theo gia tri username, password va luu vao admin
+        admin = c.fetchone()
+        if admin:
+            session['admin'] = True
+            session['admin_id'] = admin[0]
+            session['admin_username'] = username
+            session['admin_lname'] = admin[5]
+            # Neu ton tai admin tao cac gia tri session can thiet va redirect ve admin_view
+            return redirect(url_for('admin_view'))
         else:
-            # Neu method la GET, render file adminLogin.html
-            return render_template('adminLogin.html')
+            # Neu khong ton tai admin, render file adminLogin.html va truyen vao thong bao loi
+            return render_template('adminLogin.html', error='Invalid username or password')
+    else:
+        # Neu method la GET, render file adminLogin.html
+        return render_template('adminLogin.html')
 
 
 # Dinh tuyen ham admin_logout cho url '/admin/logout'
@@ -409,17 +408,98 @@ def admin_logout():
 # Dinh tuyen ham admin_search cho url '/admin/search'
 @app.route('/admin/search', methods=['POST'])
 def admin_search():
-    # Goi ham check admin de kiem tra session
+    # Lay gia tri search tu html form
+    search = request.form['search']
+    conn = sqlite3.connect(sqldbname)
+    c = conn.cursor()
+    c.execute("SELECT productId, name, price, quantity FROM products WHERE name LIKE '%"+search+"%'")
+    # Tim cac san pham co ten gan dung voi search va luu vao bien products
+    products = c.fetchall()
+    result = []
+    for product in products:
+        c.execute("SELECT img1 FROM images WHERE productId = ?", (product[0],))
+        # Tim kiem anh san pham tu table images theo productId va luu vao bien img
+        img = c.fetchone()[0]
+        dict = {
+            "productId": product[0], "productName": product[1], "productPrice": product[2], "quantity": product[3],
+            "productImg": img
+        }
+        # Tao moi 1 bien dict voi kieu dictionary va them vao list result
+        result.append(dict)
+    # Render file adminSearch.html, truyen vao gia tri cua bien result
+    return render_template('adminSearch.html', admin=session['admin_lname'], items=result)
+
+
+@app.route('/admin/update/<id>', methods=['GET', 'POST'])
+def admin_update(id):
     if check_admin():
-        # Lay gia tri search tu html form
-        search = request.form['search']
         conn = sqlite3.connect(sqldbname)
         c = conn.cursor()
-        c.execute("SELECT productId, name, price FROM products WHERE name LIKE '%"+search+"%'")
-        # Tim cac san pham co ten gan dung voi search va luu vao bien products
-        products = c.fetchall()
-        # Render file adminSearch.html, truyen vao gia tri cua bien products da duoc bien doi thanh dictionary
-        return render_template('adminSearch.html', admin=session['lname'], items=result_to_dict(products))
+        if request.method == 'POST':
+            team = request.form['team']
+            nation = request.form['nation']
+            name = request.form['name']
+            price = request.form['price']
+            quantity = request.form['quantity']
+            sizeTitle = request.form['sizeTitle']
+            infoTitle = request.form['infoTitle']
+            img1 = request.form['img1']
+            img2 = request.form['img2']
+            img3 = request.form['img3']
+            img4 = request.form['img4']
+            c.execute(
+                "UPDATE products SET team = ?, nation = ?, name = ?, price = ?, quantity = ?, sizeTitle = ?, infoTitle = ? WHERE productId = ?",
+                (team, nation, name, price, quantity, sizeTitle, infoTitle, id)
+            )
+            conn.commit()
+            c.execute(
+                "UPDATE images SET img1 = ?, img2 = ?, img3 = ?, img4 = ? WHERE productId = ?",
+                (img1, img2, img3, img4, id,)
+            )
+            conn.commit()
+            conn.close()
+            return redirect(url_for('admin_update'))
+        else:
+            c.execute("SELECT team, nation, name, price, sizeTitle, infoTitle FROM products WHERE productId = ?", (id,))
+            product = c.fetchone()
+            result = {
+                "team": product[0], "nation": product[1], "name": product[2], "price": product[3],
+                "sizeTitle": product[4],
+                "infoTitle": product[5]
+            }
+            return render_template('adminUpdate.html')
+    else:
+        return redirect(url_for('admin_login'))
+
+
+@app.route('/admin/update/quantity/<id>', methods=['POST'])
+def admin_quantity(id):
+    if check_admin():
+        quantity = request.form['quantity']
+        conn = sqlite3.connect(sqldbname)
+        c = conn.cursor()
+        c.execute("UPDATE products SET quantity = ? WHERE productId = ?", (quantity, id,))
+        conn.commit()
+        conn.close()
+        msg = 'updated'
+        return msg
+    else:
+        return redirect(url_for('admin_login'))
+
+
+@app.route('/admin/update/price/<id>', methods=['POST'])
+def admin_price(id):
+    if check_admin():
+        price = request.form['price']
+        conn = sqlite3.connect(sqldbname)
+        c = conn.cursor()
+        c.execute("UPDATE products SET price = ? WHERE productId = ?", (price, id,))
+        conn.commit()
+        conn.close()
+        msg = 'updated'
+        return msg
+    else:
+        return redirect(url_for('admin_login'))
 
 
 if __name__ == '__main__':
