@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap-grid.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/CSS/owl.carousel.min.css">
+    <link rel="stylesheet" href="../static/CSS/owl.theme.default.css">
     <link rel="stylesheet" href="../static/CSS/home.css">
 </head>
 <body>
@@ -76,20 +77,24 @@
             <h3 style="color: orangered;"><i class="fa-regular fa-star fa-xl" style="color: orangered"></i> CLICK CHUỘT
                 VÀO LOGO CLB ĐỂ XEM CHI TIẾT ÁO ĐẤU</h3>
         </div>
-        <div class="row">
-            {% for team in teams %}
-            <div class="col-2 mt-1">
-                <a href="/team/{{team["teamName"]}}">
-                    <img class="img-fluid" style="background-color: black; max-width: 7rem"
-                         src="{{team["teamImg"]}}" alt="">
-                </a>
-            </div>
-            {% endfor %}
+          <div class="row">
+        {% for item in teams %}
+        <div class="col">
+            <a href="/team/{{item["teamName"]}}">
+                <img class="img-fluid" style="background-color: black"
+                     src="{{item["teamImg"]}}" alt="">
+            </a>
         </div>
+        {% endfor %}
     </div>
-<div class="owl-carousel">
+        <div class="title-slider-show">
+            <h3 style="color: orangered;"><i class="fa-regular fa-star fa-xl" style="color: orangered; padding-right: 0.5%"></i>MÙA GIẢI 23/23 MỚI NHẤT</h3>
+        </div>
+<!--                        owl carousel                                                    -->
 
-</div>
+<!--                         end carousel                                                   -->
+    </div>
+
 
     <!-- Login form-->
     <div class="search-conrtainer">
@@ -99,23 +104,38 @@
     </div>
 </div>
 <!-- End login form-->
-<script>$('.owl-carousel').owlCarousel({
+
+<div class="owl-carousel owl-theme">
+
+        <div class="row">
+        {% for item in carousel %}
+        <div class="">
+            <div class="col item">{{item["productName"]}}</div>
+            <div class="col item">{{item["productPrice"]}}</div>
+            <div class="col item">
+                <img class="img-fluid item" src="{{item["productImg"]}}" alt="">
+            </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
+<script src ="../static/Javascript/owl.carousel.js"></script>
+<script >$('.owl-carousel').owlCarousel({
     loop:true,
     margin:10,
-    responsiveClass:true,
+    nav:true,
     responsive:{
         0:{
-            items:1,
-            nav:true
+            items:1
         },
         600:{
-            items:3,
-            nav:false
+            items:3
         },
         1000:{
-            items:5,
-            nav:true,
-            loop:false
+            items:5
         }
     }
 })</script>
