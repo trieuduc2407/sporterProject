@@ -11,11 +11,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
           integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <title>Document</title>
+    <title>admin search</title>
 </head>
 <body>
 <div class="container">
     <div class="row">
+        <a href="/admin">home</a>
         <h1>hello {{admin}}</h1>
         <a href="/admin/logout">logout</a>
         <div class="row">
@@ -48,9 +49,19 @@
         <div class="col">
             <a href="/admin/update/{{item['productId']}}">update</a>
         </div>
+        <div class="col">
+            <a id="delete" href="/admin/delete/{{item['productId']}}">delete</a>
+        </div>
     </div>
     <!--    Ket thuc vong lap for   -->
     {% endfor %}
 </div>
+<script>
+    let deleteBtn = document.getElementById('delete')
+    console.log(deleteBtn)
+    window.addEventListener('click', deleteBtn() => {
+        alert('confirm msg')
+    })
+</script>
 </body>
 </html>

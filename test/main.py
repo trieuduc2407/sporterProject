@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, session, redirect, url_for, jsonify, make_response
 
 app = Flask(__name__)
 app.secret_key = 'e6008a019495ffa0b29f43ad'
@@ -7,18 +7,18 @@ sqldbname = 'database.db'
 
 
 # Ham result_to_dict dung de chuyen products tu list ve dictionary
-def result_to_dict(products):
+def user_result_to_dict(products):
     # Tao bien result la 1 empty list
     result = []
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    for product in products:
-        c.execute("SELECT img1 FROM images WHERE productId = ?", (product[0],))
+    for item in products:
+        c.execute("SELECT img1 FROM images WHERE productId = ?", (item[0],))
         # Tim kiem anh san pham tu table images theo productId va luu vao bien img
         img = c.fetchone()[0]
-        dict = {"productId": product[0], "productName": product[1], "productPrice": product[2], "productImg": img}
+        new_dict = {"productId": item[0], "productName": item[1], "productPrice": item[2], "productImg": img}
         # Tao moi 1 bien dict voi kieu dictionary va them vao list result
-        result.append(dict)
+        result.append(new_dict)
     conn.close()
     # Tra ve bien result
     return result
@@ -66,7 +66,7 @@ def carousel():
     # Chon ngau nhien 5 san pham tu table products va luu vao bien products
     products = c.fetchall()
     # Goi ham result_to_dict va truyen vao bien products
-    return result_to_dict(products)
+    return user_result_to_dict(products)
 
 
 # Dinh tuyen ham index cho url '/'
@@ -91,10 +91,10 @@ def teams():
     teams = c.fetchall()
     # Tao bien result la 1 empty list
     result = []
-    for team in teams:
-        dict = {"teamName": team[0], "teamImg": team[1]}
+    for item in teams:
+        new_dict = {"teamName": item[0], "teamImg": item[1]}
         # Tao moi bien dict voi kieu dictionary va them vao list result
-        result.append(dict)
+        result.append(new_dict)
     conn.close()
     # Tra ve bien result
     return result
@@ -116,7 +116,7 @@ def get_team(fteam):
     # Tim kiem cac san pham la ao dau cua manu va luu vao products
     products = c.fetchall()
     # Render file team.html va truyen vao gia tri cua bien products
-    return render_template('team.html', items=result_to_dict(products))
+    return render_template('team.html', items=user_result_to_dict(products))
 
 
 # Dinh tuyen ham nation cho url '/nations'
@@ -128,7 +128,7 @@ def nations():
     # Tim kiem cac ban ghi co gia tri nation NOTNULL va luu vao products
     products = c.fetchall()
     # Render file nation.html va truyen vao gia tri cua bien products
-    return render_template('nation.html', items=result_to_dict(products))
+    return render_template('nation.html', items=user_result_to_dict(products))
 
 
 # Dinh tuyen ham search cho url '/search'
@@ -141,28 +141,28 @@ def search():
     # Tim cac san pham co ten gan dung voi search_text va luu vao bien products
     products = c.fetchall()
     # Render file search.html, truyen vao gia tri cua bien products da duoc bien doi thanh dictionary
-    return render_template('search.html', items=result_to_dict(products))
+    return render_template('search.html', items=user_result_to_dict(products))
 
 
 # Dinh tuyen ham product cho url '/product/id' VD: '/product/1/
-@app.route('/product/<id>', methods=['GET'])
-def product(id):
+@app.route('/product/<product_id>', methods=['GET'])
+def product(product_id):
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
     c.execute(
         'SELECT name, price, sizeTitle, infoTitle FROM products WHERE productId = ?',
-        (id,)
+        (product_id,)
     )
     # Tim kiem san pham theo productId = id va luu vao product
-    product = c.fetchone()
-    c.execute("SELECT * FROM images WHERE productId = ?", (id,))
+    item = c.fetchone()
+    c.execute("SELECT * FROM images WHERE productId = ?", (product_id,))
     # Tim kiem anh san pham theo productId va luu vao img
     img = c.fetchone()
     conn.close()
     # Luu cac gia tri can thiet vao bien result duoi dang dictionary
     result = {
-        "productName": product[0], "productPrice": product[1], "sizeTitle": product[2], "sizeText": product[3],
-        "infoTitle1": product[4], "infoText1": product[5], "infoTitle2": product[6], "infoText2": product[7],
+        "productName": item[0], "productPrice": item[1], "sizeTitle": item[2], "sizeText": item[3],
+        "infoTitle1": item[4], "infoText1": item[5], "infoTitle2": item[6], "infoText2": item[7],
         "sizeImg1": img[2], "sizeImg2": img[3], "img1": img[4], "img2": img[5], "img3": img[6], "img4": img[7],
     }
     # Render file product.html va truyen vao gia tri bien result
@@ -239,24 +239,24 @@ def register():
 
 
 # Ham get_cart voi tham so id dung de lay ra cac ban ghi trong table cart
-def get_cart(id):
+def get_cart(product_id):
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    c.execute('SELECT productId, productName, productPrice, quantity FROM cart WHERE userId = ?', (id,))
+    c.execute('SELECT productId, productName, productPrice, quantity FROM cart WHERE userId = ?', (product_id,))
     # Tim kiem productId, productName, productPrice, quantity trong table cart theo userId va luu vao bien products
     products = c.fetchall()
     # Tao bien result la 1 empty list
     result = []
-    for product in products:
-        c.execute("SELECT img1 FROM images WHERE productId = ?", (product[0],))
+    for item in products:
+        c.execute("SELECT img1 FROM images WHERE productId = ?", (item[0],))
         # Tim kiem anh san pham tu table images theo productId va luu vao bien img
         img = c.fetchone()[0]
-        dict = {
-            "productId": product[0], "productName": product[1], "productPrice": product[2], "productImg": img,
-            "quantity": product[3]
+        new_dict = {
+            "productId": item[0], "productName": item[1], "productPrice": item[2], "productImg": img,
+            "quantity": item[3]
         }
         # Tao moi 1 bien dict voi kieu dictionary va them vao list result
-        result.append(dict)
+        result.append(new_dict)
     conn.close()
     # Tra ve bien result
     return result
@@ -354,13 +354,37 @@ def check_admin():
         return False
 
 
+def admin_result_to_dict(products):
+    result = []
+    conn = sqlite3.connect(sqldbname)
+    c = conn.cursor()
+    for item in products:
+        c.execute("SELECT img1 FROM images WHERE productId = ?", (item[0],))
+        # Tim kiem anh san pham tu table images theo productId va luu vao bien img
+        img = c.fetchone()[0]
+        new_dict = {
+            "productId": item[0], "productName": item[1], "productPrice": item[2], "quantity": item[3],
+            "productImg": img
+        }
+        # Tao moi 1 bien dict voi kieu dictionary va them vao list result
+        result.append(new_dict)
+    conn.close()
+    # Tra ve bien result
+    return result
+
+
 # Dinh tuyen ham admin_view cho url '/admin'
 @app.route('/admin', methods=['GET'])
 def admin_view():
     # Goi ham check admin de kiem tra session
     if check_admin():
         # Render file adminView.html, truyen vao gia tri cua session['lname']
-        return render_template('adminView.html', admin=session['admin_lname'])
+        conn = sqlite3.connect(sqldbname)
+        c = conn.cursor()
+        c.execute("SELECT productId, name, price, quantity FROM products")
+        products = c.fetchall()
+        result = admin_result_to_dict(products)
+        return render_template('adminView.html', admin=session['admin_lname'], items=result)
     else:
         # Redirect ve trang dang nhap admin
         return redirect(url_for('admin_login'))
@@ -409,95 +433,115 @@ def admin_logout():
 @app.route('/admin/search', methods=['POST'])
 def admin_search():
     # Lay gia tri search tu html form
-    search = request.form['search']
+    search_text = request.form['search']
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    c.execute("SELECT productId, name, price, quantity FROM products WHERE name LIKE '%"+search+"%'")
+    c.execute("SELECT productId, name, price, quantity FROM products WHERE name LIKE '%"+search_text+"%'")
     # Tim cac san pham co ten gan dung voi search va luu vao bien products
     products = c.fetchall()
-    result = []
-    for product in products:
-        c.execute("SELECT img1 FROM images WHERE productId = ?", (product[0],))
-        # Tim kiem anh san pham tu table images theo productId va luu vao bien img
-        img = c.fetchone()[0]
-        dict = {
-            "productId": product[0], "productName": product[1], "productPrice": product[2], "quantity": product[3],
-            "productImg": img
-        }
-        # Tao moi 1 bien dict voi kieu dictionary va them vao list result
-        result.append(dict)
+    result = admin_result_to_dict(products)
     # Render file adminSearch.html, truyen vao gia tri cua bien result
     return render_template('adminSearch.html', admin=session['admin_lname'], items=result)
 
 
-@app.route('/admin/update/<id>', methods=['GET', 'POST'])
-def admin_update(id):
+def check_none(text):
+    if text == 'None' or text == '':
+        return None
+    else:
+        return text
+
+
+@app.route('/admin/update/<product_id>', methods=['GET', 'POST'])
+def admin_update(product_id):
     if check_admin():
         conn = sqlite3.connect(sqldbname)
         c = conn.cursor()
         if request.method == 'POST':
-            team = request.form['team']
-            nation = request.form['nation']
+            team = check_none(request.form['team'])
+            nation = check_none(request.form['nation'])
             name = request.form['name']
             price = request.form['price']
             quantity = request.form['quantity']
-            sizeTitle = request.form['sizeTitle']
-            infoTitle = request.form['infoTitle']
+            size_title = request.form['sizeTitle']
+            info_title = request.form['infoTitle']
             img1 = request.form['img1']
             img2 = request.form['img2']
             img3 = request.form['img3']
             img4 = request.form['img4']
             c.execute(
-                "UPDATE products SET team = ?, nation = ?, name = ?, price = ?, quantity = ?, sizeTitle = ?, infoTitle = ? WHERE productId = ?",
-                (team, nation, name, price, quantity, sizeTitle, infoTitle, id)
+                "UPDATE products SET "
+                "team = ?, nation = ?, name = ?, price = ?, quantity = ?, sizeTitle = ?, infoTitle = ? "
+                "WHERE productId = ?",
+                (team, nation, name, price, quantity, size_title, info_title, product_id,)
             )
             conn.commit()
             c.execute(
                 "UPDATE images SET img1 = ?, img2 = ?, img3 = ?, img4 = ? WHERE productId = ?",
-                (img1, img2, img3, img4, id,)
+                (img1, img2, img3, img4, product_id,)
             )
             conn.commit()
             conn.close()
-            return redirect(url_for('admin_update'))
+            return redirect(url_for('admin_view'))
         else:
-            c.execute("SELECT team, nation, name, price, sizeTitle, infoTitle FROM products WHERE productId = ?", (id,))
-            product = c.fetchone()
+            c.execute(
+                "SELECT team, nation, name, price, quantity, sizeTitle, infoTitle FROM products WHERE productId = ?",
+                (id,)
+            )
+            item = c.fetchone()
             result = {
-                "team": product[0], "nation": product[1], "name": product[2], "price": product[3],
-                "sizeTitle": product[4],
-                "infoTitle": product[5]
+                "id": id, "team": item[0], "nation": item[1], "name": item[2], "price": item[3],
+                "quantity": item[4], "sizeTitle": item[5], "infoTitle": item[6]
             }
-            return render_template('adminUpdate.html')
+            c.execute("SELECT img1, img2, img3, img4 FROM images WHERE productId = ?", (id,))
+            imgs = c.fetchone()
+            img = {"img1": imgs[0], "img2": imgs[1], "img3": imgs[2], "img4": imgs[3]}
+            return render_template('adminUpdate.html', item=result, img=img)
     else:
         return redirect(url_for('admin_login'))
 
 
-@app.route('/admin/update/quantity/<id>', methods=['POST'])
-def admin_quantity(id):
+@app.route('/admin/update/price/<product_id>', methods=['POST'])
+def admin_price(product_id):
     if check_admin():
-        quantity = request.form['quantity']
+        req = request.get_json()
+        new_price = req['price']
         conn = sqlite3.connect(sqldbname)
         c = conn.cursor()
-        c.execute("UPDATE products SET quantity = ? WHERE productId = ?", (quantity, id,))
+        c.execute("UPDATE products SET price = ? WHERE productId = ?", (new_price, product_id))
         conn.commit()
-        conn.close()
-        msg = 'updated'
-        return msg
+        res = make_response(jsonify({"id": product_id, "price": new_price}))
+        return res
     else:
         return redirect(url_for('admin_login'))
 
 
-@app.route('/admin/update/price/<id>', methods=['POST'])
-def admin_price(id):
+@app.route('/admin/update/quantity/<product_id>', methods=['POST'])
+def admin_quantity(product_id):
     if check_admin():
-        price = request.form['price']
+        req = request.get_json()
+        new_quantity = req['quantity']
         conn = sqlite3.connect(sqldbname)
         c = conn.cursor()
-        c.execute("UPDATE products SET price = ? WHERE productId = ?", (price, id,))
+        c.execute("UPDATE products SET quantity = ? WHERE productId = ?", (new_quantity, product_id))
+        conn.commit()
+        res = make_response(jsonify({"id": product_id, "quantity": new_quantity}))
+        return res
+    else:
+        return redirect(url_for('admin_login'))
+
+
+@app.route('/admin/delete/<product_id>', methods=['POST'])
+def admin_delete(product_id):
+    if check_admin():
+        req = request.get_json()
+        conn = sqlite3.connect(sqldbname)
+        c = conn.cursor()
+        c.execute("DELETE FROM products WHERE productId = ?", (product_id,))
+        conn.commit()
+        c.execute("DELETE FROM images WHERE productId = ?", (product_id,))
         conn.commit()
         conn.close()
-        msg = 'updated'
-        return msg
+        return req
     else:
         return redirect(url_for('admin_login'))
 
