@@ -178,3 +178,69 @@
     width: 62%;
     margin: 0 auto;
 }
+
+.slide-windown {
+    padding: 20px;
+    background-color: #f8f9fa; /* Màu nền */
+    margin-top: 20px;
+}
+
+.owl-carousel {
+    display: flex;
+    flex-wrap: nowrap; /* Các item trượt không xuống dòng */
+    overflow-x: auto; /* Cho phép trượt ngang */
+    scrollbar-width: none; /* Ẩn thanh cuộn trượt trên Firefox */
+    -ms-overflow-style: none; /* Ẩn thanh cuộn trượt trên IE và Edge */
+}
+
+.owl-carousel::-webkit-scrollbar {
+    display: none; /* Ẩn thanh cuộn trượt trên Chrome và Safari */
+}
+
+.owl-carousel .item {
+    background-color: #fff;
+    border-radius: 8px;
+    margin-right: 10px; /* Khoảng cách giữa các sản phẩm */
+    padding: 10px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out; /* Hiệu ứng khi hover */
+}
+
+.owl-carousel .item img {
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+.owl-carousel .item:hover {
+    transform: scale(1.05); /* Phóng to sản phẩm khi hover */
+}
+
+
+.owl-carousel .item {
+    position: relative;
+}
+
+.owl-carousel .item .item-info {
+    position: absolute;
+    bottom: 20px; /* Điều chỉnh vị trí so với dưới cùng của ảnh */
+    left: 20px; /* Điều chỉnh vị trí so với bên trái của ảnh */
+    right: 20px; /* Điều chỉnh vị trí so với bên phải của ảnh */
+    background-color: rgba(255, 255, 255, 0.9); /* Màu nền với độ trong suốt */
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng cho phần tử */
+}
+
+.owl-carousel .item .item-info h5 {
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.owl-carousel .item .item-info p {
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 5px;
+}
+
+

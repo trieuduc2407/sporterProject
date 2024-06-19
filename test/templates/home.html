@@ -101,11 +101,7 @@
             <h3 style="color: orangered;"><i class="fa-regular fa-star fa-xl"
                                              style="color: orangered; padding-right: 0.5%"></i>MÙA GIẢI 23/23 MỚI NHẤT
             </h3>
-        </div>
-        <!--                        owl carousel                                                    -->
 
-        <!--                         end carousel                                                   -->
-    </div>
 
 
     <!-- Login form-->
@@ -116,17 +112,21 @@
     </div>
 </div>
 <!-- End login form-->
-
-<div class="owl-carousel owl-theme">
-    {% for item in carousel %}
-    <div class="">
-        <div class="col item">{{item["productName"]}}</div>
-        <div class="col item">{{item["productPrice"]}}</div>
-        <div class="col item">
-            <img class="img-fluid item" src="{{item["productImg"]}}" alt="">
-        </div>
+<div class="slide-windown">
+    <div class="owl-carousel owl-theme">
+        {% for item in carousel %}
+            <div class="item ">
+                <div class="item-inner ">
+                    <img class="img-fluid " src="{{item["productImg"]}}" alt="">
+                    <div class="item-info ">
+                        <h5>{{item["productName"]}}</h5>
+                        <p>{{item["productDescription"]}}</p>
+                        <p>Giá: {{item["productPrice"]}}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 
 
