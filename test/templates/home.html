@@ -104,14 +104,19 @@
 
 
 
-    <!-- Login form-->
-    <div class="search-container">
-        <form action="" id="search-form">
-            <input type="text" name="keyword" id="keyword" placeholder="Search">
-        </form>
-    </div>
+    <!-- search form-->
+    <div class="overlay" id="overlay"></div>
+
+<div class="search-container" id="search-container">
+    <form action="#" id="search-form">
+        <input type="text" name="keyword" id="keyword" placeholder="Search">
+        <button type="submit" id="search-btn">Search</button>
+    </form>
 </div>
-<!-- End login form-->
+
+
+
+<!-- End search form-->
 <div class="slide-windown">
     <div class="owl-carousel owl-theme">
         {% for item in carousel %}
