@@ -56,6 +56,24 @@ def get_max_id(table_name):
             max_id = 1
         # Tra ve max_id
         return max_id
+    elif table_name == 'products':
+        c.execute('SELECT MAX(productId) FROM products')
+        max_id = c.fetchone()[0]
+        if max_id:
+            max_id = max_id+1
+            return max_id
+        else:
+            max_id = 1
+        return max_id
+    elif table_name == 'images':
+        c.execute('SELECT MAX(imgId) FROM images')
+        max_id = c.fetchone()[0]
+        if max_id:
+            max_id = max_id+1
+            return max_id
+        else:
+            max_id = 1
+        return max_id
 
 
 # Ham carousel dung de chon nhau nhien 1 so luong san pham nhat dinh tu table products
@@ -485,14 +503,14 @@ def admin_update(product_id):
         else:
             c.execute(
                 "SELECT team, nation, name, price, quantity, sizeTitle, infoTitle FROM products WHERE productId = ?",
-                (id,)
+                (product_id,)
             )
             item = c.fetchone()
             result = {
-                "id": id, "team": item[0], "nation": item[1], "name": item[2], "price": item[3],
+                "id": product_id, "team": item[0], "nation": item[1], "name": item[2], "price": item[3],
                 "quantity": item[4], "sizeTitle": item[5], "infoTitle": item[6]
             }
-            c.execute("SELECT img1, img2, img3, img4 FROM images WHERE productId = ?", (id,))
+            c.execute("SELECT img1, img2, img3, img4 FROM images WHERE productId = ?", (product_id,))
             imgs = c.fetchone()
             img = {"img1": imgs[0], "img2": imgs[1], "img3": imgs[2], "img4": imgs[3]}
             return render_template('adminUpdate.html', item=result, img=img)
@@ -544,6 +562,38 @@ def admin_delete(product_id):
         return req
     else:
         return redirect(url_for('admin_login'))
+
+
+@app.route('/admin/add', methods=['GET', 'POST'])
+def admin_add():
+    if check_admin():
+        conn = sqlite3.connect(sqldbname)
+        c = conn.cursor()
+        if request.method == 'POST':
+            team = check_none(request.form['team'])
+            nation = check_none(request.form['nation'])
+            name = request.form['name']
+            price = request.form['price']
+            quantity = request.form['quantity']
+            size_title = request.form['sizeTitle']
+            info_title = request.form['infoTitle']
+            img1 = request.form['img1']
+            img2 = request.form['img2']
+            img3 = request.form['img3']
+            img4 = request.form['img4']
+            product_id = get_max_id('products')
+            img_id = get_max_id('images')
+            c.execute(
+                "INSERT INTO products VALUES(?,?,?,?,?,?,?,?)",
+                (product_id, team, nation, name, price, quantity, size_title, info_title,)
+            )
+            conn.commit()
+            c.execute("INSERT INTO images VALUES(?,?,?,?,?,?)", (img_id, product_id, img1, img2, img3, img4))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('admin_view'))
+        else:
+            return render_template('adminAdd.html')
 
 
 if __name__ == '__main__':

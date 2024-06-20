@@ -20,7 +20,7 @@ function updatePrice(event) {
             if (respone.status !== 200) {
                 console.log(respone.status)
             }
-            alert("updated")
+            alert("Cập nhật giá thành công")
         })
 }
 
@@ -44,7 +44,7 @@ function updateQuantity(event) {
             if (respone.status !== 200) {
                 console.log(respone.status)
             }
-            alert("updated")
+            alert("Cập nhật số lượng thành công")
         })
 }
 
