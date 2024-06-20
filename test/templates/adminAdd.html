@@ -11,7 +11,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
           integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <title>admin update</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>Document</title>
 </head>
 <body>
 <div class="container">
@@ -21,66 +24,72 @@
         </a>
     </div>
     <div class="row text-center mt-3 mb-5">
-        <h1>Cập nhật sản phẩm</h1>
+        <h1>Thêm sản phẩm</h1>
     </div>
     <div class="row">
-        <form action="/admin/update/{{item['id']}}" method="post">
+        <form action="/admin/add" method="post">
             <div class="row">
+                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                    <label class="btn btn-outline-primary" for="btnradio1">Áo CLB</label>
+
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btnradio2">Áo ĐTQG</label>
+                </div>
                 <div class="col-6 mb-3">
-                    <label for="team">Mã đội bóng</label>
-                    <input class="form-control" type="text" name="team" id="team" value="{{item['team']}}">
+                    <label for="team">Mã CLB</label>
+                    <input class="form-control" type="text" name="team" id="team" placeholder="Bỏ trống nếu là áo ĐTQG">
                 </div>
                 <div class="col-6 mb-3">
                     <label for="nation">Mã đội tuyển</label>
-                    <input class="form-control" type="text" name="nation" id="nation" value="{{item['nation']}}">
+                    <input class="form-control" type="text" name="nation" id="nation"
+                           placeholder="Bỏ trống nếu là áo CLB">
                 </div>
                 <div class="col-12 mb-3">
                     <label for="name">Tên áo</label>
-                    <input class="form-control" type="text" name="name" id="name" value="{{item['name']}}">
+                    <input class="form-control" type="text" name="name" id="name">
                 </div>
                 <div class="col-6 mb-3">
                     <label for="price">Giá</label>
-                    <input class="form-control" type="number" name="price" id="price" value="{{item['price']}}">
+                    <input class="form-control" type="number" name="price" id="price">
                 </div>
                 <div class="col-6 mb-3">
                     <label for="quantity">Số lượng</label>
-                    <input class="form-control" type="number" name="quantity" id="quantity"
-                           value="{{item['quantity']}}">
+                    <input class="form-control" type="number" name="quantity" id="quantity">
                 </div>
                 <div class="col-6 mb-3">
                     <label for="sizeTitle">Tiêu đề 1</label>
-                    <input class="form-control" type="text" name="sizeTitle" id="sizeTitle"
-                           value="{{item['sizeTitle']}}">
+                    <input class="form-control" type="text" name="sizeTitle" id="sizeTitle">
                 </div>
                 <div class="col-6 mb-3">
                     <label for="infoTitle">Tiêu đề 2</label>
-                    <input class="form-control" type="text" name="infoTitle" id="infoTitle"
-                           value="{{item['infoTitle']}}">
+                    <input class="form-control" type="text" name="infoTitle" id="infoTitle">
                 </div>
                 <div class="col-6 mb-3">
                     <label for="img1">Ảnh minh hoạ 1</label>
-                    <input class="form-control" type="url" name="img1" id="img1" value="{{img['img1']}}">
+                    <input class="form-control" type="url" name="img1" id="img1">
                 </div>
                 <div class="col-6 mb-3">
                     <label for="img2">Ảnh minh hoạ 2</label>
-                    <input class="form-control" type="url" name="img2" id="img2" value="{{img['img2']}}">
+                    <input class="form-control" type="url" name="img2" id="img2">
                 </div>
                 <div class="col-6 mb-3">
                     <label for="img3">Ảnh minh hoạ 3</label>
-                    <input class="form-control" type="url" name="img3" id="img3" value="{{img['img3']}}">
+                    <input class="form-control" type="url" name="img3" id="img3">
                 </div>
                 <div class="col-6 mb-3">
                     <label for="img4">Ảnh minh hoạ 4</label>
-                    <input class="form-control" type="url" name="img4" id="img4" value="{{img['img4']}}">
+                    <input class="form-control" type="url" name="img4" id="img4">
                 </div>
             </div>
             <div class="row justify-content-center">
                 <div class="col-2">
-                    <button class="btn btn-primary" type="submit">Cập nhật sản phẩm</button>
+                    <button class="btn btn-primary" type="submit">Thêm</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
+<script src="../static/Javascript/adminAdd.js"></script>
 </body>
 </html>

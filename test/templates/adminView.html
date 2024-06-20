@@ -17,50 +17,66 @@
     <title>admin view</title>
 </head>
 <body>
-<div class="container">
-    <div class="row" id="header">
-        <h1>hello {{admin}}</h1>
-        <a href="/admin/logout">logout</a>
-        <div class="row">
-            <form action="/admin/search" method="post">
-                <input type="text" name="search">
-                <button type="submit">search</button>
-            </form>
+<div class="container text-center">
+    <div class="row mt-5">
+        <div class="col align-self-center">
+            <h1 style="display: inline-block">Xin chào {{admin}}</h1>
         </div>
-        <!--    Duyet qua cac phan tu cua danh sach products    -->
-        {% for item in items %}
-        <div class="row">
-            <!--    Lan luot truy cap gia tri cua cac element trong product     -->
-            <div class="col">{{item['productName']}}</div>
-            <div class="col">
-                <img class="img-fluid" src="{{item['productImg']}}" alt="">
-            </div>
-            <div class="col">
-                <input type="number" data-price-id="{{item['productId']}}" value="{{item['productPrice']}}"
-                       min="1">
-                <button data-price-index="{{item['productId']}}" data-price="{{item['productPrice']}}"
-                        onclick="updatePrice(event)">update
-                </button>
-            </div>
-            <div class="col">
-                <input type="number" data-quantity-id="{{item['productId']}}" value="{{item['quantity']}}" min="1">
-                <button data-quantity-index="{{item['productId']}}" data-quantity="{{item['quantity']}}"
-                        onclick="updateQuantity(event)">update
-                </button>
-            </div>
-            <div class="col">
-                <a href="/admin/update/{{item['productId']}}">
-                    <button type="submit">update</button>
-                </a>
-            </div>
-            <div class="col">
-                <button data-delete-index="{{item['productId']}}" onclick="deleteProduct(event)">delete</button>
-            </div>
+        <div class="col align-self-center">
+            <a href="/admin/logout">
+                <button class="btn btn-primary">Đăng xuất</button>
+            </a>
         </div>
-        <!--    Ket thuc vong lap for   -->
-        {% endfor %}
     </div>
+    <div class="row my-5">
+        <form action="/admin/search" method="post">
+            <div class="mb-3">
+                <label class="form-label fw-bold fs-5" for="searchText">Tìm kiếm sản phẩm</label>
+                <input name="search" type="text" class="form-control" id="searchText">
+            </div>
+            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        </form>
+    </div>
+    {% for item in items %}
+    <div class="row align-items-center mb-5">
+        <div class="col">{{item['productName']}}</div>
+        <div class="col">
+            <img class="img-fluid" src="{{item['productImg']}}" alt="">
+        </div>
+        <div class="col-2" style="padding-right: 0">
+            <input class="form-control" type="number" id="price{{item['productId']}}"
+                   data-price-id="{{item['productId']}}" value="{{item['productPrice']}}"
+                   min="1">
+        </div>
+        <div class="col-2" style="padding-left: 0; width: 10%">
+            <button class="btn btn-primary" data-price-index="{{item['productId']}}"
+                    data-price="{{item['productPrice']}}"
+                    onclick="updatePrice(event)">Cập nhật giá
+            </button>
+        </div>
+        <div class="col-1" style="padding-right: 0">
+            <input class="form-control" type="number" id="quantity{{item['productId']}}"
+                   data-quantity-id="{{item['productId']}}" value="{{item['quantity']}}" min="1">
+        </div>
+        <div class="col-2" style="padding-left: 0; width: 13%">
+            <button class="btn btn-primary" data-quantity-index="{{item['productId']}}"
+                    data-quantity="{{item['quantity']}}"
+                    onclick="updateQuantity(event)">Cập nhật số lượng
+            </button>
+        </div>
+        <div class="col-2">
+            <a href="/admin/update/{{item['productId']}}">
+                <button class="btn btn-primary" type="submit">Cập nhật sản phẩm</button>
+            </a>
+        </div>
+        <div class="col-1">
+            <button class="btn btn-primary" data-delete-index="{{item['productId']}}"
+                    onclick="deleteProduct(event)">Xoá
+            </button>
+        </div>
+    </div>
+    {% endfor %}
 </div>
-<script src="../static/Javascript/adminView.js"></script>
+<script src="../static/Javascript/fetchFunction.js"></script>
 </body>
 </html>
