@@ -21,6 +21,10 @@
     padding: 0 0.2em;
 }
 
+.toggle-btn{
+    display: none;
+}
+
 .center-header {
     background: #fff;
     position: relative;
@@ -67,6 +71,9 @@
     padding-left: 1rem;
 }
 
+.dropdown-menu{
+    display: none;
+}
 
 .overlay {
     display: none;
@@ -300,5 +307,212 @@
     line-height: 1.4;
     margin-bottom: 5px;
 }
+
+.site-footer {
+    background-color: #333;
+    color: #fff;
+    padding-top: 2%;
+}
+
+.site-footer .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.site-footer h3 {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.site-footer p, .site-footer ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.site-footer p {
+    margin-bottom: 10px;
+}
+
+.site-footer ul li {
+    margin-bottom: 10px;
+}
+
+.site-footer ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.site-footer ul li a:hover {
+    text-decoration: underline;
+}
+
+.footer-social ul {
+    display: flex;
+    padding: 0;
+}
+
+.footer-social ul li {
+    margin-right: 10px;
+}
+
+.footer-social ul li a {
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.footer-bottom {
+    background-color: #222;
+    padding: 10px 0;
+}
+
+.footer-bottom p {
+    margin: 0;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+}
+
+
+/*RESPONSIVE*/
+@media (max-width: 480px) {
+    .top-header{
+        display: none;
+    }
+
+    .toggle-btn{
+        display: block;
+        font-size: 1.3rem;
+        position: absolute;
+        left: 5%;
+        top: 40%;
+    }
+
+    .fa-user{
+        display: none;
+    }
+
+    .center-header{
+        position: relative;
+    }
+
+   .center-header>a{
+       width: 100%;
+   }
+
+   .big-logo{
+       width: auto;
+   }
+
+    .logo-icon{
+        font-size: 0.8rem;
+
+    }
+
+    .bottom-header{
+        display: none;
+    }
+
+    .dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100vh; /* Độ rộng của dropdown-menu */
+    z-index: 1000;
+    left: 50%; /* Đặt left ở giữa màn hình */
+    transform: translateX(-50%); /* Dịch chuyển lề trái đi 50% độ rộng dropdown-menu */
+    top: 50px; /* Vị trí top của dropdown-menu, điều chỉnh tùy theo thiết kế */
+    text-align: center; /* Căn giữa nội dung trong dropdown-menu */
+}
+
+.dropdown-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-menu ul a {
+    display: block;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    font-size: 2em;
+    padding: 5% 0;
+}
+
+.dropdown-menu ul a:hover {
+    background-color: #555;
+}
+
+/* Hiển thị dropdown menu khi có lớp dropdown-active */
+.dropdown-menu.dropdown-active {
+    display: block;
+}
+    .list-item{
+        text-decoration: none;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .footer-banner .col{
+        display: none;
+    }
+}
+
+
+
+/*!* Responsive CSS for tablet (768px) and mobile devices *!*/
+/*@media only screen and (max-width: 768px) {*/
+/*    .site-footer .container {*/
+/*        flex-direction: column;*/
+/*        align-items: center;*/
+/*        text-align: center;*/
+/*    }*/
+
+/*    .site-footer .container > div {*/
+/*        width: 100%;*/
+/*        margin-bottom: 30px;*/
+/*    }*/
+
+/*    .footer-social ul {*/
+/*        justify-content: center;*/
+/*    }*/
+
+/*    .footer-bottom p {*/
+/*        font-size: 12px;*/
+/*    }*/
+
+/*     !* Phần top-header *!*/
+/*    .top-header {*/
+/*        flex-wrap: wrap;*/
+/*        justify-content: center;*/
+/*    }*/
+
+/*    !* Phần center-header *!*/
+/*    .center-header {*/
+/*        flex-direction: column;*/
+/*        gap: 10px;*/
+/*    }*/
+
+/*    .big-logo {*/
+/*        width: 120px; !* Điều chỉnh lại kích thước logo cho phù hợp *!*/
+/*    }*/
+
+/*    .logo-icon {*/
+/*        order: -1; !* Đưa phần icon lên đầu khi hiển thị theo cột *!*/
+/*        gap: 5px;*/
+/*    }*/
+
+/*    !* Phần bottom-header *!*/
+/*    .bottom-header {*/
+/*        flex-wrap: wrap;*/
+/*        justify-content: center;*/
+/*    }*/
+/*}*/
+
 
 

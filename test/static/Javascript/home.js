@@ -32,3 +32,24 @@ overlay.addEventListener('click', function() {
     overlay.classList.remove('show'); // Ẩn lớp nền đen mờ
     searchContainer.classList.remove('show'); // Ẩn search container
 });
+
+
+//dropdown menu
+$(document).ready(function() {
+    $('.toggle-btn').click(function() {
+        $('.dropdown-menu').toggleClass('dropdown-active');
+        // Tính toán lại vị trí top cho dropdown-menu
+        var menuHeight = $('.dropdown-menu').outerHeight();
+        var windowHeight = $(window).height();
+        var scrollTop = $(window).scrollTop();
+        var topPosition = scrollTop + (windowHeight - menuHeight) / 2;
+        $('.dropdown-menu').css('top', topPosition + 'px');
+    });
+
+    // Đóng dropdown menu nếu nhấp bên ngoài
+    $(document).click(function(e) {
+        if (!$(e.target).closest('.toggle-btn').length && !$(e.target).closest('.dropdown-menu').length) {
+            $('.dropdown-menu').removeClass('dropdown-active');
+        }
+    });
+});
