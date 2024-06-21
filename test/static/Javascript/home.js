@@ -53,3 +53,9 @@ $(document).ready(function() {
         }
     });
 });
+
+function toggleDropdownMenu() {
+    var dropdownMenu = document.querySelector('.dropdown-menu');
+    dropdownMenu.style.display = (dropdownMenu.style.display === 'block') ? 'none' : 'block';
+}
+

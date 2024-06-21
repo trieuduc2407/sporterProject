@@ -21,7 +21,7 @@
     padding: 0 0.2em;
 }
 
-.toggle-btn{
+.toggle-btn {
     display: none;
 }
 
@@ -58,7 +58,6 @@
 }
 
 
-
 #keyword {
     border-radius: 20px;
     padding: 0.3rem;
@@ -71,7 +70,7 @@
     padding-left: 1rem;
 }
 
-.dropdown-menu{
+.dropdown-menu {
     display: none;
 }
 
@@ -102,6 +101,7 @@
 .show {
     display: block !important; /* Hiển thị element có class 'show' */
 }
+
 .search-container {
     display: none;
     position: fixed;
@@ -193,6 +193,9 @@
 .title-slider-show {
     padding: 1.5em 0;
 }
+.big-banner-mobile{
+    display: none;
+}
 
 .mt-1 {
     padding: 0;
@@ -246,7 +249,7 @@
 
 .slide-windown {
     padding: 20px;
-    background-color:black;
+    background-color: black;
     margin-top: 20px;
 }
 
@@ -379,11 +382,11 @@
 
 /*RESPONSIVE*/
 @media (max-width: 480px) {
-    .top-header{
+    .top-header {
         display: none;
     }
 
-    .toggle-btn{
+    .toggle-btn {
         display: block;
         font-size: 1.3rem;
         position: absolute;
@@ -391,76 +394,144 @@
         top: 40%;
     }
 
-    .fa-user{
+    .fa-user {
         display: none;
     }
 
-    .center-header{
+    .center-header {
         position: relative;
     }
 
-   .center-header>a{
-       width: 100%;
-   }
+    .center-header > a {
+        width: 100%;
+    }
 
-   .big-logo{
-       width: auto;
-   }
+    .big-logo {
+        width: auto;
+    }
 
-    .logo-icon{
+    .logo-icon {
         font-size: 0.8rem;
 
     }
 
-    .bottom-header{
-        display: none;
-    }
+
 
     .dropdown-menu {
-    display: none;
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.7);
-    width: 100vh; /* Độ rộng của dropdown-menu */
-    z-index: 1000;
-    left: 50%; /* Đặt left ở giữa màn hình */
-    transform: translateX(-50%); /* Dịch chuyển lề trái đi 50% độ rộng dropdown-menu */
-    top: 50px; /* Vị trí top của dropdown-menu, điều chỉnh tùy theo thiết kế */
-    text-align: center; /* Căn giữa nội dung trong dropdown-menu */
-}
+        display: none;
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.7);
+        width: 100vh; /* Độ rộng của dropdown-menu */
+        z-index: 1000;
+        left: 50%; /* Đặt left ở giữa màn hình */
+        transform: translateX(-50%); /* Dịch chuyển lề trái đi 50% độ rộng dropdown-menu */
+        top: 50px; /* Vị trí top của dropdown-menu, điều chỉnh tùy theo thiết kế */
+        text-align: center; /* Căn giữa nội dung trong dropdown-menu */
+        margin-top: -5rem;
+    }
 
-.dropdown-menu ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+    .dropdown-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
 
-.dropdown-menu ul a {
-    display: block;
-    padding: 10px;
-    color: #fff;
-    text-decoration: none;
-    transition: background-color 0.3s;
-    font-size: 2em;
-    padding: 5% 0;
-}
+    .close-dropdown-menu-icon {
+        color: #fff;
+        font-size: 2em;
+        transform: translateX(20%);
+        padding: 5px;
 
-.dropdown-menu ul a:hover {
-    background-color: #555;
-}
 
-/* Hiển thị dropdown menu khi có lớp dropdown-active */
-.dropdown-menu.dropdown-active {
-    display: block;
-}
-    .list-item{
+    }
+
+    .dropdown-menu ul a {
+        display: block;
+        padding: 10px;
+        color: #fff;
+        text-decoration: none;
+        transition: background-color 0.3s;
+        font-size: 2em;
+        padding: 5% 0;
+    }
+
+    .dropdown-menu ul a:hover {
+        background-color: #555;
+    }
+
+    /* Hiển thị dropdown menu khi có lớp dropdown-active */
+    .dropdown-menu.dropdown-active {
+        display: block;
+    }
+
+    .list-item {
         text-decoration: none;
         color: #fff;
         cursor: pointer;
     }
 
-    .footer-banner .col{
+
+    #keyword{
+        width: 100%;
+        font-size: 1.5rem;
+    }
+    /*#search-btn{*/
+    /*    display: none;*/
+    /*}*/
+
+    .search-container {
+    display: none;
+    position: fixed;
+    top: 37%;
+    width: 100%;
+    z-index: 1000;
+    margin: 0 auto;
+    }
+
+    .slide-show{
+        margin-top: -5px;
+    }
+
+    .slide-show .row{
         display: none;
     }
+
+    .first-title-slide-show{
+        display: none;
+    }
+
+    .big-banner img{
+        display: none;
+    }
+
+    .big-banner-mobile{
+        display: block;
+        margin-top: -25rem;
+    }
+
+     .big-banner-mobile img{
+         background-color: rgba(0, 0, 0, 0.8);
+     }
+
+      .bottom-header {
+        display: none;
+    }
+
+      .footer-banner {
+          max-width: 100%;
+          margin: 0 auto;
+    }
+     .footer-banner .col > p {
+         font-size: 1rem;
+         padding-bottom: 1rem;
+         color: #cccccc;
+     }
+
+      .btn-footer-banner{
+          font-size: 0.9rem;
+          border: none;
+          color: #fff;
+      }
 }
 
 
