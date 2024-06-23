@@ -49,7 +49,7 @@ function updateQuantity(event) {
 }
 
 function deleteProduct(event) {
-    if (confirm("delete?")) {
+    if (confirm("Xoá sản phẩm?")) {
         let id = event.target.dataset.deleteIndex;
         let url = baseUrl + '/admin/delete/' + id
         fetch(url, {

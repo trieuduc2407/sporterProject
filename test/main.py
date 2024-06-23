@@ -167,23 +167,20 @@ def search():
 def product(product_id):
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    c.execute(
-        'SELECT name, price, sizeTitle, infoTitle FROM products WHERE productId = ?',
-        (product_id,)
-    )
-    # Tim kiem san pham theo productId = id va luu vao product
+    c.execute("SELECT name, price, sizeTitle, infoTitle FROM products WHERE productId = ?", (product_id,))
     item = c.fetchone()
-    c.execute("SELECT * FROM images WHERE productId = ?", (product_id,))
-    # Tim kiem anh san pham theo productId va luu vao img
+    c.execute("SELECT img1, img2, img3, img4 FROM images WHERE productId = ?", (product_id,))
     img = c.fetchone()
-    conn.close()
-    # Luu cac gia tri can thiet vao bien result duoi dang dictionary
     result = {
-        "productName": item[0], "productPrice": item[1], "sizeTitle": item[2], "sizeText": item[3],
-        "infoTitle1": item[4], "infoText1": item[5], "infoTitle2": item[6], "infoText2": item[7],
-        "sizeImg1": img[2], "sizeImg2": img[3], "img1": img[4], "img2": img[5], "img3": img[6], "img4": img[7],
+        "productName": item[0],
+        "productPrice": item[1],
+        "productImg1": img[0],
+        "productImg2": img[1],
+        "productImg3": img[2],
+        "productImg4": img[3],
+        "sizeTitle": item[2],
+        "infoTitle": item[3],
     }
-    # Render file product.html va truyen vao gia tri bien result
     return render_template('product.html', item=result)
 
 
@@ -594,6 +591,16 @@ def admin_add():
             return redirect(url_for('admin_view'))
         else:
             return render_template('adminAdd.html')
+
+
+@app.route('/test', methods=['GET', 'POST'])
+def test():
+    if request.method == 'POST':
+        team = check_none(request.form['team'])
+        nation = check_none(request.form['nation'])
+        return jsonify({'result': True, 'team': team, 'nation': nation})
+    else:
+        return render_template('test.html')
 
 
 if __name__ == '__main__':
