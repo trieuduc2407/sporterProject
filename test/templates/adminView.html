@@ -18,7 +18,7 @@
 </head>
 <body>
 <div class="container text-center">
-    <div class="row mt-5">
+    <div class="row align-items-center mt-5">
         <div class="col align-self-center">
             <h1 style="display: inline-block">Xin chào {{admin}}</h1>
         </div>
@@ -28,14 +28,21 @@
             </a>
         </div>
     </div>
-    <div class="row my-5">
-        <form action="/admin/search" method="post">
-            <div class="mb-3">
-                <label class="form-label fw-bold fs-5" for="searchText">Tìm kiếm sản phẩm</label>
-                <input name="search" type="text" class="form-control" id="searchText">
-            </div>
-            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-        </form>
+    <div class="row align-items-center justify-content-around my-5">
+        <div class="col-2">
+            <a href="/admin/add">
+                <button class="btn btn-lg btn-primary" type="submit">Thêm sản phẩm</button>
+            </a>
+        </div>
+        <div class="col-4">
+            <form action="/admin/search" method="post">
+                <div class="mb-3">
+                    <label class="form-label fw-bold fs-5" for="searchText">Tìm kiếm sản phẩm</label>
+                    <input name="search" type="text" class="form-control" id="searchText">
+                </div>
+                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            </form>
+        </div>
     </div>
     {% for item in items %}
     <div class="row align-items-center mb-5">

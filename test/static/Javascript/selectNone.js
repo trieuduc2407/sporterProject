@@ -6,14 +6,16 @@ let input2 = document.getElementById('nation')
 
 radio1.addEventListener('click', () => {
     value = !value
-    input1.disabled = false
-    input2.disabled = true
-    input2.value = null
+    input1.readOnly = false
+    input1.value = null
+    input2.value = 'None'
+    input2.readOnly = true
 })
 
 radio2.addEventListener('click', () => {
     value = !value
-    input2.disabled = false
-    input1.disabled = true
-    input1.value = null
+    input2.readOnly = false
+    input2.value = null
+    input1.value = 'None'
+    input1.readOnly = true
 })

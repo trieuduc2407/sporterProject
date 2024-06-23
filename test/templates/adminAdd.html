@@ -33,17 +33,17 @@
                     <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
                     <label class="btn btn-outline-primary" for="btnradio1">Áo CLB</label>
 
-                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2"
+                           autocomplete="off">
                     <label class="btn btn-outline-primary" for="btnradio2">Áo ĐTQG</label>
                 </div>
                 <div class="col-6 mb-3">
                     <label for="team">Mã CLB</label>
-                    <input class="form-control" type="text" name="team" id="team" placeholder="Bỏ trống nếu là áo ĐTQG">
+                    <input class="form-control" type="text" name="team" id="team">
                 </div>
                 <div class="col-6 mb-3">
                     <label for="nation">Mã đội tuyển</label>
-                    <input class="form-control" type="text" name="nation" id="nation"
-                           placeholder="Bỏ trống nếu là áo CLB">
+                    <input class="form-control" type="text" name="nation" value="None" id="nation" readonly>
                 </div>
                 <div class="col-12 mb-3">
                     <label for="name">Tên áo</label>
@@ -90,6 +90,6 @@
         </form>
     </div>
 </div>
-<script src="../static/Javascript/adminAdd.js"></script>
+<script src="../static/Javascript/selectNone.js"></script>
 </body>
 </html>
