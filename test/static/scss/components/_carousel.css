@@ -1,0 +1,30 @@
+.carousel {
+  background-color: black;
+  padding-bottom: 1rem;
+}
+.carousel .title {
+  padding: 0.5rem 0;
+  color: #ff6f28;
+  font-weight: bold;
+}
+.carousel .card img {
+  position: relative;
+}
+.carousel .card p {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 0.8rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  height: 4rem;
+}
+.carousel .card p span {
+  font-weight: bold;
+}
+
+/*# sourceMappingURL=_carousel.css.map */

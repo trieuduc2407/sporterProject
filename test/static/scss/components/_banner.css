@@ -1,0 +1,16 @@
+.banner {
+  position: relative;
+}
+.banner .banner-text {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: bold;
+  color: white;
+}
+.banner .banner-text span {
+  color: #ff6f28;
+}
+
+/*# sourceMappingURL=_banner.css.map */

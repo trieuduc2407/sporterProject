@@ -1,0 +1,19 @@
+.team {
+  background-color: black;
+
+  .title {
+    padding: 0.5rem 0;
+    color: #ff6f28;
+    font-weight: bold;
+  }
+
+  .team-logo {
+    padding-left: 20%;
+    padding-right: 20%;
+    padding-bottom: 1rem;
+
+    .logo {
+      max-width: 15%;
+    }
+  }
+}

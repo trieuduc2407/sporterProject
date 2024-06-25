@@ -1,0 +1,39 @@
+header {
+  .top-bar {
+    background-color: black;
+
+    i {
+      color: white;
+    }
+  }
+
+  .main-header {
+    a {
+      text-decoration: none;
+    }
+
+    i {
+      font-size: 1.5rem;
+      color: black;
+    }
+  }
+
+  .bottom-header {
+    background-color: black;
+    padding: 1rem 0;
+
+    a {
+      text-decoration: none;
+      font-weight: bold;
+      color: white;
+    }
+  }
+}
+
+@media (max-width: 575.98px) {
+  .main-header {
+    i {
+      font-size: 1rem;
+    }
+  }
+}

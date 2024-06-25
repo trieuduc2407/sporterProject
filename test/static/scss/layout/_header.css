@@ -1,0 +1,36 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+header .top-bar {
+  background-color: black;
+}
+header .top-bar i {
+  color: white;
+}
+header .main-header a {
+  text-decoration: none;
+}
+header .main-header i {
+  font-size: 1.5rem;
+  color: black;
+}
+header .bottom-header {
+  background-color: black;
+  padding: 1rem 0;
+}
+header .bottom-header a {
+  text-decoration: none;
+  font-weight: bold;
+  color: white;
+}
+
+@media (max-width: 575.98px) {
+  .main-header i {
+    font-size: 1rem;
+  }
+}
+
+/*# sourceMappingURL=_header.css.map */
