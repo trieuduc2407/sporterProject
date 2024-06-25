@@ -193,7 +193,8 @@
 .title-slider-show {
     padding: 1.5em 0;
 }
-.big-banner-mobile{
+
+.big-banner-mobile {
     display: none;
 }
 
@@ -416,7 +417,6 @@
     }
 
 
-
     .dropdown-menu {
         display: none;
         position: absolute;
@@ -471,69 +471,69 @@
     }
 
 
-    #keyword{
+    #keyword {
         width: 100%;
         font-size: 1.5rem;
     }
+
     /*#search-btn{*/
     /*    display: none;*/
     /*}*/
-
     .search-container {
-    display: none;
-    position: fixed;
-    top: 37%;
-    width: 100%;
-    z-index: 1000;
-    margin: 0 auto;
+        display: none;
+        position: fixed;
+        top: 37%;
+        width: 100%;
+        z-index: 1000;
+        margin: 0 auto;
     }
 
-    .slide-show{
+    .slide-show {
         margin-top: -5px;
     }
 
-    .slide-show .row{
+    .slide-show .row {
         display: none;
     }
 
-    .first-title-slide-show{
+    .first-title-slide-show {
         display: none;
     }
 
-    .big-banner img{
+    .big-banner img {
         display: none;
     }
 
-    .big-banner-mobile{
+    .big-banner-mobile {
         display: block;
         margin-top: -25rem;
     }
 
-     .big-banner-mobile img{
-         background-color: rgba(0, 0, 0, 0.8);
-     }
+    .big-banner-mobile img {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
 
-      .bottom-header {
+    .bottom-header {
         display: none;
     }
 
-      .footer-banner {
-          max-width: 100%;
-          margin: 0 auto;
+    .footer-banner {
+        max-width: 100%;
+        margin: 0 auto;
     }
-     .footer-banner .col > p {
-         font-size: 1rem;
-         padding-bottom: 1rem;
-         color: #cccccc;
-     }
 
-      .btn-footer-banner{
-          font-size: 0.9rem;
-          border: none;
-          color: #fff;
-      }
+    .footer-banner .col > p {
+        font-size: 1rem;
+        padding-bottom: 1rem;
+        color: #cccccc;
+    }
+
+    .btn-footer-banner {
+        font-size: 0.9rem;
+        border: none;
+        color: #fff;
+    }
 }
-
 
 
 /*!* Responsive CSS for tablet (768px) and mobile devices *!*/

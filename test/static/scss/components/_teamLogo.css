@@ -1,0 +1,18 @@
+.team {
+  background-color: black;
+}
+.team .title {
+  padding: 0.5rem 0;
+  color: #ff6f28;
+  font-weight: bold;
+}
+.team .team-logo {
+  padding-left: 20%;
+  padding-right: 20%;
+  padding-bottom: 1rem;
+}
+.team .team-logo .logo {
+  max-width: 15%;
+}
+
+/*# sourceMappingURL=_teamLogo.css.map */

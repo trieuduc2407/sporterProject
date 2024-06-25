@@ -1,0 +1,15 @@
+.banner {
+  position: relative;
+
+  .banner-text {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    color: white;
+    span {
+      color: #ff6f28;
+    }
+  }
+}

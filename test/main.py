@@ -35,7 +35,7 @@ def get_max_id(table_name):
         # Neu max_id == True (Trong table users co it nhat 1 row)
         if max_id:
             # Tang gia tri cua max_id len 1
-            max_id = max_id+1
+            max_id = max_id + 1
         else:
             # Max_id == False (Trong table cart chua co ban ghi nao)
             # Gan max_id = 1
@@ -49,7 +49,7 @@ def get_max_id(table_name):
         # Neu max_id == True (Trong table cart co it nhat 1 row)
         if max_id:
             # Tang gia tri cua max_id len 1
-            max_id = max_id+1
+            max_id = max_id + 1
         else:
             # Max_id == False (Trong table cart chua co ban ghi nao)
             # Gan max_id = 1
@@ -60,7 +60,7 @@ def get_max_id(table_name):
         c.execute('SELECT MAX(productId) FROM products')
         max_id = c.fetchone()[0]
         if max_id:
-            max_id = max_id+1
+            max_id = max_id + 1
             return max_id
         else:
             max_id = 1
@@ -69,7 +69,7 @@ def get_max_id(table_name):
         c.execute('SELECT MAX(imgId) FROM images')
         max_id = c.fetchone()[0]
         if max_id:
-            max_id = max_id+1
+            max_id = max_id + 1
             return max_id
         else:
             max_id = 1
@@ -94,10 +94,10 @@ def index():
         # Kiem tra neu ton tai gia tri 'logged_in' trong session (User da dang nhap)
         # Render file index.html, truyen vao gia tri:
         # user=session['lname']: Gia tri cua lname trong table users
-        return render_template('home.html', user=session['lname'], teams=teams(), carousel=carousel())
+        return render_template('index.html', user=session['lname'], teams=teams(), carousel=carousel())
     # Neu khong ton tai gia tri ['logged_in'] trong session (User chua dang nhap)
     # Render file index.html va khong truyen vao tham so
-    return render_template('home.html', teams=teams(), carousel=carousel())
+    return render_template('index.html', teams=teams(), carousel=carousel())
 
 
 # Ham teams dung de hien lay ra cac record tu table teams
@@ -122,7 +122,7 @@ def teams():
 @app.route('/team', methods=['GET'])
 def team():
     # Render file displayTeam.html va truyen vao gia tri cua bien result
-    return render_template('displayTeam.html', teams=teams())
+    return render_template('displayTeam.html', teams=teams(), carousel=carousel())
 
 
 # Dinh tuyen ham get_team cho url '/team/ten doi bong' VD: '/team/manu'
@@ -133,7 +133,7 @@ def get_team(fteam):
     c.execute('SELECT productId, name, price FROM products WHERE team = ?', (fteam,))
     # Tim kiem cac san pham la ao dau cua manu va luu vao products
     products = c.fetchall()
-    # Render file team.html va truyen vao gia tri cua bien products
+    # Render file team.scss va truyen vao gia tri cua bien products
     return render_template('team.html', items=user_result_to_dict(products))
 
 
@@ -155,7 +155,7 @@ def search():
     search_text = request.form['search']
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    c.execute("SELECT productId, name, price FROM products WHERE name LIKE '%"+search_text+"%'")
+    c.execute("SELECT productId, name, price FROM products WHERE name LIKE '%" + search_text + "%'")
     # Tim cac san pham co ten gan dung voi search_text va luu vao bien products
     products = c.fetchall()
     # Render file search.html, truyen vao gia tri cua bien products da duoc bien doi thanh dictionary
@@ -451,7 +451,7 @@ def admin_search():
     search_text = request.form['search']
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    c.execute("SELECT productId, name, price, quantity FROM products WHERE name LIKE '%"+search_text+"%'")
+    c.execute("SELECT productId, name, price, quantity FROM products WHERE name LIKE '%" + search_text + "%'")
     # Tim cac san pham co ten gan dung voi search va luu vao bien products
     products = c.fetchall()
     result = admin_result_to_dict(products)
@@ -591,16 +591,6 @@ def admin_add():
             return redirect(url_for('admin_view'))
         else:
             return render_template('adminAdd.html')
-
-
-@app.route('/test', methods=['GET', 'POST'])
-def test():
-    if request.method == 'POST':
-        team = check_none(request.form['team'])
-        nation = check_none(request.form['nation'])
-        return jsonify({'result': True, 'team': team, 'nation': nation})
-    else:
-        return render_template('test.html')
 
 
 if __name__ == '__main__':
