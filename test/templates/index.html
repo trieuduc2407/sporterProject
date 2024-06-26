@@ -129,9 +129,11 @@
 	  {% for item in carousel %}
 	  <div class = "card">
 		<img class = "img-fluid" src = "{{item['productImg']}}" alt = "">
-		<p>
-		  {{item['productName']}}<br><span>{{item['productPrice']}}</span>
-		</p>
+		<div class = "text-wrapper">
+		  <p>
+			{{item['productName']}}<br><span>{{item['productPrice']}}</span>
+		  </p>
+		</div>
 	  </div>
 	  {% endfor %}
 	</div>

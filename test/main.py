@@ -133,8 +133,10 @@ def get_team(fteam):
     c.execute('SELECT productId, name, price FROM products WHERE team = ?', (fteam,))
     # Tim kiem cac san pham la ao dau cua manu va luu vao products
     products = c.fetchall()
+    c.execute("SELECT teamBanner FROM teams WHERE teamName = ?", (fteam,))
+    banner = c.fetchone()[0]
     # Render file team.scss va truyen vao gia tri cua bien products
-    return render_template('team.html', items=user_result_to_dict(products))
+    return render_template('team.html', teams=teams(), items=user_result_to_dict(products), banner=banner)
 
 
 # Dinh tuyen ham nation cho url '/nations'
@@ -172,6 +174,7 @@ def product(product_id):
     c.execute("SELECT img1, img2, img3, img4 FROM images WHERE productId = ?", (product_id,))
     img = c.fetchone()
     result = {
+        "productId": product_id,
         "productName": item[0],
         "productPrice": item[1],
         "productImg1": img[0],
@@ -281,8 +284,9 @@ def get_cart(product_id):
 @app.route('/cart/add', methods=['POST'])
 def add_to_cart():
     # Lay cac gia tri product_id, quantity tu html form
-    product_id = int(request.form['productId'])
-    quantity = int(request.form['quantity'])
+    req = request.get_json()
+    product_id = int(req['productId'])
+    quantity = int(req['quantity'])
     # Cap nhat cart
     cart = session.get('cart', [])
     check = False
@@ -308,8 +312,8 @@ def add_to_cart():
         conn.close()
     # Cap nhat lai cart
     session['cart'] = get_cart(session['id'])
-    msg = 'added'
-    return msg
+    res = make_response(jsonify({'Msg': 'Added to cart'}))
+    return res
 
 
 # Dinh tuyen ham update_cart cho url '/update'
