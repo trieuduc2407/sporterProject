@@ -1,34 +1,171 @@
 <!doctype html>
-<html lang="en">
+<html lang = "en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
-            integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
-          integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link rel="stylesheet" href="../static/scss/product.css">
-    <title>{{item['productName']}}</title>
+  <meta charset = "UTF-8">
+  <meta name = "viewport"
+		content = "width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv = "X-UA-Compatible" content = "ie=edge">
+  <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+		integrity = "sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+		crossorigin = "anonymous" referrerpolicy = "no-referrer"/>
+
+  <link href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+		rel = "stylesheet"
+		integrity = "sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+		crossorigin = "anonymous">
+  <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		  integrity = "sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		  crossorigin = "anonymous"></script>
+
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+		  integrity = "sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+		  crossorigin = "anonymous"
+		  referrerpolicy = "no-referrer"></script>
+
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+		  integrity = "sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+		  crossorigin = "anonymous"
+		  referrerpolicy = "no-referrer"></script>
+  <link rel = "stylesheet"
+		href = "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+		integrity = "sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+		crossorigin = "anonymous"
+		referrerpolicy = "no-referrer"/>
+  <link rel = "stylesheet"
+		href = "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+		integrity = "sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
+		crossorigin = "anonymous"
+		referrerpolicy = "no-referrer"/>
+  <link rel = "stylesheet" href = "../static/scss/pages/product.css">
+
+  <title>Áo bóng đá</title>
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col">{{item['productName']}}</div>
-        <div class="col">{{item['productPrice']}}</div>
-        <div class="col">Bảng size tư vấn {{item['sizeTitle']}}</div>
-        <div class="col">{{item['infoTitle']}} hàng Thái Lan</div>
-        <div class="col">{{item['infoTitle']}} hàng Việt Nam</div>
-        <div class="col">
-            <img class="img-fluid" src="{{item['productImg1']}}" alt="">
-            <img class="img-fluid" src="{{item['productImg2']}}" alt="">
-            <img class="img-fluid" src="{{item['productImg3']}}" alt="">
-            <img class="img-fluid" src="{{item['productImg4']}}" alt="">
-        </div>
-    </div>
+<header>
+  <div class = "container-fluid">
+	<div class = "top-bar row d-none d-lg-flex justify-content-end">
+	  <div class = "col-2 align-self-end">
+		<i class = "px-1 fab fa-facebook"></i>
+		<i class = "px-1 fab fa-instagram"></i>
+		<i class = "px-1 fa fa-phone"></i>
+		<i class = "px-1 fa fa-envelope"></i>
+	  </div>
+	</div>
+	<div class = "main-header row text-center justify-content-between">
+	  <div class = "tab-icon col-2 d-inline-block d-lg-none align-self-center">
+		<i class = "fa fa-bars" id = "navBtn"></i>
+	  </div>
+	  <div class = "col-2 d-none d-lg-block"></div>
+	  <div class = "col-3">
+		<a href = "{{url_for('index')}}">
+		  <img class = "img-fluid"
+			   src = "https://www.sporter.vn/wp-content/uploads/2023/11/2023_Logo-SPORTER-Mini-New.png"
+			   alt = "">
+		</a>
+	  </div>
+	  <div class = "menu-icon col-2 d-inline-block align-self-center">
+		<i class = "fa fa-shopping-cart d-inline-block d-lg-none"></i>
+		<i class = "fa fa-search"></i>
+		<a href = "{{url_for('login')}}">
+		  <i class = "fa fa-user-circle d-none d-lg-inline-block"></i>
+		</a>
+		<a href = "{{url_for('view_cart')}}">
+		  <i class = "fa fa-shopping-cart d-none d-lg-inline-block"></i>
+		</a>
+	  </div>
+	</div>
+  </div>
+  <div class = "bottom-header d-none d-lg-flex justify-content-center text-center">
+	<div class = "col-4">
+	  <a href = "{{url_for('nations')}}">ÁO BÓNG ĐÁ ĐỘI TUYỂN</a>
+	</div>
+	<div class = "col-4">
+	  <a href = "{{url_for('team')}}">ÁO BÓNG ĐÁ CÂU LẠC BỘ</a>
+	</div>
+  </div>
+</header>
+<div class = "notifications ">
+
 </div>
+<div class = "page-title">
+  <div class = "inner-text">
+	<a href = "{{url_for('index')}}">HOME</a>
+	<p>/</p>
+	<a href = "{{url_for('team')}}">ÁO BÓNG ĐÁ CÂU LẠC BỘ MÙA GIẢI MỚI</a>
+  </div>
+</div>
+<div class = "wrapper container">
+  <div class = "upper-content row justify-content-center">
+	<div class = "col-6">
+	  <img class = "img-fluid my-2" src = "{{item['productImg1']}}" alt = "">
+	  <img class = "img-fluid my-2" src = "{{item['productImg2']}}" alt = "">
+	  <img class = "img-fluid my-2" src = "{{item['productImg3']}}" alt = "">
+	  <img class = "img-fluid my-2" src = "{{item['productImg4']}}" alt = "">
+	</div>
+	<div class = "upper-text container col-6">
+	  <div class = "row w-100 ps-4">
+		<h3>{{item['productName']}}</h3>
+		<h3>{{item['productPrice']}}</h3>
+		<ul>
+		  <li>Thiết kế: Form Châu Âu và Slim-fit ôm body</li>
+		  <li>Logo thiết kế đúc PU 3D</li>
+		</ul>
+		<p>
+		  Hàng Việt Nam giá
+		  <span>Khuyến mãi còn 100.000 VNĐ /1 bộ – Từ 5 bộ trở lên: 95.000VNĐ /1 bộ.</span>
+		</p>
+		<p>
+		  Hàng Thái Lan giá
+		  <span>Khuyến mãi còn 280.000 VNĐ /1 áo – Từ 5 bộ trở lên: 270,000VNĐ/ 1 áo</span>
+		</p>
+	  </div>
+	  <div class = "add-cart row w-100 ps-4">
+		<div class = "btn-group col-3 px-0">
+		  <button type = "button" class = "btn" id = "minus">
+			<i class = "fa fa-minus"></i>
+		  </button>
+		  <span class = "align-self-center" id = "quantity">1</span>
+		  <button type = "button" class = "btn" id = "plus">
+			<i class = "fa fa-plus"></i>
+		  </button>
+		</div>
+		<button class = "col-4"
+				type = "submit"
+				id = "add"
+				data-index = "{{item['productId']}}"
+				onclick = "addToCart(event)">ADD TO CART
+		</button>
+	  </div>
+
+	</div>
+  </div>
+
+  <div class = "lower-content row">
+
+  </div>
+</div>
+
+<footer>
+  <div class = "container-fluid text-center">
+	<div class = "row">
+	  <div class = "contact col-6">
+		<h3>Liên hệ</h3>
+		<p><i class = "fas fa-map-marker-alt"></i> 123 Đường ABC, TP HN</p>
+		<p><i class = "fas fa-envelope"></i> info@yourdomain.com</p>
+		<p><i class = "fas fa-phone"></i> +84 123 456 789</p>
+	  </div>
+	  <div class = "social col-6">
+		<h3>Mạng xã hội</h3>
+		<i class = "px-1 fab fa-facebook"></i>
+		<i class = "px-1 fab fa-instagram"></i>
+		<i class = "fab fa-youtube"></i>
+	  </div>
+	</div>
+  </div>
+</footer>
+
+<script src = "../static/js/addToCart.js"></script>
+<script src = "../static/js/successLoader.js"></script>
+
 </body>
 </html>

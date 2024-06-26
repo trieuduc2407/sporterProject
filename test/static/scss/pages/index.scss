@@ -1,6 +1,9 @@
 @import "../base/_base-dir";
 @import "../layout/_layout-dir";
-@import "../components/_components-dir";
+@import "../components/home-banner";
+@import "../components/teamLogo";
+@import "../components/card";
+@import "../components/carousel";
 
 .wrapper {
   padding: 0;

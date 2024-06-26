@@ -37,6 +37,11 @@
 		crossorigin = "anonymous"
 		referrerpolicy = "no-referrer"/>
   <link rel = "stylesheet" href = "../static/scss/pages/team.css">
+  <style>
+      .banner {
+          background-image: url("{{banner}}");
+      }
+  </style>
   <title>Áo bóng đá</title>
 </head>
 <body>
@@ -87,7 +92,25 @@
   <div class = "page-title text-center">
 	<h3>ÁO BÓNG ĐÁ MÙA GIẢI MỚI SÂN NHÀ VÀ SÂN KHÁCH</h3>
   </div>
-
+  <div class = "banner"></div>
+  <div class = "container-fluid text-center px-0 py-5">
+	<div class = "row justify-content-center">
+	  {% for item in items %}
+	  <div class = "card col-5 col-md-3 my-3">
+		<a href = "/product/{{item['productId']}}">
+		  <img class = "img-fluid" src = "{{item['productImg']}}" alt = "">
+		  <div class = "text-wrapper">
+			<p>
+			  {{item['productName']}}<br>
+			  <span>{{item['productPrice']}}</span><br>
+			</p>
+			<i class = "fa fa-cart-arrow-down"></i>
+		  </div>
+		</a>
+	  </div>
+	  {% endfor %}
+	</div>
+  </div>
   <div class = "team d-none d-sm-block">
 	<div class = "title text-center">
 	  <p> CLICK CHUỘT VÀO LOGO CLB ĐỂ XEM CHI TIẾT ÁO ĐẤU</p>
@@ -102,7 +125,6 @@
 	  {% endfor %}
 	</div>
   </div>
-
 </div>
 
 <footer>
