@@ -16,9 +16,9 @@ function updatePrice(event) {
             "content-type": "application/json"
         })
     })
-        .then((respone) => {
-            if (respone.status !== 200) {
-                console.log(respone.status)
+        .then((response) => {
+            if (response.status !== 200) {
+                console.log(response.status)
             }
             alert("Cập nhật giá thành công")
         })
@@ -40,9 +40,9 @@ function updateQuantity(event) {
             "content-type": "application/json"
         })
     })
-        .then((respone) => {
-            if (respone.status !== 200) {
-                console.log(respone.status)
+        .then((response) => {
+            if (response.status !== 200) {
+                console.log(response.status)
             }
             alert("Cập nhật số lượng thành công")
         })
@@ -61,9 +61,9 @@ function deleteProduct(event) {
                 "content-type": "application/json"
             })
         })
-            .then((respone) => {
-                if (respone.status !== 200) {
-                    console.log(respone.status)
+            .then((response) => {
+                if (response.status !== 200) {
+                    console.log(response.status)
                 }
                 location.reload()
             })

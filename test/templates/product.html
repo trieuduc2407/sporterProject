@@ -120,7 +120,7 @@
 		</p>
 	  </div>
 	  <div class = "add-cart row w-100 ps-4">
-		<div class = "btn-group col-3 px-0">
+		<div class = "quantity-btn btn-group col-3 px-0">
 		  <button type = "button" class = "btn" id = "minus">
 			<i class = "fa fa-minus"></i>
 		  </button>
@@ -141,7 +141,27 @@
   </div>
 
   <div class = "lower-content row">
-
+	<h2>Bảng size tư vấn {{item['sizeTitle']}}</h2>
+	<p>Bảng size tư vấn mang tình chất tham khảo dựa trên chiều cao và cân nặng chuẩn của người mẫu mặc trên cơ thể. Để
+	  được tư vấn chính xác hơn bạn có thể nhắn tin trực tiếp Sporter để được tư vấn kỹ hơn về bảng size hoặc ghé trực
+	  tiếp Sporter để thử size và mua trực tiếp nhé.
+	</p>
+	<img class = "col-6 img-fluid"
+		 src = "https://www.sporter.vn/wp-content/uploads/2017/06/Tu-van-size-viet-nam.png"
+		 alt = "">
+	<img class = "col-6 img-fluid"
+		 src = "https://www.sporter.vn/wp-content/uploads/2017/06/Tu-van-size-thai-lan.png"
+		 alt = "">
+	<h2>{{item['infoTitle']}} hàng Thái Lan</h2>
+	<p>Các mẫu <span>áo bóng đá Thái Lan</span> sẽ được sản xuất giống 99% áo chính hãng, phiên bản cầu thủ thi đấu trên
+	  sân. Các nhà sản xuất đến từ xứ sở “Chùa Vàng” sẽ mô phỏng 99% dựa trên mẫu Authentic (Adidas) / Jersey Match
+	  (Nike), thường được gọi là bản Player, bản Super Fake (S.F).
+	</p>
+	<h2>{{item['infoTitle']}} hàng Việt Nam</h2>
+	<p>Các sản phẩm trang phục <span>áo đá bóng câu lạc bộ</span> được bán nhiều trên thị trường, từ nhiều xưởng uy tín
+	  tại Việt Nam. Sporter tin tưởng và chọn giúp bạn những sản phẩm với chất lượng tốt nhất và giống với áo đấu nhất.
+	  Các mẫu áo hàng Việt Nam sẽ không có logo của các nhà sản xuất thể thao ở ngực phải (Vì lý do bản quyền hình ảnh).
+	</p>
   </div>
 </div>
 
@@ -165,6 +185,7 @@
 </footer>
 
 <script src = "../static/js/addToCart.js"></script>
+<script src = "../static/js/quantityBtn.js"></script>
 <script src = "../static/js/successLoader.js"></script>
 
 </body>

@@ -4,40 +4,6 @@
   box-sizing: border-box;
 }
 
-header .top-bar {
-  background-color: black;
-}
-header .top-bar i {
-  color: white;
-}
-header .main-header a {
-  text-decoration: none;
-}
-header .main-header i {
-  font-size: 1.5rem;
-  color: black;
-}
-header .bottom-header {
-  background-color: black;
-  padding: 1rem 0;
-}
-header .bottom-header a {
-  text-decoration: none;
-  font-weight: bold;
-  color: white;
-}
-
-@media (max-width: 575.98px) {
-  .main-header i {
-    font-size: 1rem;
-  }
-}
-footer {
-  background-color: black;
-  color: white;
-  padding: 1rem 0;
-}
-
 button {
   padding: 1rem;
 }
@@ -289,19 +255,58 @@ button {
   border-color: rgba(0, 0, 0, 0);
 }
 
-.card {
-  padding: 0;
-  margin: 0 0.5rem;
+header .top-bar {
+  background-color: black;
 }
-.card .text-wrapper {
-  height: 6rem;
-}
-.card .text-wrapper i {
+header .top-bar i {
   color: white;
-  position: absolute;
-  bottom: 2.5%;
-  left: 50%;
-  transform: translateX(-50%);
+}
+header .main-header a {
+  text-decoration: none;
+}
+header .main-header i {
+  font-size: 1.5rem;
+  color: black;
+}
+header .bottom-header {
+  background-color: black;
+  padding: 1rem 0;
+}
+header .bottom-header a {
+  text-decoration: none;
+  font-weight: bold;
+  color: white;
 }
 
-/*# sourceMappingURL=team.css.map */
+@media (max-width: 575.98px) {
+  .main-header i {
+    font-size: 1rem;
+  }
+}
+footer {
+  background-color: black;
+  color: white;
+  padding: 1rem 0;
+}
+
+.wrapper .cart .item-img img {
+  height: 5rem;
+}
+.wrapper .cart .item-name {
+  color: #ff6f28;
+  font-size: 0.8rem;
+}
+.wrapper .checkout .total-title {
+  border: solid 0.2rem black;
+  border-bottom: solid 0.2rem #ececec;
+}
+.wrapper .checkout .checkout-btn {
+  background-color: #ff6f28;
+  padding: 0.6rem 0;
+}
+.wrapper .checkout .checkout-btn a {
+  color: white;
+  text-decoration: none;
+}
+
+/*# sourceMappingURL=cart.css.map */

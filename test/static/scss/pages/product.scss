@@ -1,6 +1,7 @@
 @import "../base/_base-dir";
 @import "../layout/_layout-dir";
 @import "../components/success-loader";
+@import "../components/quantity-btn";
 
 * {
   font-size: 1.2rem;
@@ -53,23 +54,6 @@
       font-size: 0.8rem;
       margin-top: 1rem;
 
-      .btn-group {
-        border: solid 0.1rem black;
-
-        :hover {
-          cursor: pointer;
-          background-color: rgba(black, 0.2);
-        }
-
-        span:hover, i:hover {
-          background-color: rgba(black, 0);
-        }
-
-        :active {
-          border-color: rgba(black, 0);
-        }
-      }
-
       #add {
         margin-left: 2rem;
         color: white;
@@ -85,6 +69,19 @@
           border-color: rgba(black, 0);
         }
       }
+    }
+  }
+
+  .lower-content {
+    margin-top: 5rem;
+
+    h2, span {
+      font-weight: bold;
+      color: #ff6f28;
+    }
+
+    h2, p, img {
+      margin: 1rem 0;
     }
   }
 }
