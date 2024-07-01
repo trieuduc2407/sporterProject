@@ -104,6 +104,88 @@ button {
   display: grid;
 }
 
+.dropdown {
+  display: none;
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+}
+.dropdown .close-btn {
+  position: absolute;
+  right: 10%;
+  top: 10%;
+  transform: translate(-10%, -10%);
+  font-size: 2rem;
+}
+.dropdown ul {
+  list-style: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+.dropdown ul li {
+  padding: 2rem 0;
+}
+.dropdown ul li a {
+  text-decoration: none;
+  color: white;
+}
+
+.search-form form {
+  display: none;
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+}
+.search-form form input {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 35%;
+  height: 5%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 2rem;
+  padding-left: 2rem;
+  font-size: 1.5rem;
+  color: white;
+}
+.search-form form input:focus-visible {
+  outline: none;
+}
+.search-form form input::placeholder {
+  color: white;
+  padding-left: 5%;
+  font-size: 1.5rem;
+}
+.search-form form .col {
+  position: absolute;
+  top: 50%;
+  left: 63%;
+  transform: translate(-50%, -50%);
+}
+.search-form form .col button {
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+  color: white;
+  padding: 0;
+  font-size: 2rem;
+}
+
 .banner {
   position: relative;
 }
@@ -191,6 +273,20 @@ button {
 }
 .team .team-logo .logo {
   max-width: 15%;
+}
+
+.quantity-btn {
+  border: solid 0.1rem black;
+}
+.quantity-btn :hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.quantity-btn span:hover, .quantity-btn i:hover {
+  background-color: rgba(0, 0, 0, 0);
+}
+.quantity-btn :active {
+  border-color: rgba(0, 0, 0, 0);
 }
 
 /*# sourceMappingURL=displayTeam.css.map */

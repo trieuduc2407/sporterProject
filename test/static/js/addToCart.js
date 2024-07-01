@@ -2,6 +2,7 @@ let minus = document.getElementById('minus')
 let plus = document.getElementById('plus')
 let add = document.getElementById('add')
 let number = 1
+
 let baseUrl = window.origin
 
 minus.addEventListener('click', () => {

@@ -59,23 +59,48 @@
 	  <div class = "tab-icon col-2 d-inline-block d-lg-none align-self-center">
 		<i class = "fa fa-bars" id = "navBtn"></i>
 	  </div>
-	  <div class = "col-2 d-none d-lg-block"></div>
-	  <div class = "col-3">
+	  <div class = "col-3 d-none d-lg-block"></div>
+	  <div class = "col-3 align-self-center">
 		<a href = "{{url_for('index')}}">
 		  <img class = "img-fluid"
 			   src = "https://www.sporter.vn/wp-content/uploads/2023/11/2023_Logo-SPORTER-Mini-New.png"
 			   alt = "">
 		</a>
 	  </div>
-	  <div class = "menu-icon col-2 d-inline-block align-self-center">
-		<i class = "fa fa-shopping-cart d-inline-block d-lg-none"></i>
-		<i class = "fa fa-search"></i>
-		<a href = "{{url_for('login')}}">
-		  <i class = "fa fa-user-circle d-none d-lg-inline-block"></i>
-		</a>
-		<a href = "{{url_for('view_cart')}}">
-		  <i class = "fa fa-shopping-cart d-none d-lg-inline-block"></i>
-		</a>
+	  <div class = "menu-icon col-3">
+		<div class = "row text-center justify-content-around my-3 w-100">
+		  <div class = "col-2">
+			<i class = "fa fa-search" id = "searchBtn"></i>
+		  </div>
+		  <div class = "col-2 d-none d-lg-inline-block">
+			<a href = "{{url_for('view_cart')}}">
+			  <i class = "fa fa-shopping-cart"></i>
+			</a>
+		  </div>
+		</div>
+		<div class = "row d-none d-lg-flex my-3 w-100">
+		  {% if user %}
+		  <div class = "col-8">
+			<h5 class = "d-inline-block">Xin chào {{user}}</h5>
+		  </div>
+		  <div class = "col-2">
+			<a href = "{{url_for('logout')}}">
+			  <i class = "fa fa-sign-out-alt"></i>
+			</a>
+		  </div>
+		  {% else %}
+		  <div class = "col-8">
+			<a href = "{{url_for('login')}}">
+			  <h5 class = "d-inline-block text-black">Đăng nhập</h5>
+			</a>
+		  </div>
+		  <div class = "col-2">
+			<a href = "{{url_for('login')}}">
+			  <i class = "fa fa-user-circle d-none d-lg-inline-block"></i>
+			</a>
+		  </div>
+		  {% endif %}
+		</div>
 	  </div>
 	</div>
   </div>
@@ -88,6 +113,7 @@
 	</div>
   </div>
 </header>
+
 <div class = "wrapper">
   <div class = "page-title text-center">
 	<h3>ÁO BÓNG ĐÁ MÙA GIẢI MỚI SÂN NHÀ VÀ SÂN KHÁCH</h3>

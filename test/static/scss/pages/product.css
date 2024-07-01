@@ -104,6 +104,20 @@ button {
   display: grid;
 }
 
+.quantity-btn {
+  border: solid 0.1rem black;
+}
+.quantity-btn :hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.quantity-btn span:hover, .quantity-btn i:hover {
+  background-color: rgba(0, 0, 0, 0);
+}
+.quantity-btn :active {
+  border-color: rgba(0, 0, 0, 0);
+}
+
 * {
   font-size: 1.2rem;
 }
@@ -146,19 +160,6 @@ button {
   font-size: 0.8rem;
   margin-top: 1rem;
 }
-.wrapper .upper-content .add-cart .btn-group {
-  border: solid 0.1rem black;
-}
-.wrapper .upper-content .add-cart .btn-group :hover {
-  cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.2);
-}
-.wrapper .upper-content .add-cart .btn-group span:hover, .wrapper .upper-content .add-cart .btn-group i:hover {
-  background-color: rgba(0, 0, 0, 0);
-}
-.wrapper .upper-content .add-cart .btn-group :active {
-  border-color: rgba(0, 0, 0, 0);
-}
 .wrapper .upper-content .add-cart #add {
   margin-left: 2rem;
   color: white;
@@ -171,6 +172,16 @@ button {
 }
 .wrapper .upper-content .add-cart #add :active {
   border-color: rgba(0, 0, 0, 0);
+}
+.wrapper .lower-content {
+  margin-top: 5rem;
+}
+.wrapper .lower-content h2, .wrapper .lower-content span {
+  font-weight: bold;
+  color: #ff6f28;
+}
+.wrapper .lower-content h2, .wrapper .lower-content p, .wrapper .lower-content img {
+  margin: 1rem 0;
 }
 
 /*# sourceMappingURL=product.css.map */

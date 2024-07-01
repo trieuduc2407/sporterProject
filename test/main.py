@@ -90,11 +90,11 @@ def carousel():
 # Dinh tuyen ham index cho url '/'
 @app.route('/', methods=['GET'])
 def index():
-    if 'logged_in' in session:
+    if 'user' in session:
         # Kiem tra neu ton tai gia tri 'logged_in' trong session (User da dang nhap)
         # Render file index.html, truyen vao gia tri:
         # user=session['lname']: Gia tri cua lname trong table users
-        return render_template('index.html', user=session['lname'], teams=teams(), carousel=carousel())
+        return render_template('index.html', user=session['user_lname'], teams=teams(), carousel=carousel())
     # Neu khong ton tai gia tri ['logged_in'] trong session (User chua dang nhap)
     # Render file index.html va khong truyen vao tham so
     return render_template('index.html', teams=teams(), carousel=carousel())
@@ -306,12 +306,13 @@ def add_to_cart():
         c.execute('SELECT name, price FROM products WHERE productId = ?', (product_id,))
         result = c.fetchone()
         c.execute(
-            'INSERT INTO cart VALUES (?,?,?,?,?,?)', (max_id, session['id'], product_id, result[0], result[1], quantity)
+            'INSERT INTO cart VALUES (?,?,?,?,?,?)',
+            (max_id, session['user_id'], product_id, result[0], result[1], quantity)
         )
         conn.commit()
         conn.close()
     # Cap nhat lai cart
-    session['cart'] = get_cart(session['id'])
+    session['cart'] = get_cart(session['user_id'])
     res = make_response(jsonify({'Msg': 'Added to cart'}))
     return res
 
@@ -350,12 +351,12 @@ def delete_cart():
 # Dinh tuyen ham cart cho url '/cart'
 @app.route('/cart', methods=['GET'])
 def view_cart():
-    if 'logged_in' in session:
+    if 'user' in session:
         # Kiem tra neu ton tai gia tri 'logged_in' trong session (User da dang nhap) thi goi ham getCart()
-        session['cart'] = get_cart(session['id'])
+        session['cart'] = get_cart(session['user_id'])
         cart = session.get('cart', [])
         # Render file cart.html, truyen vao gia tri bien cart
-        return render_template('cart.html', items=cart)
+        return render_template('cart.html', user=session['user_lname'], items=cart)
     else:
         # Neu khong ton tai gia tri 'logged_in' trong session (User chua dang nhap)
         # Redirect ve trang login va hien thong bao yeu cau dang nhap de xem gio hang

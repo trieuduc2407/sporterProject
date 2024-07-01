@@ -1,0 +1,16 @@
+.quantity-btn {
+  border: solid 0.1rem black;
+
+  :hover {
+    cursor: pointer;
+    background-color: rgba(black, 0.2);
+  }
+
+  span:hover, i:hover {
+    background-color: rgba(black, 0);
+  }
+
+  :active {
+    border-color: rgba(black, 0);
+  }
+}
