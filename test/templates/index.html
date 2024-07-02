@@ -65,9 +65,11 @@
 	  <div class = "menu-icon col-3">
 		<div class = "row text-center justify-content-around my-3 w-100">
 		  <div class = "col-2">
-			<i class = "fa fa-search" id = "searchBtn"></i>
+			<button class = "btn" id = "searchBtn">
+			  <i class = "fa fa-search"></i>
+			</button>
 		  </div>
-		  <div class = "col-2 d-none d-lg-inline-block">
+		  <div class = "col-2 d-none d-lg-inline-block align-self-center">
 			<a href = "{{url_for('view_cart')}}">
 			  <i class = "fa fa-shopping-cart"></i>
 			</a>
@@ -190,7 +192,7 @@
 <div class = "search-form">
   <form action = "/search" method = "post" id = "searchForm">
 	<label for = "searchText"></label>
-	<input type = "text" id = "searchText" placeholder = "Search...">
+	<input type = "text" name = "search" id = "searchText" placeholder = "Search...">
 	<div class = "col">
 	  <button type = "submit">
 		<i class = "fa fa-search"></i>

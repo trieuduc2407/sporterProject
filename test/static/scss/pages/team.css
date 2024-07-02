@@ -277,6 +277,7 @@ button {
 
 .quantity-btn {
   border: solid 0.1rem black;
+  width: 8rem;
 }
 .quantity-btn :hover {
   cursor: pointer;

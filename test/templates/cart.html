@@ -65,7 +65,9 @@
 	  <div class = "menu-icon col-3">
 		<div class = "row text-center justify-content-around my-3 w-100">
 		  <div class = "col-2">
-			<i class = "fa fa-search" id = "searchBtn"></i>
+			<button class = "btn" id = "searchBtn">
+			  <i class = "fa fa-search"></i>
+			</button>
 		  </div>
 		  <div class = "col-2 d-none d-lg-inline-block">
 			<a href = "{{url_for('view_cart')}}">
@@ -112,13 +114,13 @@
 <div class = "wrapper">
   <div class = "container py-5">
 	<div class = "row justify-content-center">
-	  <div class = "cart col-6">
+	  <div class = "cart col-9">
 		<div class = "cart-title row w-100 text-center mb-3">
 		  <div class = "col-2 px-0">
 			<h5>PRODUCT</h5>
 		  </div>
 		  <div class = "col"></div>
-		  <div class = "col-1 px-0">
+		  <div class = "col-2 px-0">
 			<h5>PRICE</h5>
 		  </div>
 		  <div class = "col-3 px-0">
@@ -128,35 +130,47 @@
 			<h5>SUBTOTAL</h5>
 		  </div>
 		</div>
+
 		{% for item in items %}
+		<input class = "item-id" type = "hidden" value = "{{item['productId']}}">
 		<div class = "cart-item row w-100 text-center mb-3">
 		  <div class = "item-img col-2 align-self-center px-0">
 			<img class = "img-fluid" src = "{{item['productImg']}}" alt = "">
 		  </div>
-		  <div class = "item-name col-4 text-start align-self-center">{{item['productName']}}</div>
-		  <div class = "item-price col-1 align-self-center px-0">{{item['productPrice']}}</div>
+		  <div class = "item-name col-3 text-start align-self-center">{{item['productName']}}</div>
+		  <div class = "item-price col-2 align-self-center px-0" data-price = "{{item['productPrice']}}">
+			{{item['productPrice']}}
+		  </div>
 		  <div class = "item-quantity col-3 align-self-center px-0">
 			<div class = "quantity-btn btn-group px-0">
 			  <button type = "button"
 					  class = "btn"
 					  id = "minus"
-					  data-quantity-index = "{{item['productId']}}" onclick = "decrease(event)">
+					  data-index = "{{item['productId']}}"
+					  data-price = "{{item['productPrice']}}"
+					  onclick = "decrease(event)">
 				<i class = "fa fa-minus"></i>
 			  </button>
-			  <span class = "align-self-center" id = "quantity" data-quantity-id = "{{item['productId']}}">{{item['quantity']}}</span>
+			  <span class = "quantity align-self-center" id = "{{item['productId']}}">{{item['quantity']}}</span>
 			  <button type = "button"
 					  class = "btn"
 					  id = "plus"
-					  data-quantity-index = "{{item['productId']}}" onclick = "increase(event)">
+					  data-index = "{{item['productId']}}"
+					  data-price = "{{item['productPrice']}}"
+					  onclick = "increase(event)">
 				<i class = "fa fa-plus"></i>
 			  </button>
 			</div>
 		  </div>
-		  <div class = "col-2 align-self-center px-0">
-			<h5></h5>
+		  <div class = "item-subtotal col-2 align-self-center px-0" data-subtotal-index = "{{item['productId']}}">
 		  </div>
 		</div>
 		{% endfor %}
+		<div class = "row w-100 justify-content-center text-center">
+		  <div class = "col-4">
+			<button class = "update-btn btn w-100" onclick = "updateCart()">UPDATE CART</button>
+		  </div>
+		</div>
 	  </div>
 	  <div class = "checkout col-3 text-center">
 		<div class = "total-title row mb-3">
@@ -164,16 +178,19 @@
 		</div>
 		<div class = "row justify-content-between mb-3">
 		  <div class = "col-3">Total</div>
-		  <div class = "col-4"></div>
+		  <div class = "col d-flex justify-content-end" id = "total"></div>
 		</div>
 		<div class = "row">
-		  <div class = "checkout-btn col">
-			<a href = "#">CHECKOUT</a>
+		  <div class = "col">
+			<a href = "#">
+			  <button class = "checkout-btn btn w-100">CHECKOUT</button>
+			</a>
 		  </div>
 		</div>
 	  </div>
 	</div>
   </div>
+</div>
 </div>
 
 <div class = "dropdown text-center" id = "dropdown">
@@ -228,7 +245,8 @@
 </footer>
 
 <script src = "../static/js/index.js"></script>
-<script src = "../static/js/quantityBtn.js"></script>
+<script src = "../static/js/cart.js"></script>
+<script src = "../static/js/userFetchFunction.js"></script>
 
 </body>
 </html>

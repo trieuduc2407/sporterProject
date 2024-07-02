@@ -243,6 +243,7 @@ button {
 
 .quantity-btn {
   border: solid 0.1rem black;
+  width: 8rem;
 }
 .quantity-btn :hover {
   cursor: pointer;
@@ -296,16 +297,19 @@ footer {
   color: #ff6f28;
   font-size: 0.8rem;
 }
+.wrapper .item-price, .wrapper .item-subtotal, .wrapper #total {
+  font-weight: bold;
+}
 .wrapper .checkout .total-title {
   border: solid 0.2rem black;
   border-bottom: solid 0.2rem #ececec;
 }
-.wrapper .checkout .checkout-btn {
+.wrapper .update-btn, .wrapper .checkout-btn {
   background-color: #ff6f28;
-  padding: 0.6rem 0;
-}
-.wrapper .checkout .checkout-btn a {
+  font-weight: bold;
   color: white;
+}
+.wrapper .update-btn a, .wrapper .checkout-btn a {
   text-decoration: none;
 }
 
