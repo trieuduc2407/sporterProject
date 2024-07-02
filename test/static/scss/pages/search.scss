@@ -1,0 +1,37 @@
+@import "../base/_base-dir";
+@import "../layout/_layout-dir";
+@import "../components/_components-dir";
+
+.page-title {
+  background-color: gray;
+  color: white;
+  padding: 1.5rem 0;
+
+  .inner-text {
+    padding-left: 2rem;
+    a, p {
+      text-decoration: none;
+      display: inline;
+      color: white;
+      font-size: 1.2rem;
+      padding: 0 1rem;
+    }
+  }
+}
+
+.card {
+  padding: 0;
+  margin: 0 0.5rem;
+
+  .text-wrapper {
+    height: 6rem;
+
+    i {
+      color: white;
+      position: absolute;
+      bottom: 2.5%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+}

@@ -1,39 +1,195 @@
 <!doctype html>
-<html lang="en">
+<html lang = "en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
-            integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
-          integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <title>Document</title>
+  <meta charset = "UTF-8">
+  <meta name = "viewport"
+		content = "width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv = "X-UA-Compatible" content = "ie=edge">
+  <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+		integrity = "sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+		crossorigin = "anonymous" referrerpolicy = "no-referrer"/>
+
+  <link href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+		rel = "stylesheet"
+		integrity = "sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+		crossorigin = "anonymous">
+  <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		  integrity = "sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		  crossorigin = "anonymous"></script>
+
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+		  integrity = "sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+		  crossorigin = "anonymous"
+		  referrerpolicy = "no-referrer"></script>
+
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+		  integrity = "sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+		  crossorigin = "anonymous"
+		  referrerpolicy = "no-referrer"></script>
+  <link rel = "stylesheet"
+		href = "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+		integrity = "sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+		crossorigin = "anonymous"
+		referrerpolicy = "no-referrer"/>
+  <link rel = "stylesheet"
+		href = "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+		integrity = "sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
+		crossorigin = "anonymous"
+		referrerpolicy = "no-referrer"/>
+  <link rel = "stylesheet" href = "../static/scss/pages/search.css">
+  <title>Document</title>
 </head>
 <body>
-<div class="container">
-    <!--    Duyet qua cac phan tu cua danh sach products    -->
-    {% for item in items %}
-    <div class="row">
-        <!--    Lan luot truy cap gia tri cua cac element trong product     -->
-        <div class="col">{{item['productName']}}</div>
-        <div class="col">{{item['productPrice']}}</div>
-        <div class="col">
-            <img class="img-fluid" src="{{item['productImg']}}" alt="">
-        </div>
-        <div class="col">
-            <form action="/cart/add" method="post">
-                <input type="hidden" name="productId" value="{{item['productId']}}">
-                <input type="number" name="quantity" value="1" min="1">
-                <button type="submit">add</button>
-            </form>
-        </div>
-    </div>
-    <!--    Ket thuc vong lap for   -->
-    {% endfor %}
+<header>
+  <div class = "container-fluid">
+	<div class = "top-bar row d-none d-lg-flex justify-content-end">
+	  <div class = "col-2 align-self-end">
+		<i class = "px-1 fab fa-facebook"></i>
+		<i class = "px-1 fab fa-instagram"></i>
+		<i class = "px-1 fa fa-phone"></i>
+		<i class = "px-1 fa fa-envelope"></i>
+	  </div>
+	</div>
+	<div class = "main-header row text-center justify-content-between">
+	  <div class = "tab-icon col-2 d-inline-block d-lg-none align-self-center">
+		<i class = "fa fa-bars" id = "navBtn"></i>
+	  </div>
+	  <div class = "col-3 d-none d-lg-block"></div>
+	  <div class = "col-3 align-self-center">
+		<a href = "{{url_for('index')}}">
+		  <img class = "img-fluid"
+			   src = "https://www.sporter.vn/wp-content/uploads/2023/11/2023_Logo-SPORTER-Mini-New.png"
+			   alt = "">
+		</a>
+	  </div>
+	  <div class = "menu-icon col-3">
+		<div class = "row text-center justify-content-around my-3 w-100">
+		  <div class = "col-2">
+			<button class = "btn" id = "searchBtn">
+			  <i class = "fa fa-search"></i>
+			</button>
+		  </div>
+		  <div class = "col-2 d-none d-lg-inline-block align-self-center">
+			<a href = "{{url_for('view_cart')}}">
+			  <i class = "fa fa-shopping-cart"></i>
+			</a>
+		  </div>
+		</div>
+		<div class = "row d-none d-lg-flex my-3 w-100">
+		  {% if user %}
+		  <div class = "col-8">
+			<h5 class = "d-inline-block">Xin chào {{user}}</h5>
+		  </div>
+		  <div class = "col-2">
+			<a href = "{{url_for('logout')}}">
+			  <i class = "fa fa-sign-out-alt"></i>
+			</a>
+		  </div>
+		  {% else %}
+		  <div class = "col-8">
+			<a href = "{{url_for('login')}}">
+			  <h5 class = "d-inline-block text-black">Đăng nhập</h5>
+			</a>
+		  </div>
+		  <div class = "col-2">
+			<a href = "{{url_for('login')}}">
+			  <i class = "fa fa-user-circle d-none d-lg-inline-block"></i>
+			</a>
+		  </div>
+		  {% endif %}
+		</div>
+	  </div>
+	</div>
+  </div>
+  <div class = "bottom-header d-none d-lg-flex justify-content-center text-center">
+	<div class = "col-4">
+	  <a href = "{{url_for('nations')}}">ÁO BÓNG ĐÁ ĐỘI TUYỂN</a>
+	</div>
+	<div class = "col-4">
+	  <a href = "{{url_for('team')}}">ÁO BÓNG ĐÁ CÂU LẠC BỘ</a>
+	</div>
+  </div>
+</header>
+
+<div class = "wrapper container-fluid px-0">
+  <div class = "page-title">
+	<div class = "inner-text">
+	  <a href = "{{url_for('index')}}">HOME</a>
+	  <p>/</p>
+	  <a>KẾT QUẢ TÌM KIẾM CHO '<span></span>'</a>
+	</div>
+  </div>
+
+  <div class = "row w-100 justify-content-center">
+	{% for item in items %}
+	<div class = "card col-5 col-md-3 my-3">
+	  <a href = "/product/{{item['productId']}}">
+		<img class = "img-fluid" src = "{{item['productImg']}}" alt = "">
+		<div class = "text-wrapper">
+		  <p>
+			{{item['productName']}}<br>
+			<span>{{item['productPrice']}}</span><br>
+		  </p>
+		  <i class = "fa fa-cart-arrow-down"></i>
+		</div>
+	  </a>
+	</div>
+	{% endfor %}
+  </div>
 </div>
+
+<div class = "dropdown text-center" id = "dropdown">
+  <i class = "close-btn fa fa-times"></i>
+  <ul id = "dropdown-menu">
+	<li>
+	  <a href = "/nations">ÁO BÓNG ĐÁ ĐỘI TUYỂN</a>
+	</li>
+	<li>
+	  <a href = "/team">ÁO BÓNG ĐÁ CÂU LẠC BỘ</a>
+	</li>
+	<li>
+	  <a href = "/cart">
+		<i class = "fa fa-shopping-cart"></i>
+	  </a>
+	</li>
+	<li>
+	  <a href = "/login">ĐĂNG NHẬP</a>
+	</li>
+  </ul>
+</div>
+
+<div class = "search-form">
+  <form action = "/search" method = "post" id = "searchForm">
+	<label for = "searchText"></label>
+	<input type = "text" name = "search" id = "searchText" placeholder = "Search...">
+	<div class = "col">
+	  <button type = "submit">
+		<i class = "fa fa-search"></i>
+	  </button>
+	</div>
+  </form>
+</div>
+
+<footer>
+  <div class = "container-fluid text-center">
+	<div class = "row">
+	  <div class = "contact col-6">
+		<h3>Liên hệ</h3>
+		<p><i class = "fas fa-map-marker-alt"></i> 123 Đường ABC, TP HN</p>
+		<p><i class = "fas fa-envelope"></i> info@yourdomain.com</p>
+		<p><i class = "fas fa-phone"></i> +84 123 456 789</p>
+	  </div>
+	  <div class = "social col-6">
+		<h3>Mạng xã hội</h3>
+		<i class = "px-1 fab fa-facebook"></i>
+		<i class = "px-1 fab fa-instagram"></i>
+		<i class = "fab fa-youtube"></i>
+	  </div>
+	</div>
+  </div>
+</footer>
+
+<script src = "../static/js/index.js"></script>
+
 </body>
 </html>

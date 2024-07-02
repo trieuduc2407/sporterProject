@@ -122,7 +122,7 @@ def teams():
 @app.route('/team', methods=['GET'])
 def team():
     # Render file displayTeam.html va truyen vao gia tri cua bien result
-    return render_template('displayTeam.html', teams=teams(), carousel=carousel())
+    return render_template('displayTeam.html', user=session['user_lname'], teams=teams(), carousel=carousel())
 
 
 # Dinh tuyen ham get_team cho url '/team/ten doi bong' VD: '/team/manu'
@@ -283,7 +283,6 @@ def get_cart(product_id):
 # Dinh tuyen ham add_to_cart cho url '/cart/add'
 @app.route('/cart/add', methods=['POST'])
 def add_to_cart():
-    # Lay cac gia tri product_id, quantity tu html form
     req = request.get_json()
     product_id = int(req['productId'])
     quantity = int(req['quantity'])
@@ -317,20 +316,22 @@ def add_to_cart():
     return res
 
 
-# Dinh tuyen ham update_cart cho url '/update'
-@app.route('/update', methods=['POST'])
+# Dinh tuyen ham update_cart cho url '/cart/update'
+@app.route('/cart/update', methods=['POST'])
 def update_cart():
-    # Lay gia tri product_id, quantity tu html form
-    product_id = request.form['productId']
-    quantity = request.form['quantity']
+    req = request.get_json()
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
-    # Thay doi gia tri cua quantity trong table carts
-    c.execute("UPDATE cart SET quantity = ? WHERE productId = ?", (quantity, product_id))
-    conn.commit()
+    for item in req:
+        product_id = int(item['productId'])
+        quantity = int(item['quantity'])
+        # Thay doi gia tri cua quantity trong table carts
+        c.execute("UPDATE cart SET quantity = ? WHERE productId = ?", (quantity, product_id))
+        conn.commit()
     conn.close()
-    # Redirect ve ham view_cart
-    return redirect(url_for('view_cart'))
+    session['cart'] = get_cart(session['user_id'])
+    res = make_response(jsonify({'Msg': 'Updated cart'}))
+    return res
 
 
 # Dinh tuyen ham delete cho url '/delete'
@@ -596,6 +597,17 @@ def admin_add():
             return redirect(url_for('admin_view'))
         else:
             return render_template('adminAdd.html')
+
+
+@app.route('/test', methods=['GET', 'POST'])
+def test():
+    if request.method == 'POST':
+        req = request.get_json()
+        for item in req:
+            print(item['id'])
+        return jsonify(req)
+    else:
+        return jsonify('get html')
 
 
 if __name__ == '__main__':
