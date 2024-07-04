@@ -4,6 +4,10 @@
 
 .wrapper {
   .cart {
+    border-right: solid 0.2rem #ececec;
+    padding-right: 0;
+    margin-right: calc(var(--bs-gutter-x) * .5);
+
     .item-img {
       img {
         height: 5rem;
@@ -35,5 +39,9 @@
     a {
       text-decoration: none;
     }
+  }
+
+  .total-price {
+    border-bottom: solid 0.2rem #ececec;
   }
 }

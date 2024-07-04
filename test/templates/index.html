@@ -159,7 +159,7 @@
 		  <img class = "img-fluid" src = "{{item['productImg']}}" alt = "">
 		  <div class = "text-wrapper">
 			<p>
-			  {{item['productName']}}<br><span>{{item['productPrice']}}</span>
+			  {{item['productName']}}<br><span class = "item-price">{{item['productPrice']}}</span>
 			</p>
 		  </div>
 		</a>
@@ -192,7 +192,7 @@
 <div class = "search-form">
   <form action = "/search" method = "post" id = "searchForm">
 	<label for = "searchText"></label>
-	<input type = "text" name = "search" id = "searchText" placeholder = "Search...">
+	<input type = "text" name = "search" id = "searchText" placeholder = "Search..." autofocus>
 	<div class = "col">
 	  <button type = "submit">
 		<i class = "fa fa-search"></i>
@@ -220,7 +220,8 @@
   </div>
 </footer>
 
-<script src = "../static/js/index.js"></script>
+<script src = "../static/js/toggleBtn.js"></script>
+<script src = "../static/js/carousel.js"></script>
 
 <script>
     $('.owl-carousel').owlCarousel({

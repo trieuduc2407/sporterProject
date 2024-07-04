@@ -48,7 +48,13 @@ function updateCart() {
         .then((response) => {
             if (response.status !== 200) {
                 console.log(response.status)
+            } else {
+                let value = 0
+                for (let i = 0; i < price.length; i++) {
+                    value += Number(price[i].dataset.price) * Number(quantity[i].innerText)
+                }
+                total.innerText = formatString(value)
+                alert('Cập nhật giỏ hàng thành công')
             }
-            alert('Cập nhật giỏ hàng thành công')
         })
 }
