@@ -119,10 +119,6 @@ button {
   border-color: rgba(0, 0, 0, 0);
 }
 
-* {
-  font-size: 1.2rem;
-}
-
 .page-title {
   background-color: gray;
   color: white;

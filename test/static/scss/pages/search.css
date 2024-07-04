@@ -306,6 +306,10 @@ button {
   padding: 0 1rem;
 }
 
+.search-text {
+  text-transform: uppercase;
+}
+
 .card {
   padding: 0;
   margin: 0 0.5rem;

@@ -4,6 +4,11 @@ let subtotal = document.querySelectorAll('.item-subtotal')
 let total = document.getElementById('total')
 let value = 0
 
+function formatString(x) {
+    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".") + " " + "VND";
+}
+
+
 for (let i = 0; i < price.length; i++) {
     value += Number(price[i].dataset.price) * Number(quantity[i].innerText)
 }
@@ -18,10 +23,6 @@ for (let i = 0; i < price.length; i++) {
 
 
 total.innerText = formatString(value)
-
-function formatString(x) {
-    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".") + " " + "VND";
-}
 
 
 function increase(event) {

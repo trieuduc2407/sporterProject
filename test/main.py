@@ -90,14 +90,9 @@ def carousel():
 # Dinh tuyen ham index cho url '/'
 @app.route('/', methods=['GET'])
 def index():
-    if 'user' in session:
-        # Kiem tra neu ton tai gia tri 'logged_in' trong session (User da dang nhap)
-        # Render file index.html, truyen vao gia tri:
-        # user=session['lname']: Gia tri cua lname trong table users
-        return render_template('index.html', user=session['user_lname'], teams=teams(), carousel=carousel())
-    # Neu khong ton tai gia tri ['logged_in'] trong session (User chua dang nhap)
-    # Render file index.html va khong truyen vao tham so
-    return render_template('index.html', teams=teams(), carousel=carousel())
+    # Render file index.html, truyen vao gia tri:
+    # user=session['lname']: Gia tri cua lname trong table users
+    return render_template('index.html', user=session['user_lname'], teams=teams(), carousel=carousel())
 
 
 # Ham teams dung de hien lay ra cac record tu table teams
@@ -136,7 +131,8 @@ def get_team(fteam):
     c.execute("SELECT teamBanner FROM teams WHERE teamName = ?", (fteam,))
     banner = c.fetchone()[0]
     # Render file team.scss va truyen vao gia tri cua bien products
-    return render_template('team.html', teams=teams(), items=user_result_to_dict(products), banner=banner)
+    return render_template('team.html', user=session['user_lname'], teams=teams(),
+                           items=user_result_to_dict(products), banner=banner)
 
 
 # Dinh tuyen ham nation cho url '/nations'
@@ -148,7 +144,7 @@ def nations():
     # Tim kiem cac ban ghi co gia tri nation NOTNULL va luu vao products
     products = c.fetchall()
     # Render file nation.html va truyen vao gia tri cua bien products
-    return render_template('nation.html', items=user_result_to_dict(products))
+    return render_template('nation.html', user=session['user_lname'], items=user_result_to_dict(products))
 
 
 # Dinh tuyen ham search cho url '/search'
@@ -161,7 +157,8 @@ def search():
     # Tim cac san pham co ten gan dung voi search_text va luu vao bien products
     products = c.fetchall()
     # Render file search.html, truyen vao gia tri cua bien products da duoc bien doi thanh dictionary
-    return render_template('search.html', items=user_result_to_dict(products))
+    return render_template('search.html', search=search_text, user=session['user_lname'],
+                           items=user_result_to_dict(products))
 
 
 # Dinh tuyen ham product cho url '/product/id' VD: '/product/1/
@@ -184,7 +181,7 @@ def product(product_id):
         "sizeTitle": item[2],
         "infoTitle": item[3],
     }
-    return render_template('product.html', item=result)
+    return render_template('product.html', user=session['user_lname'], item=result)
 
 
 # Dinh tuyen ham login cho url '/login'
