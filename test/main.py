@@ -74,6 +74,15 @@ def get_max_id(table_name):
         else:
             max_id = 1
         return max_id
+    elif table_name == 'order':
+        c.execute('SELECT MAX(orderID) FROM "order"')
+        max_id = c.fetchone()[0]
+        if max_id:
+            max_id = max_id + 1
+            return max_id
+        else:
+            max_id = 1
+        return max_id
 
 
 # Ham carousel dung de chon nhau nhien 1 so luong san pham nhat dinh tu table products
@@ -364,12 +373,14 @@ def view_cart():
         # Redirect ve trang login va hien thong bao yeu cau dang nhap de xem gio hang
         return render_template('login-form.html', cartError=True)
 
+
 @app.route('/checkout', methods=['GET'])
 def checkout():
     if 'user' in session:
         session['cart'] = get_cart(session['user_id'])
         cart = session.get('cart', [])
-        return render_template('checkout.html', user=session['user_lname'], fname=session['user_fname'],email=session['user_email'], items=cart)
+        return render_template('checkout.html', user=session['user_lname'], fname=session['user_fname'],
+                               email=session['user_email'], items=cart)
     else:
         return redirect(url_for('login'))
 
@@ -611,13 +622,30 @@ def admin_add():
 
 @app.route('/test', methods=['GET', 'POST'])
 def test():
-    if request.method == 'POST':
-        req = request.get_json()
-        for item in req:
-            print(item['id'])
-        return jsonify(req)
-    else:
-        return jsonify('get html')
+    orderId = get_max_id('order')
+    userId = 1
+    conn = sqlite3.connect(sqldbname)
+    c = conn.cursor()
+
+    c.execute('SELECT productId, quantity FROM cart WHERE userId = 1')
+    order = c.fetchall()
+    lstId = []
+    lstQuant = []
+    for i in range(0, len(order)):
+        lstId.append(order[i][0])
+        lstQuant.append(order[i][1])
+    newLstId = str(lstId)[1:-1]
+    newLstQuant = str(lstQuant)[1:-1]
+
+    c.execute('DELETE FROM cart WHERE userId = ?', (userId,))
+    conn.commit()
+
+    c.execute('insert into "order" values(?,?,?,?)', (orderId, userId, newLstId, newLstQuant))
+    conn.commit()
+
+    c.execute('select * from "order" where orderId = ?', (orderId,))
+    order = c.fetchone()
+    return jsonify(order)
 
 
 if __name__ == '__main__':

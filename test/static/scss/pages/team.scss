@@ -9,12 +9,20 @@
   .text-wrapper {
     height: 6rem;
 
-    i {
+    button {
       color: white;
       position: absolute;
       bottom: 2.5%;
       left: 50%;
       transform: translateX(-50%);
+      border: none;
+      i {
+        color: white;
+      }
+    }
+
+    button:active {
+      border: none;
     }
   }
 }

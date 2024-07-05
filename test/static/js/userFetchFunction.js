@@ -26,6 +26,32 @@ function addToCart(event) {
         })
 }
 
+function quickAddToCart(event) {
+    let id = event.currentTarget.dataset.index;
+    let quantity = 1
+    let data = {
+        'productId': id,
+        'quantity': quantity
+    }
+
+    let url = baseUrl + '/cart/add'
+
+    fetch(url, {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify(data),
+        cache: 'no-cache',
+        headers: new Headers({
+            'content-type': 'application/json'
+        })
+    })
+        .then((response) => {
+            if (response.status !== 200) {
+                console.log(response.status)
+            }
+        })
+}
+
 function updateCart() {
     let itemIdList = document.querySelectorAll('.item-id')
     let data = []

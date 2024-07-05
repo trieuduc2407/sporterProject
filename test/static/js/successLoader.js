@@ -1,4 +1,6 @@
 let success = document.getElementById('add');
+let addBtn = document.querySelectorAll('.add-btn')
+console.log(addBtn);
 let notifications = document.querySelector('.notifications');
 
 function createToast(type, icon, title) {
