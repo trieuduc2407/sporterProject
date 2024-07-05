@@ -1,0 +1,15 @@
+@import "../base/_base-dir";
+@import "../layout/_layout-dir";
+@import "../components/_components-dir";
+
+.page-title {
+  background-color: white;
+  color: #ff6f28;
+  font-weight: bold;
+}
+
+.banner {
+  background-image: url("https://www.sporter.vn/wp-content/uploads/2024/02/Banner-ao-doi-tuyen-2024.jpg");
+  height: 70vh;
+}
+

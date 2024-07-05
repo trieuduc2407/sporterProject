@@ -291,38 +291,14 @@ button {
 }
 
 .page-title {
-  background-color: gray;
-  color: white;
-  padding: 1.5rem 0;
-}
-.page-title .inner-text {
-  padding-left: 2rem;
-}
-.page-title .inner-text a, .page-title .inner-text p {
-  text-decoration: none;
-  display: inline;
-  color: white;
-  font-size: 1.2rem;
-  padding: 0 1rem;
+  background-color: white;
+  color: #ff6f28;
+  font-weight: bold;
 }
 
-.search-text {
-  text-transform: uppercase;
+.banner {
+  background-image: url("https://www.sporter.vn/wp-content/uploads/2024/02/Banner-ao-doi-tuyen-2024.jpg");
+  height: 70vh;
 }
 
-.card {
-  padding: 0;
-  margin: 0 0.5rem;
-}
-.card .text-wrapper {
-  height: 6rem;
-}
-.card .text-wrapper i {
-  color: white;
-  position: absolute;
-  bottom: 2.5%;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/*# sourceMappingURL=search.css.map */
+/*# sourceMappingURL=nation.css.map */

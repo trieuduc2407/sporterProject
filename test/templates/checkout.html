@@ -36,7 +36,7 @@
 		integrity = "sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
 		crossorigin = "anonymous"
 		referrerpolicy = "no-referrer"/>
-  <link rel = "stylesheet" href = "../static/scss/pages/index.css">
+  <link rel = "stylesheet" href = "../static/scss/pages/checkout.css">
   <title>Document</title>
 </head>
 <body>
@@ -101,91 +101,138 @@
 	  </div>
 	</div>
   </div>
-  <div class = "bottom-header d-none d-lg-flex justify-content-center text-center">
-	<div class = "col-4">
-	  <a href = "{{url_for('nations')}}">ÁO BÓNG ĐÁ ĐỘI TUYỂN</a>
-	</div>
-	<div class = "col-4">
-	  <a href = "{{url_for('team')}}">ÁO BÓNG ĐÁ CÂU LẠC BỘ</a>
-	</div>
-  </div>
 </header>
-<div class = "wrapper container-fluid">
-  <div class = "banner d-none d-sm-block">
-	<img class = "img-fluid"
-		 src = "https://www.sporter.vn/wp-content/uploads/2023/11/2023_Homepage_Banner_1.jpg"
-		 alt = "">
-	<div class = "banner-text col-8 text-center">
-	  <p>
-		<span>Sporter</span>
-		là nơi bạn có thể đặt áo bóng đá với giá tốt nhất mà bạn không thể bỏ qua…
-	  </p>
+
+<div class = "wrapper">
+  <div class = "page-title">
+	<div class = "inner-text">
+	  <a href = "{{url_for('view_cart')}}">SHOPPING CART</a>
+	  <p>/</p>
+	  <a href = "{{url_for('checkout')}}">CHECKOUT DETAILS</a>
 	</div>
   </div>
 
-  <div class = "banner d-block d-sm-none">
-	<img class = "img-fluid"
-		 src = "https://www.sporter.vn/wp-content/uploads/2023/11/Banner-homepage-mobile-1.jpg"
-		 alt = "">
-	<div class = "banner-text col-10 text-center">
-	  <h1>QUẦN ÁO BÓNG ĐÁ</h1>
-	  <p>Sporter là nơi bạn có thể đặt áo bóng đá với giá tốt nhất mà bạn không thể bỏ qua…</p>
-	</div>
-  </div>
-
-  <div class = "team d-none d-sm-block">
-	<div class = "title text-center">
-	  <p> CLICK CHUỘT VÀO LOGO CLB ĐỂ XEM CHI TIẾT ÁO ĐẤU</p>
-	</div>
-	<div class = "team-logo row w-100 justify-content-center">
-	  {% for item in teams %}
-	  <div class = "logo col-md-3 col-lg-2">
-		<a href = "/team/{{item['teamName']}}">
-		  <img class = "img-fluid" src = "{{item['teamImg']}}" alt = "">
-		</a>
-	  </div>
-	  {% endfor %}
-	</div>
-  </div>
-
-  <div class = "carousel">
-	<div class = "title text-center">
-	  MÙA GIẢI 23/24
-	</div>
-	<div class = "owl-carousel">
-	  {% for item in carousel %}
-	  <div class = "card">
-		<a href = "/product/{{item['productId']}}">
-		  <img class = "img-fluid" src = "{{item['productImg']}}" alt = "">
-		  <div class = "text-wrapper">
-			<p>
-			  {{item['productName']}}<br><span>{{item['productPrice']}}</span>
-			</p>
+  <div class = "container py-5">
+	<div class = "row justify-content-center">
+	  <div class = "billing-details col-7">
+		<div class = "row">
+		  <div class = "row g-3 mb-3">
+			<h5>BILLING DETAILS</h5>
 		  </div>
-		</a>
+		  <div class = "row g-3 mb-3">
+			<div class = "col-6">
+			  <input type = "text"
+					 class = "form-control"
+					 value = "{{fname}}"
+					 placeholder = "Họ"
+					 aria-label = "Họ"
+					 required>
+			</div>
+			<div class = "col-6">
+			  <input type = "text"
+					 class = "form-control"
+					 value = "{{user}}"
+					 placeholder = "Tên"
+					 aria-label = "Tên"
+					 required>
+			</div>
+		  </div>
+		  <div class = "row g-3 mb-3">
+			<div class = "col">
+			  <input type = "text" class = "form-control" placeholder = "Địa chỉ" aria-label = "Địa chỉ" required>
+			</div>
+		  </div>
+		  <div class = "row g-3 mb-3">
+			<div class = "col">
+			  <input type = "text"
+					 class = "form-control"
+					 placeholder = "Số điện thoại"
+					 aria-label = "Số điện thoại"
+					 required>
+			</div>
+		  </div>
+		  <div class = "row g-3 mb-3">
+			<div class = "col">
+			  <input type = "email"
+					 class = "form-control"
+					 value = "{{email}}"
+					 placeholder = "Email"
+					 aria-label = "Email"
+					 required>
+			</div>
+		  </div>
+		  <div class = "row g-3 mb-3">
+			<h5>GHI CHÚ</h5>
+			<h5>Ghi chú cho đơn hàng (Không bắt buộc)</h5>
+			<div class = "col">
+			  <input type = "email"
+					 class = "form-control"
+					 placeholder = "Ghi chú cho đơn hàng"
+					 aria-label = "Ghi chú cho đơn hàng"
+					 required>
+			</div>
+		  </div>
+		</div>
 	  </div>
-	  {% endfor %}
-	</div>
-  </div>
+	  <div class = "order-details col-5">
+		<div class = "row g-3 mb-3">
+		  <h5>ĐƠN HÀNG CỦA BẠN</h5>
+		</div>
+		<div class = "row g-3 mb-3">
+		  <div class = "col">
+			<h5>SẢN PHẨM</h5>
+		  </div>
+		  <div class = "col">
+			<h5>THÀNH TIỀN</h5>
+		  </div>
+		</div>
 
-  <div class = "dropdown text-center" id = "dropdown">
-	<i class = "close-btn fa fa-times"></i>
-	<ul id = "dropdown-menu">
-	  <li>
-		<a href = "/nations">ÁO BÓNG ĐÁ ĐỘI TUYỂN</a>
-	  </li>
-	  <li>
-		<a href = "/team">ÁO BÓNG ĐÁ CÂU LẠC BỘ</a>
-	  </li>
-	  <li>
-		<a href = "/cart">
-		  <i class = "fa fa-shopping-cart"></i>
-		</a>
-	  </li>
-	  <li>
-		<a href = "/login">ĐĂNG NHẬP</a>
-	  </li>
-	</ul>
+		{% for item in items %}
+		<div class = "row g-3 mb-3">
+		  <div class = "col">
+			<h5>{{item['productName']}} x {{item['quantity']}}</h5>
+		  </div>
+		  <div class = "col">
+			<h5 id = "subtotal" data-item-price="{{item['productPrice']}}" data-item-quantity="{{item['quantity']}}"></h5>
+		  </div>
+		</div>
+		{% endfor %}
+
+		<div class = "row g-3 mb-3">
+		  <div class = "col">
+			<h5>Tổng cộng</h5>
+		  </div>
+		  <div class = "col">
+			<h5></h5>
+		  </div>
+		</div>
+		<div class = "row g-3 mb-3">
+		  <div class = "form-check">
+			<input class = "form-check-input" type = "radio" name = "flexRadioDefault" id = "flexRadioDefault1" checked>
+			<label class = "form-check-label" for = "flexRadioDefault1">
+			  <h5>Thanh toán trước bằng hình thức chuyển khoản</h5>
+			</label>
+			<p>Sau khi bạn đặt hàng thành công, Sporter sẽ liên hệ với bạn để xác nhận đơn hàng và hướng dẫn chuyển
+			  khoản. Sau đó, chung tôi sẽ tiến hành việc giao hàng trong thời gian sớm nhất.</p>
+		  </div>
+		  <div class = "form-check">
+			<input class = "form-check-input" type = "radio" name = "flexRadioDefault" id = "flexRadioDefault2">
+			<label class = "form-check-label" for = "flexRadioDefault2">
+			  <h5>COD: Thanh toán khi nhận hàng</h5>
+			</label>
+		  </div>
+		</div>
+		<div class = "row g-3 mb-3">
+		  <div class = "col-6">
+			<button class = "btn">XÁC NHẬN ĐẶT HÀNG</button>
+		  </div>
+		</div>
+		<div class = "row g-3 mb-3">
+		  <p>Sau khi hoàn tất đặt hàng. SPorter sẽ gọi điện để tư vấn size và chốt đơn để tránh đơn hàng chọn nhầm Size.
+			Hoặc khách hàng nhắn Zalo (0936777554) cho SPorter nếu có nhu cầu đặt in cho trang phục thi đấu nhé.</p>
+		</div>
+	  </div>
+	</div>
   </div>
 </div>
 
@@ -220,29 +267,7 @@
   </div>
 </footer>
 
-<script src = "../static/js/toggleBtn.js"></script>
-
-<script>
-    $('.owl-carousel').owlCarousel({
-        loop: true,
-        margin: 10,
-        responsiveClass: true,
-        autoplay: true,
-        autoplayTimeout: 5000,
-        autoplayHoverPause: true,
-        responsive: {
-            0: {
-                items: 2,
-            },
-            550: {
-                items: 3,
-            },
-            850: {
-                items: 5,
-            }
-        }
-    })
-</script>
+<script src = "../static/js/index.js"></script>
 
 </body>
 </html>

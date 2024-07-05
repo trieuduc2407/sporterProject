@@ -18,24 +18,3 @@
     }
   }
 }
-
-.search-text {
-  text-transform: uppercase;
-}
-
-.card {
-  padding: 0;
-  margin: 0 0.5rem;
-
-  .text-wrapper {
-    height: 6rem;
-
-    i {
-      color: white;
-      position: absolute;
-      bottom: 2.5%;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-  }
-}

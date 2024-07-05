@@ -306,23 +306,4 @@ button {
   padding: 0 1rem;
 }
 
-.search-text {
-  text-transform: uppercase;
-}
-
-.card {
-  padding: 0;
-  margin: 0 0.5rem;
-}
-.card .text-wrapper {
-  height: 6rem;
-}
-.card .text-wrapper i {
-  color: white;
-  position: absolute;
-  bottom: 2.5%;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/*# sourceMappingURL=search.css.map */
+/*# sourceMappingURL=checkout.css.map */

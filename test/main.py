@@ -161,7 +161,8 @@ def search():
     # Tim cac san pham co ten gan dung voi search_text va luu vao bien products
     products = c.fetchall()
     # Render file search.html, truyen vao gia tri cua bien products da duoc bien doi thanh dictionary
-    return render_template('search.html', items=user_result_to_dict(products))
+    return render_template('search.html', search=search_text, user=session['user_lname'],
+                           items=user_result_to_dict(products))
 
 
 # Dinh tuyen ham product cho url '/product/id' VD: '/product/1/
@@ -203,6 +204,8 @@ def login():
             session['user'] = True
             session['user_id'] = user[0]
             session['user_username'] = username
+            session['user_email'] = user[3]
+            session['user_fname'] = user[4]
             session['user_lname'] = user[5]
             cart = get_cart(user[0])
             session['cart'] = cart
@@ -221,6 +224,8 @@ def logout():
     session.pop('user', None)
     session.pop('user_id', None)
     session.pop('user_username', None)
+    session.pop('user_email', None)
+    session.pop('user_fname', None)
     session.pop('user_lname', None)
     # Xoa cac gia tri session va redirect ve index
     return redirect(url_for('index'))
@@ -362,6 +367,15 @@ def view_cart():
         # Neu khong ton tai gia tri 'logged_in' trong session (User chua dang nhap)
         # Redirect ve trang login va hien thong bao yeu cau dang nhap de xem gio hang
         return render_template('login-form.html', cartError=True)
+
+@app.route('/checkout', methods=['GET'])
+def checkout():
+    if 'user' in session:
+        session['cart'] = get_cart(session['user_id'])
+        cart = session.get('cart', [])
+        return render_template('checkout.html', user=session['user_lname'], fname=session['user_fname'],email=session['user_email'], items=cart)
+    else:
+        return redirect(url_for('login'))
 
 
 # Ham check_admin dung de kiem tra tai khoan admin da duoc dang nhap chua
