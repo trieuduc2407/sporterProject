@@ -297,12 +297,19 @@ button {
 .card .text-wrapper {
   height: 6rem;
 }
-.card .text-wrapper i {
+.card .text-wrapper button {
   color: white;
   position: absolute;
   bottom: 2.5%;
   left: 50%;
   transform: translateX(-50%);
+  border: none;
+}
+.card .text-wrapper button i {
+  color: white;
+}
+.card .text-wrapper button:active {
+  border: none;
 }
 
 /*# sourceMappingURL=team.css.map */

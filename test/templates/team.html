@@ -116,6 +116,8 @@
   </div>
 </header>
 
+<div class = "notifications "></div>
+
 <div class = "wrapper">
   <div class = "page-title text-center">
 	<h3>ÁO BÓNG ĐÁ MÙA GIẢI MỚI SÂN NHÀ VÀ SÂN KHÁCH</h3>
@@ -127,14 +129,16 @@
 	  <div class = "card col-5 col-md-3 my-3">
 		<a href = "/product/{{item['productId']}}">
 		  <img class = "img-fluid" src = "{{item['productImg']}}" alt = "">
-		  <div class = "text-wrapper">
-			<p>
-			  {{item['productName']}}<br>
-			  <span>{{item['productPrice']}}</span><br>
-			</p>
-			<i class = "fa fa-cart-arrow-down"></i>
-		  </div>
 		</a>
+		<div class = "text-wrapper">
+		  <p>
+			{{item['productName']}}<br>
+			<span class="item-price">{{item['productPrice']}}</span><br>
+		  </p>
+		  <button class = "add-btn btn" data-index = "{{item['productId']}}" onclick = "quickAddToCart(event)">
+			<i class = "fa fa-cart-arrow-down"></i>
+		  </button>
+		</div>
 	  </div>
 	  {% endfor %}
 	</div>
@@ -187,6 +191,9 @@
 </footer>
 
 <script src = "../static/js/toggleBtn.js"></script>
+<script src = "../static/js/userFetchFunction.js"></script>
+<script src = "../static/js/carousel.js"></script>
+<script src = "../static/js/successLoader.js"></script>
 
 </body>
 </html>
