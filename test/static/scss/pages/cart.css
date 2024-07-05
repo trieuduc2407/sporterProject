@@ -290,6 +290,11 @@ footer {
   padding: 1rem 0;
 }
 
+.wrapper .cart {
+  border-right: solid 0.2rem #ececec;
+  padding-right: 0;
+  margin-right: calc(var(--bs-gutter-x) * 0.5);
+}
 .wrapper .cart .item-img img {
   height: 5rem;
 }
@@ -311,6 +316,9 @@ footer {
 }
 .wrapper .update-btn a, .wrapper .checkout-btn a {
   text-decoration: none;
+}
+.wrapper .total-price {
+  border-bottom: solid 0.2rem #ececec;
 }
 
 /*# sourceMappingURL=cart.css.map */

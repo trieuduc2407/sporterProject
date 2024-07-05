@@ -114,7 +114,7 @@
 <div class = "wrapper">
   <div class = "container py-5">
 	<div class = "row justify-content-center">
-	  <div class = "cart col-9">
+	  <div class = "cart col-8">
 		<div class = "cart-title row w-100 text-center mb-3">
 		  <div class = "col-2 px-0">
 			<h5>PRODUCT</h5>
@@ -176,7 +176,7 @@
 		<div class = "total-title row mb-3">
 		  <h5>CART TOTALS</h5>
 		</div>
-		<div class = "row justify-content-between mb-3">
+		<div class = "total-price row justify-content-between mb-3">
 		  <div class = "col-3">Total</div>
 		  <div class = "col d-flex justify-content-end" id = "total"></div>
 		</div>
@@ -216,7 +216,7 @@
 <div class = "search-form">
   <form action = "/search" method = "post" id = "searchForm">
 	<label for = "searchText"></label>
-	<input type = "text" id = "searchText" placeholder = "Search...">
+	<input type = "text" name = "search" id = "searchText" placeholder = "Search...">
 	<div class = "col">
 	  <button type = "submit">
 		<i class = "fa fa-search"></i>
@@ -244,7 +244,7 @@
   </div>
 </footer>
 
-<script src = "../static/js/index.js"></script>
+<script src = "../static/js/toggleBtn.js"></script>
 <script src = "../static/js/cart.js"></script>
 <script src = "../static/js/userFetchFunction.js"></script>
 
