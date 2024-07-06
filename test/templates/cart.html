@@ -116,7 +116,8 @@
 	<div class = "row justify-content-center">
 	  <div class = "cart col-8">
 		<div class = "cart-title row w-100 text-center mb-3">
-		  <div class = "col-2 px-0">
+		  <div class = "col-1"></div>
+		  <div class = "col-2 text-start px-0">
 			<h5>PRODUCT</h5>
 		  </div>
 		  <div class = "col"></div>
@@ -131,10 +132,15 @@
 		  </div>
 		</div>
 
+		{% if items %}
+
 		{% for item in items %}
 		<input class = "item-id" type = "hidden" value = "{{item['productId']}}">
 		<div class = "cart-item row w-100 text-center mb-3">
-		  <div class = "item-img col-2 align-self-center px-0">
+		  <button class = "col btn" onclick = "deleteItem(event)" data-id = "{{item['productId']}}">
+			<i class = "fa fa-times"></i>
+		  </button>
+		  <div class = "item-img col-1 align-self-center px-0">
 			<img class = "img-fluid" src = "{{item['productImg']}}" alt = "">
 		  </div>
 		  <div class = "item-name col-3 text-start align-self-center">{{item['productName']}}</div>
@@ -166,6 +172,13 @@
 		  </div>
 		</div>
 		{% endfor %}
+
+		{% else %}
+		<div class="row w-100 text-center py-5">
+		  <h5>Bạn chưa có sản phẩm nào trong giỏ hàng</h5>
+		</div>
+		{% endif %}
+
 		<div class = "row w-100 justify-content-center text-center">
 		  <div class = "col-4">
 			<button class = "update-btn btn w-100" onclick = "updateCart()">UPDATE CART</button>

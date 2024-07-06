@@ -43,8 +43,9 @@ function updateQuantity(event) {
         .then((response) => {
             if (response.status !== 200) {
                 console.log(response.status)
+            } else {
+                alert("Cập nhật số lượng thành công")
             }
-            alert("Cập nhật số lượng thành công")
         })
 }
 

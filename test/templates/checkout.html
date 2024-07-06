@@ -114,16 +114,17 @@
 
   <div class = "container py-5">
 	<div class = "row justify-content-center">
-	  <div class = "billing-details col-7">
+	  <div class = "billing-details col-12 col-md-7">
 		<div class = "row">
 		  <div class = "row g-3 mb-3">
-			<h5>BILLING DETAILS</h5>
+			<h5 class = "highlight-title">BILLING DETAILS</h5>
 		  </div>
 		  <div class = "row g-3 mb-3">
 			<div class = "col-6">
 			  <input type = "text"
 					 class = "form-control"
 					 value = "{{fname}}"
+					 name = "fname"
 					 placeholder = "Họ"
 					 aria-label = "Họ"
 					 required>
@@ -132,6 +133,7 @@
 			  <input type = "text"
 					 class = "form-control"
 					 value = "{{user}}"
+					 name = "lname"
 					 placeholder = "Tên"
 					 aria-label = "Tên"
 					 required>
@@ -139,13 +141,19 @@
 		  </div>
 		  <div class = "row g-3 mb-3">
 			<div class = "col">
-			  <input type = "text" class = "form-control" placeholder = "Địa chỉ" aria-label = "Địa chỉ" required>
+			  <input type = "text"
+					 class = "form-control"
+					 name = "address"
+					 placeholder = "Địa chỉ"
+					 aria-label = "Địa chỉ"
+					 required>
 			</div>
 		  </div>
 		  <div class = "row g-3 mb-3">
 			<div class = "col">
 			  <input type = "text"
 					 class = "form-control"
+					 name = "phone"
 					 placeholder = "Số điện thoại"
 					 aria-label = "Số điện thoại"
 					 required>
@@ -156,54 +164,60 @@
 			  <input type = "email"
 					 class = "form-control"
 					 value = "{{email}}"
+					 name = "email"
 					 placeholder = "Email"
 					 aria-label = "Email"
 					 required>
 			</div>
 		  </div>
 		  <div class = "row g-3 mb-3">
-			<h5>GHI CHÚ</h5>
+			<h5 class = "highlight-title">GHI CHÚ</h5>
 			<h5>Ghi chú cho đơn hàng (Không bắt buộc)</h5>
 			<div class = "col">
 			  <input type = "email"
-					 class = "form-control"
-					 placeholder = "Ghi chú cho đơn hàng"
-					 aria-label = "Ghi chú cho đơn hàng"
+					 class = "additional-note form-control"
+					 name = "note"
+					 placeholder = ""
+					 aria-label = ""
 					 required>
 			</div>
 		  </div>
 		</div>
 	  </div>
-	  <div class = "order-details col-5">
+	  <div class = "order-details col-12 col-md-5">
 		<div class = "row g-3 mb-3">
-		  <h5>ĐƠN HÀNG CỦA BẠN</h5>
+		  <h5 class = "highlight-title">ĐƠN HÀNG CỦA BẠN</h5>
 		</div>
 		<div class = "row g-3 mb-3">
-		  <div class = "col">
+		  <div class = "col text-start">
 			<h5>SẢN PHẨM</h5>
 		  </div>
-		  <div class = "col">
+		  <div class = "col text-end">
 			<h5>THÀNH TIỀN</h5>
 		  </div>
 		</div>
 
 		{% for item in items %}
 		<div class = "row g-3 mb-3">
-		  <div class = "col">
-			<h5>{{item['productName']}} x {{item['quantity']}}</h5>
+		  <div class = "col d-flex">
+			<h5 class = "item-info">{{item['productName']}}</h5>
+			<h5 class = "item-info px-2">x</h5>
+			<h5 class = "item-info pe-2">{{item['quantity']}}</h5>
 		  </div>
-		  <div class = "col">
-			<h5 id = "subtotal" data-item-price="{{item['productPrice']}}" data-item-quantity="{{item['quantity']}}"></h5>
+		  <div class = "col text-end">
+			<h5 class = "subtotal"
+				data-item-price = "{{item['productPrice']}}"
+				data-item-quantity = "{{item['quantity']}}"></h5>
 		  </div>
 		</div>
 		{% endfor %}
 
-		<div class = "row g-3 mb-3">
-		  <div class = "col">
+		<div class = "row text-center g-3 mb-3">
+		  <div class = "col text-start">
 			<h5>Tổng cộng</h5>
 		  </div>
-		  <div class = "col">
-			<h5></h5>
+		  <div class = "col text-end">
+			<h5 id = "total"></h5>
 		  </div>
 		</div>
 		<div class = "row g-3 mb-3">
@@ -224,12 +238,12 @@
 		</div>
 		<div class = "row g-3 mb-3">
 		  <div class = "col-6">
-			<button class = "btn">XÁC NHẬN ĐẶT HÀNG</button>
+			<button class = "checkout-btn btn" onclick = "checkout()">XÁC NHẬN ĐẶT HÀNG</button>
 		  </div>
 		</div>
 		<div class = "row g-3 mb-3">
-		  <p>Sau khi hoàn tất đặt hàng. SPorter sẽ gọi điện để tư vấn size và chốt đơn để tránh đơn hàng chọn nhầm Size.
-			Hoặc khách hàng nhắn Zalo (0936777554) cho SPorter nếu có nhu cầu đặt in cho trang phục thi đấu nhé.</p>
+		  <p>Sau khi hoàn tất đặt hàng. Sporter sẽ gọi điện để tư vấn size và chốt đơn để tránh đơn hàng chọn nhầm
+			size.</p>
 		</div>
 	  </div>
 	</div>
@@ -267,7 +281,8 @@
   </div>
 </footer>
 
-<script src = "../static/js/index.js"></script>
+<script src = "../static/js/toggleBtn.js"></script>
+<script src = "../static/js/checkout.js"></script>
 
 </body>
 </html>

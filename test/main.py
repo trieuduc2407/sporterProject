@@ -345,10 +345,10 @@ def update_cart():
 
 
 # Dinh tuyen ham delete cho url '/delete'
-@app.route('/delete', methods=['POST'])
+@app.route('/cart/delete', methods=['POST'])
 def delete_cart():
-    # Lay gia tri cua product_id tu html form
-    product_id = request.form['productId']
+    req = request.get_json()
+    product_id = int(req['productId'])
     conn = sqlite3.connect(sqldbname)
     c = conn.cursor()
     # Xoa ban ghi co gia tri bang product_id trong table carts
@@ -356,7 +356,8 @@ def delete_cart():
     conn.commit()
     conn.close()
     # Redirect ve ham view_cart
-    return redirect(url_for('view_cart'))
+    res = make_response(jsonify({'Msg': 'Deleted item'}))
+    return res
 
 
 # Dinh tuyen ham cart cho url '/cart'
@@ -374,15 +375,49 @@ def view_cart():
         return render_template('login-form.html', cartError=True)
 
 
-@app.route('/checkout', methods=['GET'])
+@app.route('/checkout', methods=['GET', 'POST'])
 def checkout():
-    if 'user' in session:
-        session['cart'] = get_cart(session['user_id'])
-        cart = session.get('cart', [])
-        return render_template('checkout.html', user=session['user_lname'], fname=session['user_fname'],
-                               email=session['user_email'], items=cart)
+    if 'user' in session and len(session.get('cart')) > 0:
+        if request.method == 'POST':
+            order_id = get_max_id('order')
+            user_id = session['user_id']
+
+            req = request.get_json()
+            fname = req['fname']
+            lname = req['lname']
+            address = req['address']
+            email = req['email']
+            phone = req['phone']
+            note = req['note']
+            payment = req['payment']
+
+            conn = sqlite3.connect(sqldbname)
+            c = conn.cursor()
+            c.execute('SELECT productId, quantity FROM cart WHERE userId = ?', (user_id,))
+            order = c.fetchall()
+
+            list_id = []
+            list_quantity = []
+            for i in range(len(order)):
+                list_id.append(order[i][0])
+                list_quantity.append(order[i][1])
+            list_id = str(list_id)[1:-1]
+            list_quantity = str(list_quantity)[1:-1]
+
+            c.execute('DELETE FROM cart WHERE userId = ?', (user_id,))
+            conn.commit()
+
+            c.execute('INSERT INTO "order" VALUES(?,?,?,?,?,?,?,?,?,?,?)',
+                      (order_id, user_id, list_id, list_quantity, address, phone, payment, fname, lname, note, email))
+            conn.commit()
+            return jsonify({'Msg': 'Success'})
+        else:
+            session['cart'] = get_cart(session['user_id'])
+            cart = session.get('cart', [])
+            return render_template('checkout.html', user=session['user_lname'], fname=session['user_fname'],
+                                   email=session['user_email'], items=cart)
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('index'))
 
 
 # Ham check_admin dung de kiem tra tai khoan admin da duoc dang nhap chua
@@ -618,34 +653,6 @@ def admin_add():
             return redirect(url_for('admin_view'))
         else:
             return render_template('adminAdd.html')
-
-
-@app.route('/test', methods=['GET', 'POST'])
-def test():
-    orderId = get_max_id('order')
-    userId = 1
-    conn = sqlite3.connect(sqldbname)
-    c = conn.cursor()
-
-    c.execute('SELECT productId, quantity FROM cart WHERE userId = 1')
-    order = c.fetchall()
-    lstId = []
-    lstQuant = []
-    for i in range(0, len(order)):
-        lstId.append(order[i][0])
-        lstQuant.append(order[i][1])
-    newLstId = str(lstId)[1:-1]
-    newLstQuant = str(lstQuant)[1:-1]
-
-    c.execute('DELETE FROM cart WHERE userId = ?', (userId,))
-    conn.commit()
-
-    c.execute('insert into "order" values(?,?,?,?)', (orderId, userId, newLstId, newLstQuant))
-    conn.commit()
-
-    c.execute('select * from "order" where orderId = ?', (orderId,))
-    order = c.fetchone()
-    return jsonify(order)
 
 
 if __name__ == '__main__':
