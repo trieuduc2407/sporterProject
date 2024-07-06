@@ -129,16 +129,13 @@
 	  <div class = "card col-5 col-md-3 my-3">
 		<a href = "/product/{{item['productId']}}">
 		  <img class = "img-fluid" src = "{{item['productImg']}}" alt = "">
+		  <div class = "text-wrapper">
+			<p>
+			  {{item['productName']}}<br>
+			  <span class = "item-price">{{item['productPrice']}}</span><br>
+			</p>
+		  </div>
 		</a>
-		<div class = "text-wrapper">
-		  <p>
-			{{item['productName']}}<br>
-			<span class="item-price">{{item['productPrice']}}</span><br>
-		  </p>
-		  <button class = "add-btn btn" data-index = "{{item['productId']}}" onclick = "quickAddToCart(event)">
-			<i class = "fa fa-cart-arrow-down"></i>
-		  </button>
-		</div>
 	  </div>
 	  {% endfor %}
 	</div>

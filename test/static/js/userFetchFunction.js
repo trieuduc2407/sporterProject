@@ -25,16 +25,13 @@ function addToCart(event) {
             }
         })
 }
-
-function quickAddToCart(event) {
-    let id = event.currentTarget.dataset.index;
-    let quantity = 1
+function deleteItem(event) {
+    let id = event.currentTarget.dataset.id
     let data = {
-        'productId': id,
-        'quantity': quantity
+        'productId': id
     }
 
-    let url = baseUrl + '/cart/add'
+    let url = baseUrl + '/cart/delete'
 
     fetch(url, {
         method: 'POST',
@@ -48,6 +45,14 @@ function quickAddToCart(event) {
         .then((response) => {
             if (response.status !== 200) {
                 console.log(response.status)
+            } else {
+                let value = 0
+                for (let i = 0; i < price.length; i++) {
+                    value += Number(price[i].dataset.price) * Number(quantity[i].innerText)
+                }
+                total.innerText = formatString(value)
+                location.reload()
+                alert('Xoá sản phẩm thành công')
             }
         })
 }
