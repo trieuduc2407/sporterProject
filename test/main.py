@@ -655,5 +655,79 @@ def admin_add():
             return render_template('adminAdd.html')
 
 
+@app.route('/admin/tracking', methods=['GET'])
+def admin_tracking():
+    if check_admin():
+        conn = sqlite3.connect(sqldbname)
+        c = conn.cursor()
+        c.execute('SELECT * FROM "order"')
+        orders = c.fetchall()
+        items = []
+        for order in orders:
+            lst_name = []
+            lst_price = []
+
+            if ',' in order[2]:
+                lst_id = order[2].split(',')
+                lst_quant = order[3].split(',')
+            else:
+                lst_id = [order[2]]
+                lst_quant = [order[3]]
+
+            for product_id in lst_id:
+                c.execute("SELECT name, price FROM products WHERE productId = ?", (product_id,))
+                product = c.fetchone()
+                lst_name.append(product[0])
+                lst_price.append(product[1])
+
+            payment = ''
+            if order[6] == 1:
+                payment = 'CK'
+            elif order[6] == 2:
+                payment = 'COD'
+
+            data = {
+                'orderId': order[0],
+                'productName': lst_name,
+                'price': lst_price,
+                'quantity': lst_quant,
+                'address': order[4],
+                'phone': order[5],
+                'payment': payment,
+                'fname': order[7],
+                'lname': order[8],
+                'note': order[9],
+                'email': order[10]
+            }
+            items.append(data)
+        return render_template('tracking.html', admin=session['admin_lname'], items=items)
+    else:
+        return redirect(url_for('admin_login'))
+
+
+@app.route('/test', methods=['GET'])
+def test():
+    conn = sqlite3.connect(sqldbname)
+    c = conn.cursor()
+    c.execute('select * from "order"')
+    orders = c.fetchall()
+    for order in orders:
+        # lstQuant = order[3].split(',')
+        if ',' in order[2]:
+            lstId = order[2].split(',')
+        else:
+            lstId = [order[2]]
+        lstName = []
+        for id in lstId:
+            c.execute("SELECT name FROM products WHERE productId = ?", (id,))
+            product = c.fetchone()[0]
+            lstName.append(product)
+        if order[6] == 1:
+            print('ck')
+        else:
+            print('cod')
+    return jsonify(order)
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5005)
