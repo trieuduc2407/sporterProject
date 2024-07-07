@@ -114,20 +114,20 @@
 <div class = "wrapper">
   <div class = "container py-5">
 	<div class = "row justify-content-center">
-	  <div class = "cart col-8">
+	  <div class = "cart col-12 col-lg-8 mb-5 mb-lg-0">
 		<div class = "cart-title row w-100 text-center mb-3">
 		  <div class = "col-1"></div>
 		  <div class = "col-2 text-start px-0">
 			<h5>PRODUCT</h5>
 		  </div>
 		  <div class = "col"></div>
-		  <div class = "col-2 px-0">
+		  <div class = "col-2 d-none d-md-block px-0">
 			<h5>PRICE</h5>
 		  </div>
 		  <div class = "col-3 px-0">
 			<h5>QUANTITY</h5>
 		  </div>
-		  <div class = "col-2 px-0">
+		  <div class = "col-2 d-none d-md-block px-0">
 			<h5>SUBTOTAL</h5>
 		  </div>
 		</div>
@@ -137,14 +137,19 @@
 		{% for item in items %}
 		<input class = "item-id" type = "hidden" value = "{{item['productId']}}">
 		<div class = "cart-item row w-100 text-center mb-3">
-		  <button class = "col btn" onclick = "deleteItem(event)" data-id = "{{item['productId']}}">
+		  <button class = "col-1 btn" onclick = "deleteItem(event)" data-id = "{{item['productId']}}">
 			<i class = "fa fa-times"></i>
 		  </button>
-		  <div class = "item-img col-1 align-self-center px-0">
+		  <div class = "item-img col-2 col-md-1 align-self-center px-0">
 			<img class = "img-fluid" src = "{{item['productImg']}}" alt = "">
 		  </div>
-		  <div class = "item-name col-3 text-start align-self-center">{{item['productName']}}</div>
-		  <div class = "item-price col-2 align-self-center px-0" data-price = "{{item['productPrice']}}">
+		  <div class = "item-name col col-md-3 text-start align-self-center">
+			{{item['productName']}}
+			<p class = "d-block d-md-none text-black mb-0">{{item['quantity']}} x
+			  <span class = "item-price-md" data-price = "{{item['productPrice']}}">{{item['productPrice']}}</span></p>
+		  </div>
+		  <div class = "item-price col-2 d-none d-md-block align-self-center px-0"
+			   data-price = "{{item['productPrice']}}">
 			{{item['productPrice']}}
 		  </div>
 		  <div class = "item-quantity col-3 align-self-center px-0">
@@ -168,13 +173,14 @@
 			  </button>
 			</div>
 		  </div>
-		  <div class = "item-subtotal col-2 align-self-center px-0" data-subtotal-index = "{{item['productId']}}">
+		  <div class = "item-subtotal col-2 d-none d-md-block align-self-center px-0"
+			   data-subtotal-index = "{{item['productId']}}">
 		  </div>
 		</div>
 		{% endfor %}
 
 		{% else %}
-		<div class="row w-100 text-center py-5">
+		<div class = "row w-100 text-center py-5">
 		  <h5>Bạn chưa có sản phẩm nào trong giỏ hàng</h5>
 		</div>
 		{% endif %}
@@ -185,7 +191,7 @@
 		  </div>
 		</div>
 	  </div>
-	  <div class = "checkout col-3 text-center">
+	  <div class = "checkout col-lg-3 text-center">
 		<div class = "total-title row mb-3">
 		  <h5>CART TOTALS</h5>
 		</div>
@@ -204,7 +210,6 @@
 	</div>
   </div>
 </div>
-</div>
 
 <div class = "dropdown text-center" id = "dropdown">
   <i class = "close-btn fa fa-times"></i>
@@ -220,9 +225,14 @@
 		<i class = "fa fa-shopping-cart"></i>
 	  </a>
 	</li>
+	{% if user %}
+
+	{% else %}
 	<li>
 	  <a href = "/login">ĐĂNG NHẬP</a>
 	</li>
+	{% endif %}
+
   </ul>
 </div>
 

@@ -131,35 +131,39 @@
 		  <div class = "text-wrapper">
 			<p>
 			  {{item['productName']}}<br>
-			  <span>{{item['productPrice']}}</span><br>
+			  <span class = "item-price">{{item['productPrice']}}</span><br>
 			</p>
-			<i class = "fa fa-cart-arrow-down"></i>
 		  </div>
 		</a>
 	  </div>
 	  {% endfor %}
 	</div>
   </div>
+</div>
 
-  <div class = "dropdown text-center" id = "dropdown">
-	<i class = "close-btn fa fa-times"></i>
-	<ul id = "dropdown-menu">
-	  <li>
-		<a href = "/nations">ÁO BÓNG ĐÁ ĐỘI TUYỂN</a>
-	  </li>
-	  <li>
-		<a href = "/team">ÁO BÓNG ĐÁ CÂU LẠC BỘ</a>
-	  </li>
-	  <li>
-		<a href = "/cart">
-		  <i class = "fa fa-shopping-cart"></i>
-		</a>
-	  </li>
-	  <li>
-		<a href = "/login">ĐĂNG NHẬP</a>
-	  </li>
-	</ul>
-  </div>
+<div class = "dropdown text-center" id = "dropdown">
+  <i class = "close-btn fa fa-times"></i>
+  <ul id = "dropdown-menu">
+	<li>
+	  <a href = "/nations">ÁO BÓNG ĐÁ ĐỘI TUYỂN</a>
+	</li>
+	<li>
+	  <a href = "/team">ÁO BÓNG ĐÁ CÂU LẠC BỘ</a>
+	</li>
+	<li>
+	  <a href = "/cart">
+		<i class = "fa fa-shopping-cart"></i>
+	  </a>
+	</li>
+	{% if user %}
+
+	{% else %}
+	<li>
+	  <a href = "/login">ĐĂNG NHẬP</a>
+	</li>
+	{% endif %}
+
+  </ul>
 </div>
 
 <div class = "search-form">
