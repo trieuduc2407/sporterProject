@@ -1,26 +1,29 @@
+function formatString(x) {
+    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".") + " " + "VND";
+}
+
 let price = document.querySelectorAll('.item-price')
+let priceMd = document.querySelectorAll('.item-price-md')
 let quantity = document.querySelectorAll('.quantity')
 let subtotal = document.querySelectorAll('.item-subtotal')
 let total = document.getElementById('total')
 let value = 0
 
-function formatString(x) {
-    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".") + " " + "VND";
-}
-
-
-for (let i = 0; i < price.length; i++) {
-    value += Number(price[i].dataset.price) * Number(quantity[i].innerText)
-}
-
 for (let i = 0; i < price.length; i++) {
     price[i].innerText = formatString(price[i].dataset.price);
+}
+
+for (let i = 0; i < priceMd.length; i++) {
+    priceMd[i].innerText = formatString(priceMd[i].dataset.price);
 }
 
 for (let i = 0; i < price.length; i++) {
     subtotal[i].innerText = formatString(Number(price[i].dataset.price) * Number(quantity[i].innerText))
 }
 
+for (let i = 0; i < price.length; i++) {
+    value += Number(price[i].dataset.price) * Number(quantity[i].innerText)
+}
 
 total.innerText = formatString(value)
 

@@ -76,6 +76,7 @@
 		  </div>
 		</div>
 		<div class = "row d-none d-lg-flex my-3 w-100">
+
 		  {% if user %}
 		  <div class = "col-8">
 			<h5 class = "d-inline-block">Xin chào {{user}}</h5>
@@ -86,6 +87,7 @@
 			</a>
 		  </div>
 		  {% else %}
+
 		  <div class = "col-8">
 			<a href = "{{url_for('login')}}">
 			  <h5 class = "d-inline-block text-black">Đăng nhập</h5>
@@ -97,6 +99,7 @@
 			</a>
 		  </div>
 		  {% endif %}
+
 		</div>
 	  </div>
 	</div>
@@ -116,7 +119,7 @@
 	<div class = "inner-text">
 	  <a href = "{{url_for('index')}}">HOME</a>
 	  <p>/</p>
-	  <a>KẾT QUẢ TÌM KIẾM CHO '<span class="search-text">{{search}}</span>'</a>
+	  <a>KẾT QUẢ TÌM KIẾM CHO '<span class = "search-text">{{search}}</span>'</a>
 	</div>
   </div>
 
@@ -130,7 +133,6 @@
 			{{item['productName']}}<br>
 			<span>{{item['productPrice']}}</span><br>
 		  </p>
-		  <i class = "fa fa-cart-arrow-down"></i>
 		</div>
 	  </a>
 	</div>
@@ -152,9 +154,14 @@
 		<i class = "fa fa-shopping-cart"></i>
 	  </a>
 	</li>
+	{% if user %}
+
+	{% else %}
 	<li>
 	  <a href = "/login">ĐĂNG NHẬP</a>
 	</li>
+	{% endif %}
+
   </ul>
 </div>
 

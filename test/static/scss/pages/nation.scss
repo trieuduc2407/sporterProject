@@ -8,6 +8,31 @@
   font-weight: bold;
 }
 
+.card {
+  padding: 0;
+  margin: 0 0.5rem;
+
+  .text-wrapper {
+    height: 5rem;
+
+    button {
+      color: white;
+      position: absolute;
+      bottom: 2.5%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: none;
+      i {
+        color: white;
+      }
+    }
+
+    button:active {
+      border: none;
+    }
+  }
+}
+
 .banner {
   background-image: url("https://www.sporter.vn/wp-content/uploads/2024/02/Banner-ao-doi-tuyen-2024.jpg");
   height: 70vh;

@@ -1,6 +1,7 @@
 @import "../base/_base-dir";
 @import "../components/_components-dir";
 @import "../layout/_layout-dir";
+@import "../abstracts/variables";
 
 .wrapper {
   .cart {
@@ -43,5 +44,11 @@
 
   .total-price {
     border-bottom: solid 0.2rem #ececec;
+  }
+}
+
+@media (max-width: 992px) {
+  .wrapper > .cart {
+    border-right: none;
   }
 }
