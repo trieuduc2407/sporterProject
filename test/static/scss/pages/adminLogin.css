@@ -1,0 +1,77 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 1rem;
+}
+
+.notifications {
+  position: fixed;
+  top: 18%;
+  right: 0%;
+  height: 4rem;
+}
+
+.toast {
+  position: relative;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  color: #fff;
+  width: 27rem;
+  height: 4rem;
+  display: grid;
+  grid-template-columns: 7rem 1fr 7rem;
+  border-radius: 0.5rem;
+  --color: #ff6f28;
+  background-image: linear-gradient(to right, #ff6f28, #22242f 30%);
+  animation: show_toast 0.3s ease forwards;
+}
+
+.toast i {
+  color: var(--color);
+}
+
+.toast .title {
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.toast i {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: x-large;
+}
+
+.toast span,
+.toast .close {
+  opacity: 0.6;
+  color: #fff;
+}
+
+@keyframes show_toast {
+  0% {
+    transform: translateX(100%);
+  }
+  40% {
+    transform: translateX(-5%);
+  }
+  80% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-10%);
+  }
+}
+.toast:not(.show) {
+  display: grid;
+}
+
+.sign-in_btn {
+  padding: 0;
+}
+
+/*# sourceMappingURL=adminLogin.css.map */

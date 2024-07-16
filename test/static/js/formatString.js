@@ -4,3 +4,4 @@ function formatString(x) {
 
 let itemPrice = document.getElementById('item-price');
 itemPrice.innerText = formatString(itemPrice.innerText);
+

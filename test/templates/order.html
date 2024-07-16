@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang = "en">
+<head>
+  <meta charset = "UTF-8">
+  <meta name = "viewport"
+		content = "width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv = "X-UA-Compatible" content = "ie=edge">
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
+		  integrity = "sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
+		  crossorigin = "anonymous" referrerpolicy = "no-referrer"></script>
+  <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+		integrity = "sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
+		crossorigin = "anonymous" referrerpolicy = "no-referrer"/>
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+		  integrity = "sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+		  crossorigin = "anonymous" referrerpolicy = "no-referrer"></script>
+  <title>Document</title>
+</head>
+<body>
+<div class = "container">
+  <div class = "row text-center my-3">
+	<div class = "col-2">
+	  <a href = "/admin" class = "text-decoration-none text-white">
+		<button class = "btn btn-primary">
+		  Trang chủ
+		</button>
+	  </a>
+	</div>
+	<div class = "col-2">
+	  <button class = "btn btn-primary">
+		<a href = "/admin/tracking" class = "text-decoration-none text-white">Quay lại</a>
+	  </button>
+	</div>
+	<div class = "col text-start ps-5">
+	  <h3>Đơn hàng số #{{item['orderId']}}</h3>
+	</div>
+  </div>
+  <div class = "row text-center my-3">
+	<div class = "col fw-bold">Họ và tên</div>
+	<div class = "col fw-bold">Email</div>
+	<div class = "col fw-bold">SĐT</div>
+	<div class = "col fw-bold">Địa chỉ</div>
+	<div class = "col fw-bold">Thanh toán</div>
+  </div>
+  <div class = "row text-center my-3">
+	<div class = "col">{{item['fname']}} {{item['lname']}}</div>
+	<div class = "col">{{item['email']}}</div>
+	<div class = "col">{{item['phone']}}</div>
+	<div class = "col">{{item['address']}}</div>
+	<div class = "col">{{item['payment']}}</div>
+  </div>
+  <div class = "row text-center my-3">
+	<div class = "col-4 fw-bold">Tên sản phẩm</div>
+	<div class = "col-1 fw-bold">Số lượng</div>
+	<div class = "col-2 fw-bold">Đơn giá</div>
+	<div class = "col-2 fw-bold">Thành tiền</div>
+	<div class = "col fw-bold">Ghi chú</div>
+  </div>
+  <div class = "row text-center my-3">
+	<div class = "col-4">
+	  {% for name in item['productName'] %}
+	  <p class = "text-start">{{name}}</p>
+	  {% endfor %}
+	</div>
+	<div class = "col-1">
+	  {% for quantity in item['quantity'] %}
+	  <p class = "item-quantity text-center">{{quantity}}</p>
+	  {% endfor %}
+	</div>
+	<div class = "col-2">
+	  {% for price in item['price'] %}
+	  <p class = "item-price text-center">{{price}}</p>
+	  {% endfor %}
+	</div>
+	<div class = "col-2">
+	  {% for price in item['price'] %}
+	  <p class = "subtotal text-center"></p>
+	  {% endfor %}
+	</div>
+	<div class = "col text-start">{{item['note']}}</div>
+
+  </div>
+  <div class = "row">
+	<div class = "col-3"></div>
+	<div class = "col-2 text-end fw-bold">Tổng tiền</div>
+	<div class = "total-price col-2 text-center">{{item['total']}}</div>
+  </div>
+  <div class = "row text-center my-3">
+  </div>
+  <div class = "row text-center my-3">
+	<form action = "/admin/tracking/{{item['orderId']}}" method = "post">
+	  <input type = "hidden" name = "order" value = "{{item['orderId']}}">
+	  <button class = "btn btn-primary" type = "submit">Xác nhận đơn</button>
+	</form>
+  </div>
+
+</div>
+
+<script>
+    function formatString(x) {
+        return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".") + " " + "VND";
+    }
+
+    let quantity = document.querySelectorAll('.item-quantity')
+    let price = document.querySelectorAll('.item-price')
+    let subtotal = document.querySelectorAll('.subtotal')
+    for (let i = 0; i < quantity.length; i++) {
+        subtotal[i].innerText = formatString(quantity[i].innerText * price[i].innerText)
+    }
+    for (let i = 0; i < quantity.length; i++) {
+        price[i].innerText = formatString(price[i].innerText)
+    }
+
+    let total = document.getElementsByClassName('total-price')
+    total[0].innerText = formatString(total[0].innerText)
+
+
+</script>
+
+</body>
+</html>

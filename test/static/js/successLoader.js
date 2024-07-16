@@ -1,6 +1,5 @@
 let success = document.getElementById('add');
 let addBtn = document.querySelectorAll('.add-btn')
-console.log(addBtn);
 let notifications = document.querySelector('.notifications');
 
 function createToast(type, icon, title) {
@@ -19,10 +18,3 @@ function createToast(type, icon, title) {
     notifications.appendChild(newToast);
     newToast.timeOut = setTimeout(() => newToast.remove(), 3000)
 }
-
-success.addEventListener('click', () => {
-    let type = 'success';
-    let icon = 'fa-solid fa-circle-check';
-    let title = 'Thêm sản phẩm thành công';
-    createToast(type, icon, title);
-})

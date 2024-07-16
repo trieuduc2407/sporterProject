@@ -99,9 +99,12 @@ def carousel():
 # Dinh tuyen ham index cho url '/'
 @app.route('/', methods=['GET'])
 def index():
-    # Render file index.html, truyen vao gia tri:
-    # user=session['lname']: Gia tri cua lname trong table users
-    return render_template('index.html', user=session['user_lname'], teams=teams(), carousel=carousel())
+    if 'user' in session:
+        # Render file index.html, truyen vao gia tri:
+        # user=session['lname']: Gia tri cua lname trong table users
+        return render_template('index.html', user=session['user_lname'], teams=teams(), carousel=carousel())
+    else:
+        return render_template('index.html', teams=teams(), carousel=carousel())
 
 
 # Ham teams dung de hien lay ra cac record tu table teams
@@ -126,7 +129,10 @@ def teams():
 @app.route('/team', methods=['GET'])
 def team():
     # Render file displayTeam.html va truyen vao gia tri cua bien result
-    return render_template('displayTeam.html', user=session['user_lname'], teams=teams(), carousel=carousel())
+    if 'user' in session:
+        return render_template('displayTeam.html', user=session['user_lname'], teams=teams(), carousel=carousel())
+    else:
+        return render_template('displayTeam.html', teams=teams(), carousel=carousel())
 
 
 # Dinh tuyen ham get_team cho url '/team/ten doi bong' VD: '/team/manu'
@@ -153,7 +159,10 @@ def nations():
     # Tim kiem cac ban ghi co gia tri nation NOTNULL va luu vao products
     products = c.fetchall()
     # Render file nation.html va truyen vao gia tri cua bien products
-    return render_template('nation.html', user=session['user_lname'], items=user_result_to_dict(products))
+    if 'user' in session:
+        return render_template('nation.html', user=session['user_lname'], items=user_result_to_dict(products))
+    else:
+        return render_template('nation.html', items=user_result_to_dict(products))
 
 
 # Dinh tuyen ham search cho url '/search'
@@ -166,8 +175,11 @@ def search():
     # Tim cac san pham co ten gan dung voi search_text va luu vao bien products
     products = c.fetchall()
     # Render file search.html, truyen vao gia tri cua bien products da duoc bien doi thanh dictionary
-    return render_template('search.html', search=search_text, user=session['user_lname'],
-                           items=user_result_to_dict(products))
+    if 'user' in session:
+        return render_template('search.html', search=search_text, user=session['user_lname'],
+                               items=user_result_to_dict(products))
+    else:
+        return render_template('search.html', search=search_text, items=user_result_to_dict(products), )
 
 
 # Dinh tuyen ham product cho url '/product/id' VD: '/product/1/
@@ -190,7 +202,10 @@ def product(product_id):
         "sizeTitle": item[2],
         "infoTitle": item[3],
     }
-    return render_template('product.html', user=session['user_lname'], item=result)
+    if 'user' in session:
+        return render_template('product.html', user=session['user_lname'], item=result)
+    else:
+        return render_template('product.html', item=result)
 
 
 # Dinh tuyen ham login cho url '/login'
@@ -198,8 +213,9 @@ def product(product_id):
 def login():
     if request.method == 'POST':
         # Neu method la POST, ay gia tri username va password tu html form
-        username = request.form['username']
-        password = request.form['password']
+        req = request.get_json()
+        username = req['username']
+        password = req['password']
         conn = sqlite3.connect(sqldbname)
         c = conn.cursor()
         c.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, password))
@@ -215,10 +231,12 @@ def login():
             cart = get_cart(user[0])
             session['cart'] = cart
             # Neu ton tai user, tao cac gia tri session can thiet va redirect ve index
-            return redirect(url_for('index'))
+            res = make_response(jsonify({'Status': 1}))
+            return res
         else:
             # Neu khong ton tai user, hien thong bao va yeu cau nhap lai
-            return render_template('login-form.html', error='Invalid username or password')
+            res = make_response(jsonify({'Status': 0}))
+            return res
     # Neu method la GET, render file login-form.html
     return render_template('login-form.html')
 
@@ -236,6 +254,34 @@ def logout():
     return redirect(url_for('index'))
 
 
+@app.route('/user', methods=['GET', 'POST'])
+def user():
+    conn = sqlite3.connect(sqldbname)
+    c = conn.cursor()
+    if request.method == 'POST':
+        req = request.get_json()
+        user_id = session['user_id']
+        user_email = session['user_email']
+        user_fname = session['user_fname']
+        user_lname = session['user_lname']
+        user_phone = req['phone']
+        c.execute('UPDATE users SET firstName = ?, lastName = ?, email = ?, phone = ? WHERE userId = ?',
+                  (user_fname, user_lname, user_email, user_phone, user_id))
+        conn.commit()
+        res = make_response(jsonify({'Status': 1}))
+        return res
+    else:
+        user_id = session['user_id']
+        user_email = session['user_email']
+        user_fname = session['user_fname']
+        user_lname = session['user_lname']
+        c.execute('SELECT phone FROM users WHERE userId = ?', (user_id,))
+        phone = c.fetchone()[0]
+        data = {'user_id': user_id, 'user_email': user_email, 'user_fname': user_fname, 'user_lname': user_lname,
+                'phone': phone}
+        return render_template('user.html', user=session['user_lname'], data=data)
+
+
 # Dinh tuyen ham register cho url '/register'
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -246,6 +292,7 @@ def register():
         email = request.form['email']
         fname = request.form['fname']
         lname = request.form['lname']
+        phone = request.form['phone']
         conn = sqlite3.connect(sqldbname)
         c = conn.cursor()
         c.execute('SELECT * FROM users WHERE username = ? OR email = ?', (username, email,))
@@ -253,7 +300,8 @@ def register():
         check = c.fetchone()
         if not check:
             max_id = get_max_id('users')
-            c.execute('INSERT INTO users VALUES (?,?,?,?,?,?)', (max_id, username, password, email, fname, lname))
+            c.execute('INSERT INTO users VALUES (?,?,?,?,?,?,?)',
+                      (max_id, username, password, email, fname, lname, phone))
             conn.commit()
             # Them ban ghi moi vao table users va redirect ve login
             return redirect(url_for('login'))
@@ -293,37 +341,41 @@ def get_cart(product_id):
 # Dinh tuyen ham add_to_cart cho url '/cart/add'
 @app.route('/cart/add', methods=['POST'])
 def add_to_cart():
-    req = request.get_json()
-    product_id = int(req['productId'])
-    quantity = int(req['quantity'])
-    # Cap nhat cart
-    cart = session.get('cart', [])
-    check = False
-    conn = sqlite3.connect(sqldbname)
-    c = conn.cursor()
-    for item in cart:
-        # Kiem tra neu item da co trong cart thi tang quantity
-        if item['productId'] == product_id:
-            item['quantity'] += quantity
-            check = True
-            c.execute("UPDATE cart SET quantity = ? WHERE productId = ?", (item['quantity'], item['productId']))
+    if 'user' in session:
+        req = request.get_json()
+        product_id = int(req['productId'])
+        quantity = int(req['quantity'])
+        # Cap nhat cart
+        cart = session.get('cart', [])
+        check = False
+        conn = sqlite3.connect(sqldbname)
+        c = conn.cursor()
+        for item in cart:
+            # Kiem tra neu item da co trong cart thi tang quantity
+            if item['productId'] == product_id:
+                item['quantity'] += quantity
+                check = True
+                c.execute("UPDATE cart SET quantity = ? WHERE productId = ?", (item['quantity'], item['productId']))
+                conn.commit()
+                break
+        if not check:
+            # Neu item chua co trong cart thi them moi item vao table cart
+            max_id = get_max_id('carts')
+            c.execute('SELECT name, price FROM products WHERE productId = ?', (product_id,))
+            result = c.fetchone()
+            c.execute(
+                'INSERT INTO cart VALUES (?,?,?,?,?,?)',
+                (max_id, session['user_id'], product_id, result[0], result[1], quantity)
+            )
             conn.commit()
-            break
-    if not check:
-        # Neu item chua co trong cart thi them moi item vao table cart
-        max_id = get_max_id('carts')
-        c.execute('SELECT name, price FROM products WHERE productId = ?', (product_id,))
-        result = c.fetchone()
-        c.execute(
-            'INSERT INTO cart VALUES (?,?,?,?,?,?)',
-            (max_id, session['user_id'], product_id, result[0], result[1], quantity)
-        )
-        conn.commit()
-        conn.close()
-    # Cap nhat lai cart
-    session['cart'] = get_cart(session['user_id'])
-    res = make_response(jsonify({'Msg': 'Added to cart'}))
-    return res
+            conn.close()
+        # Cap nhat lai cart
+        session['cart'] = get_cart(session['user_id'])
+        res = make_response(jsonify({'Msg': 'Added to cart', 'Status': 1}))
+        return res
+    else:
+        res = make_response(jsonify({'Msg': 'You are not logged in', 'Status': 0}))
+        return res
 
 
 # Dinh tuyen ham update_cart cho url '/cart/update'
@@ -390,6 +442,7 @@ def checkout():
             phone = req['phone']
             note = req['note']
             payment = req['payment']
+            total = req['total']
 
             conn = sqlite3.connect(sqldbname)
             c = conn.cursor()
@@ -407,8 +460,9 @@ def checkout():
             c.execute('DELETE FROM cart WHERE userId = ?', (user_id,))
             conn.commit()
 
-            c.execute('INSERT INTO "order" VALUES(?,?,?,?,?,?,?,?,?,?,?)',
-                      (order_id, user_id, list_id, list_quantity, address, phone, payment, fname, lname, note, email))
+            c.execute('INSERT INTO "order" VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',
+                      (order_id, user_id, list_id, list_quantity, address, phone, payment, fname, lname, note, email,
+                       total))
             conn.commit()
             return jsonify({'Msg': 'Success'})
         else:
@@ -472,9 +526,10 @@ def admin_view():
 def admin_login():
     # Goi ham check admin de kiem tra session
     if request.method == 'POST':
+        req = request.get_json()
         # Meu method la POST, lay gia tri username, password tu html form
-        username = request.form['username']
-        password = request.form['password']
+        username = req['username']
+        password = req['password']
         conn = sqlite3.connect(sqldbname)
         c = conn.cursor()
         c.execute("SELECT * FROM admin WHERE username = ? AND password = ?", (username, password,))
@@ -486,10 +541,12 @@ def admin_login():
             session['admin_username'] = username
             session['admin_lname'] = admin[5]
             # Neu ton tai admin tao cac gia tri session can thiet va redirect ve admin_view
-            return redirect(url_for('admin_view'))
+            res = make_response(jsonify({'Msg': 'Login Successful', 'Status': 1}))
+            return res
         else:
             # Neu khong ton tai admin, render file adminLogin.html va truyen vao thong bao loi
-            return render_template('adminLogin.html', error='Invalid username or password')
+            res = make_response(jsonify({'Msg': 'Invalid username or password', 'Status': 0}))
+            return res
     else:
         # Neu method la GET, render file adminLogin.html
         return render_template('adminLogin.html')
@@ -532,49 +589,55 @@ def check_none(text):
 def admin_update(product_id):
     if check_admin():
         conn = sqlite3.connect(sqldbname)
-        c = conn.cursor()
-        if request.method == 'POST':
-            team = check_none(request.form['team'])
-            nation = check_none(request.form['nation'])
-            name = request.form['name']
-            price = request.form['price']
-            quantity = request.form['quantity']
-            size_title = request.form['sizeTitle']
-            info_title = request.form['infoTitle']
-            img1 = request.form['img1']
-            img2 = request.form['img2']
-            img3 = request.form['img3']
-            img4 = request.form['img4']
-            c.execute(
-                "UPDATE products SET "
-                "team = ?, nation = ?, name = ?, price = ?, quantity = ?, sizeTitle = ?, infoTitle = ? "
-                "WHERE productId = ?",
-                (team, nation, name, price, quantity, size_title, info_title, product_id,)
-            )
-            conn.commit()
-            c.execute(
-                "UPDATE images SET img1 = ?, img2 = ?, img3 = ?, img4 = ? WHERE productId = ?",
-                (img1, img2, img3, img4, product_id,)
-            )
-            conn.commit()
-            conn.close()
-            return redirect(url_for('admin_view'))
-        else:
-            c.execute(
-                "SELECT team, nation, name, price, quantity, sizeTitle, infoTitle FROM products WHERE productId = ?",
-                (product_id,)
-            )
-            item = c.fetchone()
-            result = {
-                "id": product_id, "team": item[0], "nation": item[1], "name": item[2], "price": item[3],
-                "quantity": item[4], "sizeTitle": item[5], "infoTitle": item[6]
-            }
-            c.execute("SELECT img1, img2, img3, img4 FROM images WHERE productId = ?", (product_id,))
-            imgs = c.fetchone()
-            img = {"img1": imgs[0], "img2": imgs[1], "img3": imgs[2], "img4": imgs[3]}
-            return render_template('adminUpdate.html', item=result, img=img)
+    c = conn.cursor()
+    if request.method == 'POST':
+        team = check_none(request.form['team'])
+        nation = check_none(request.form['nation'])
+        name = request.form['name']
+        price = request.form['price']
+        quantity = request.form['quantity']
+        size_title = request.form['sizeTitle']
+        info_title = request.form['infoTitle']
+        img1 = request.form['img1']
+        img2 = request.form['img2']
+        img3 = request.form['img3']
+        img4 = request.form['img4']
+        c.execute(
+            "UPDATE products SET "
+            "team = ?, nation = ?, name = ?, price = ?, quantity = ?, sizeTitle = ?, infoTitle = ? "
+            "WHERE productId = ?",
+            (team, nation, name, price, quantity, size_title, info_title, product_id,)
+        )
+        conn.commit()
+        c.execute(
+            "UPDATE images SET img1 = ?, img2 = ?, img3 = ?, img4 = ? WHERE productId = ?",
+            (img1, img2, img3, img4, product_id,)
+        )
+        conn.commit()
+        conn.close()
+        return redirect(url_for('admin_view'))
     else:
-        return redirect(url_for('admin_login'))
+        conn = sqlite3.connect(sqldbname)
+        c = conn.cursor()
+        c.execute(
+            "SELECT team, nation, name, price, quantity, sizeTitle, infoTitle FROM products WHERE productId = ?",
+            (product_id,)
+        )
+        item = c.fetchone()
+        result = {
+            "id": product_id, "team": item[0], "nation": item[1], "name": item[2], "price": item[3],
+            "quantity": item[4], "sizeTitle": item[5], "infoTitle": item[6]
+        }
+        c.execute("SELECT img1, img2, img3, img4 FROM images WHERE productId = ?", (product_id,))
+        imgs = c.fetchone()
+        img = {"img1": imgs[0], "img2": imgs[1], "img3": imgs[2], "img4": imgs[3]}
+    # return jsonify(result, img)
+
+    return render_template('adminUpdate.html', item=result, img=img)
+
+
+# else:
+#     return redirect(url_for('admin_login'))
 
 
 @app.route('/admin/update/price/<product_id>', methods=['POST'])
@@ -697,7 +760,8 @@ def admin_tracking():
                 'fname': order[7],
                 'lname': order[8],
                 'note': order[9],
-                'email': order[10]
+                'email': order[10],
+                'total': order[11]
             }
             items.append(data)
         return render_template('tracking.html', admin=session['admin_lname'], items=items)
@@ -705,28 +769,59 @@ def admin_tracking():
         return redirect(url_for('admin_login'))
 
 
-@app.route('/test', methods=['GET'])
-def test():
-    conn = sqlite3.connect(sqldbname)
-    c = conn.cursor()
-    c.execute('select * from "order"')
-    orders = c.fetchall()
-    for order in orders:
-        # lstQuant = order[3].split(',')
-        if ',' in order[2]:
-            lstId = order[2].split(',')
+@app.route('/admin/tracking/<order_id>', methods=['GET', 'POST'])
+def admin_tracking_order(order_id):
+    if check_admin():
+        conn = sqlite3.connect(sqldbname)
+        c = conn.cursor()
+        if request.method == 'POST':
+            order = request.form['order']
+            c.execute('DELETE FROM "order" WHERE orderId = ?', (order,))
+            conn.commit()
+            return redirect(url_for('admin_tracking'))
         else:
-            lstId = [order[2]]
-        lstName = []
-        for id in lstId:
-            c.execute("SELECT name FROM products WHERE productId = ?", (id,))
-            product = c.fetchone()[0]
-            lstName.append(product)
-        if order[6] == 1:
-            print('ck')
-        else:
-            print('cod')
-    return jsonify(order)
+            c.execute('SELECT * FROM "order" WHERE orderId = ?', (order_id,))
+            order = c.fetchone()
+
+            lst_name = []
+            lst_price = []
+
+            if ',' in order[2]:
+                lst_id = order[2].split(',')
+                lst_quant = order[3].split(',')
+            else:
+                lst_id = [order[2]]
+                lst_quant = [order[3]]
+
+            for product_id in lst_id:
+                c.execute("SELECT name, price FROM products WHERE productId = ?", (product_id,))
+                product = c.fetchone()
+                lst_name.append(product[0])
+                lst_price.append(product[1])
+
+            payment = ''
+            if order[6] == 1:
+                payment = 'CK'
+            elif order[6] == 2:
+                payment = 'COD'
+
+            item = {
+                'orderId': order[0],
+                'productName': lst_name,
+                'price': lst_price,
+                'quantity': lst_quant,
+                'address': order[4],
+                'phone': order[5],
+                'payment': payment,
+                'fname': order[7],
+                'lname': order[8],
+                'note': order[9],
+                'email': order[10],
+                'total': order[11]
+            }
+            return render_template('order.html', item=item)
+    else:
+        return redirect(url_for('admin_login'))
 
 
 if __name__ == '__main__':
