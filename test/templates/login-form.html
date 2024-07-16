@@ -1,26 +1,36 @@
 <!doctype html>
-<html lang="en">
+<html lang = "en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    <link rel="stylesheet" href="../static/scss/login-form.css">
-    <title>Login</title>
+  <meta charset = "UTF-8">
+  <meta name = "viewport"
+		content = "width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv = "X-UA-Compatible" content = "ie=edge">
+  <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <link rel = "stylesheet" href = "../static/scss/login-form.css">
+  <link rel = "stylesheet" href = "../static/scss/components/_success-loader.css">
+  <title>Login</title>
 </head>
 <body>
-<div class="container">
-    <form action="/login" method="post">
-        <h1>Login</h1>
-        <label for="username">Username</label><br>
-        <input type="text" name="username" id="username" placeholder="Enter your username"><br>
-        <label for="password">Password</label><br>
-        <input type="password" name="password" id="password" placeholder="Enter your password"><br>
-        <input type="submit" value="Login" class="btn" style="background-color: #ff6f28; color: #fff;"><br>
-        <label style="float: none;">Don`t have an account?</label>
-        <a href="/register" class="link">Sign up</a><br>
-    </form>
+<div class = "notifications "></div>
+
+<div class = "container">
+  <form action = "/login" method = "post">
+	<h1>Login</h1>
+	<label for = "username">Username</label><br>
+	<input type = "text" name = "username" id = "username" placeholder = "Enter your username"><br>
+	<label for = "password">Password</label><br>
+	<input type = "password" name = "password" id = "password" placeholder = "Enter your password"><br>
+	<input type = "button"
+		   value = "Login"
+		   class = "btn"
+		   style = "background-color: #ff6f28; color: #fff;"
+		   onclick = "login()"><br>
+	<label style = "float: none;">Don`t have an account?</label>
+	<a href = "/register" class = "link">Sign up</a><br>
+  </form>
 </div>
+
+<script src = "../static/js/successLoader.js"></script>
+<script src = "../static/js/userFetchFunction.js"></script>
 </body>
 </html>

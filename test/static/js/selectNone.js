@@ -3,6 +3,8 @@ let radio1 = document.getElementById('btnradio1')
 let radio2 = document.getElementById('btnradio2')
 let input1 = document.getElementById('team')
 let input2 = document.getElementById('nation')
+let team = document.getElementById('team')
+console.log(team.value)
 
 radio1.addEventListener('click', () => {
     value = !value

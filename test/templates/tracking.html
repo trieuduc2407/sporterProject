@@ -19,6 +19,13 @@
 <body>
 <div class = "container text-center">
   <div class = "row align-items-center mt-5">
+	<div class = "col-2">
+	  <a href = "/admin" class = "text-decoration-none text-white">
+		<button class = "btn btn-primary">
+		  Trang chủ
+		</button>
+	  </a>
+	</div>
 	<div class = "col align-self-center">
 	  <h1 style = "display: inline-block">Xin chào {{admin}}</h1>
 	</div>
@@ -28,26 +35,55 @@
 	  </a>
 	</div>
   </div>
-  <div class="row">
-	<div class="col-1">order id</div>
-	<div class="col-1">lname</div>
-	<div class="col-2">total</div>
-	<div class="col-2">email</div>
-	<div class="col-1">phone</div>
-	<div class="col-2">address</div>
-	<div class="col">note</div>
+  <div class = "row mb-3">
+	<div class = "col-1 fw-bold border">Mã đơn</div>
+	<div class = "col-1 fw-bold border">Tên</div>
+	<div class = "col-2 fw-bold border">Tổng tiền</div>
+	<div class = "col-3 fw-bold border">Email</div>
+	<div class = "col-2 fw-bold border">SĐT</div>
+	<div class = "col-2 fw-bold border">Địa chỉ</div>
   </div>
   {% for item in items %}
-  <div class = "row">
-	<div class="col-1">{{item['orderId']}}</div>
-	<div class="col-1">{{item['lname']}}</div>
-	<div class="col-2">total</div>
-	<div class="col-2">{{item['email']}}</div>
-	<div class="col-1">{{item['phone']}}</div>
-	<div class="col-2">{{item['address']}}</div>
-	<div class="col">{{item['note']}}</div>
+  <div class = "row text-center mb-3">
+	<div class = "col-1 border">
+	  <p class = "mt-3">{{item['orderId']}}</p>
+	</div>
+	<div class = "col-1 border">
+	  <p class = "mt-3">{{item['lname']}}</p>
+	</div>
+	<div class = "col-2 border">
+	  <p class = "price mt-3">{{item['total']}}</p>
+	</div>
+	<div class = "col-3 border">
+	  <p class = "mt-3">{{item['email']}}</p>
+	</div>
+	<div class = "col-2 border">
+	  <p class = "mt-3">{{item['phone']}}</p>
+	</div>
+	<div class = "col-2 border">
+	  <p class = "mt-3">{{item['address']}}</p>
+	</div>
+	<div class = "col-1">
+	  <a href = "/admin/tracking/{{item['orderId']}}" class = "text-white text-decoration-none">
+		<button class = "btn btn-primary">
+		  Xử lí đơn
+		</button>
+	  </a>
+	</div>
   </div>
   {% endfor %}
 </div>
+
+<script>
+    function formatString(x) {
+        return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".") + " " + "VND";
+    }
+
+    let price = document.querySelectorAll('.price')
+    for (let i = 0; i < price.length; i++) {
+        price[i].innerText = formatString(price[i].innerText);
+    }
+</script>
+
 </body>
 </html>

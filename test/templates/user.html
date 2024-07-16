@@ -78,9 +78,7 @@
 		<div class = "row d-none d-lg-flex my-3 w-100">
 		  {% if user %}
 		  <div class = "col-8">
-			<a href = "/user">
-				<h5 class = "d-inline-block text-black">Xin chào {{user}}</h5>
-			</a>
+			<h5 class = "d-inline-block">Xin chào {{user}}</h5>
 		  </div>
 		  <div class = "col-2">
 			<a href = "{{url_for('logout')}}">
@@ -103,42 +101,62 @@
 	  </div>
 	</div>
   </div>
-  <div class = "bottom-header d-none d-lg-flex justify-content-center text-center">
-	<div class = "col-4">
-	  <a href = "{{url_for('nations')}}">ÁO BÓNG ĐÁ ĐỘI TUYỂN</a>
-	</div>
-	<div class = "col-4">
-	  <a href = "{{url_for('team')}}">ÁO BÓNG ĐÁ CÂU LẠC BỘ</a>
-	</div>
-  </div>
 </header>
-<div class = "wrapper">
-  <div class = "page-title text-center">
-	<h3>TRANG PHỤC THI ĐẤU BÓNG ĐÁ ĐỘI TUYỂN MỚI NHẤT 2024</h3>
-  </div>
-  <div class = "banner">
-	<div class = "banner-img"></div>
-	<div class = "text text-center">
-	  <h3>ÁO BÓNG ĐÁ ĐỘI TUYỂN HÀNG ĐẦU</h3>
-	  <p>Những đội tuyển quốc gia hàng đầu như: Anh, Pháp, Argentina, Brazil, Đức,...</p>
+<div class = "wrapper container">
+  <div class = "row g-3 my-3">
+	<div class = "col">
+	  <h3>Thay đổi thông tin</h3>
 	</div>
   </div>
-
-  <div class = "container-fluid text-center px-0 py-5">
-	<div class = "row justify-content-center">
-	  {% for item in items %}
-	  <div class = "card col-5 col-md-3 my-3">
-		<a href = "/product/{{item['productId']}}">
-		  <img class = "img-fluid" src = "{{item['productImg']}}" alt = "">
-		  <div class = "text-wrapper">
-			<p>
-			  {{item['productName']}}<br>
-			  <span class = "item-price">{{item['productPrice']}}</span><br>
-			</p>
-		  </div>
-		</a>
-	  </div>
-	  {% endfor %}
+  <div class = "row g-3 mb-3">
+	<div class = "col-6">
+	  <input type = "text"
+			 class = "form-control"
+			 value = "{{data['user_fname']}}"
+			 name = "fname"
+			 id = "fname"
+			 placeholder = "Họ"
+			 aria-label = "Họ"
+			 required>
+	</div>
+	<div class = "col-6">
+	  <input type = "text"
+			 class = "form-control"
+			 value = "{{data['user_lname']}}"
+			 name = "lname"
+			 id = "lname"
+			 placeholder = "Tên"
+			 aria-label = "Tên"
+			 required>
+	</div>
+  </div>
+  <div class = "row g-3 mb-3">
+	<div class = "col">
+	  <input type = "email"
+			 class = "form-control"
+			 value = "{{data['user_email']}}"
+			 name = "email"
+			 id = "email"
+			 placeholder = "Email"
+			 aria-label = "Email"
+			 required>
+	</div>
+	<div class = "col">
+	  <input type = "text"
+			 class = "form-control"
+			 value = "{{data['phone']}}"
+			 name = "phone"
+			 id = "phone"
+			 placeholder = "Phone"
+			 aria-label = "Phone"
+			 required>
+	</div>
+  </div>
+  <div class = "row justify-content-center text-center g-3 mb-3">
+	<div class = "col-2">
+	  <button class = "btn btn-primary" onclick = "userChangeInfo()">
+		Sửa thông tin
+	  </button>
 	</div>
   </div>
 </div>
@@ -199,40 +217,7 @@
   </div>
 </footer>
 
-<script src = "../static/js/toggleBtn.js"></script>
-
-<script>
-    $('.owl-carousel').owlCarousel({
-        loop: true,
-        margin: 10,
-        responsiveClass: true,
-        autoplay: true,
-        autoplayTimeout: 5000,
-        autoplayHoverPause: true,
-        responsive: {
-            0: {
-                items: 2,
-            },
-            550: {
-                items: 3,
-            },
-            850: {
-                items: 5,
-            }
-        }
-    })
-</script>
-
-<script>
-    function formatString(x) {
-        return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".") + " " + "VND";
-    }
-
-    let price = document.querySelectorAll('.item-price')
-    for (let i = 1; i < price.length; i++) {
-        price[i].innerText = formatString(price[i].innerText)
-    }
-</script>
+<script src = "../static/js/userFetchFunction.js"></script>
 
 </body>
 </html>

@@ -14,7 +14,9 @@ for (let i = 0; i < subtotal.length; i++) {
     subtotal[i].innerText = formatString(subPrice)
 }
 
+
 total.innerText = formatString(totalValue)
+
 
 function checkout() {
     let fname = document.getElementsByName('fname')[0].value
@@ -38,7 +40,8 @@ function checkout() {
         'email': email,
         'phone': phone,
         'note': note,
-        'payment': payment
+        'payment': payment,
+        'total': totalValue
     }
 
     let url = baseUrl + '/checkout'

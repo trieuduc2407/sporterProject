@@ -19,12 +19,22 @@ function addToCart(event) {
             'content-type': 'application/json'
         })
     })
-        .then((response) => {
-            if (response.status !== 200) {
-                console.log(response.status)
+        .then(response => response.json())
+        .then(data => {
+            if (data.Status === 0) {
+                let type = 'failed';
+                let icon = 'fa fa-times-circle';
+                let title = 'Đăng nhập để thêm vào giỏ hàng';
+                createToast(type, icon, title);
+            } else {
+                let type = 'success';
+                let icon = 'fa-solid fa-circle-check';
+                let title = 'Thêm sản phẩm thành công';
+                createToast(type, icon, title);
             }
         })
 }
+
 function deleteItem(event) {
     let id = event.currentTarget.dataset.id
     let data = {
@@ -86,6 +96,68 @@ function updateCart() {
                 }
                 total.innerText = formatString(value)
                 alert('Cập nhật giỏ hàng thành công')
+            }
+        })
+}
+
+function login() {
+    let username = document.getElementById('username').value
+    let password = document.getElementById('password').value
+    let data = {
+        'username': username,
+        'password': password,
+    }
+
+    let url = baseUrl + '/login'
+    fetch(url, {
+        method: 'POST',
+        credentials: 'include',
+        cache: 'no-cache',
+        body: JSON.stringify(data),
+        headers: new Headers({
+            'content-type': 'application/json'
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.Status === 1) {
+                window.location.replace(baseUrl)
+            } else {
+                let type = 'failed';
+                let icon = 'fa fa-times-circle';
+                let title = 'Sai tên đăng nhập hoặc mật khẩu';
+                createToast(type, icon, title);
+            }
+        })
+}
+
+function userChangeInfo() {
+    let fname = document.getElementById('fname').value
+    let lname = document.getElementById('lname').value
+    let email = document.getElementById('email').value
+    let phone = document.getElementById('phone').value
+    let data = {
+        'fname': fname,
+        'lname': lname,
+        'email': email,
+        'phone': phone,
+    }
+
+    let url = baseUrl + '/user'
+    fetch(url, {
+        method: 'POST',
+        credentials: 'include',
+        cache: 'no-cache',
+        body: JSON.stringify(data),
+        headers: new Headers({
+            'content-type': 'application/json'
+        })
+    })
+        .then((response) => {
+            if (response.status !== 200) {
+                console.log(response.status)
+            } else {
+                alert('Sửa thông tin thành công')
             }
         })
 }
