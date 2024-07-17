@@ -1,0 +1,18 @@
+@import "../base/_base-dir";
+@import "../layout/_layout-dir";
+@import "../components/_components-dir";
+
+.change-btn {
+  background-color: #ff6f28;
+  font-weight: bold;
+  color: white;
+  a {
+    text-decoration: none;
+  }
+
+  &:hover {
+    color: white;
+    background-color: #ff6f28;
+    font-weight: bold;
+  }
+}
