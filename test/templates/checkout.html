@@ -78,7 +78,9 @@
 		<div class = "row d-none d-lg-flex my-3 w-100">
 		  {% if user %}
 		  <div class = "col-8">
-			<h5 class = "d-inline-block">Xin chào {{user}}</h5>
+			<a href = "/user">
+			  <h5 class = "d-inline-block text-black">Xin chào {{user['user_lname']}}</h5>
+			</a>
 		  </div>
 		  <div class = "col-2">
 			<a href = "{{url_for('logout')}}">
@@ -123,7 +125,7 @@
 			<div class = "col-6">
 			  <input type = "text"
 					 class = "form-control"
-					 value = "{{fname}}"
+					 value = "{{user['user_fname']}}"
 					 name = "fname"
 					 placeholder = "Họ"
 					 aria-label = "Họ"
@@ -132,7 +134,7 @@
 			<div class = "col-6">
 			  <input type = "text"
 					 class = "form-control"
-					 value = "{{user}}"
+					 value = "{{user['user_lname']}}"
 					 name = "lname"
 					 placeholder = "Tên"
 					 aria-label = "Tên"
@@ -154,6 +156,7 @@
 			  <input type = "text"
 					 class = "form-control"
 					 name = "phone"
+					 value="{{user['phone']}}"
 					 placeholder = "Số điện thoại"
 					 aria-label = "Số điện thoại"
 					 required>
@@ -163,7 +166,7 @@
 			<div class = "col">
 			  <input type = "email"
 					 class = "form-control"
-					 value = "{{email}}"
+					 value = "{{user['email']}}"
 					 name = "email"
 					 placeholder = "Email"
 					 aria-label = "Email"

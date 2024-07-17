@@ -78,7 +78,9 @@
 		<div class = "row d-none d-lg-flex my-3 w-100">
 		  {% if user %}
 		  <div class = "col-8">
-			<h5 class = "d-inline-block">Xin chào {{user}}</h5>
+			<a href = "/user">
+			  <h5 class = "d-inline-block text-black">Xin chào {{user}}</h5>
+			</a>
 		  </div>
 		  <div class = "col-2">
 			<a href = "{{url_for('logout')}}">
@@ -110,6 +112,7 @@
 	</div>
   </div>
 </header>
+
 <div class = "wrapper container-fluid">
   <div class = "banner d-none d-sm-block">
 	<img class = "img-fluid"
@@ -247,9 +250,9 @@
             850: {
                 items: 4,
             },
-			950: {
+            950: {
                 items: 5,
-			}
+            }
         }
     })
 </script>

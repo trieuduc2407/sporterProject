@@ -161,3 +161,51 @@ function userChangeInfo() {
             }
         })
 }
+
+function userChangePassword() {
+    let oldPass = document.getElementById('old-pass').value
+    let newPass = document.getElementById('new-pass').value
+    let confirmPass = document.getElementById('confirm-pass').value
+
+    if (newPass !== confirmPass) {
+        let type = 'failed';
+        let icon = 'fa fa-times-circle';
+        let title = 'Mật khẩu xác nhận không trùng với mật khẩu mới'
+        createToast(type, icon, title)
+    } else {
+        let data = {
+            'old_password': oldPass,
+            'new_password': newPass,
+        }
+
+        let url = baseUrl + '/user/change-password'
+        fetch(url, {
+            method: 'POST',
+            credentials: 'include',
+            cache: 'no-cache',
+            body: JSON.stringify(data),
+            headers: new Headers({
+                'content-type': 'application/json'
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 0) {
+                    let type = 'failed';
+                    let icon = 'fa fa-times-circle';
+                    let title = 'Mật khẩu cũ không đúng'
+                    createToast(type, icon, title)
+                } else if (data.code === 1) {
+                    let type = 'failed';
+                    let icon = 'fa fa-times-circle';
+                    let title = 'Mật khẩu mới trùng với mật khẩu cũ'
+                    createToast(type, icon, title)
+                } else if (data.code === 2) {
+                    let type = 'success';
+                    let icon = 'fa-solid fa-circle-check';
+                    let title = 'Đổi mật khẩu thành công'
+                    createToast(type, icon, title)
+                }
+            })
+    }
+}

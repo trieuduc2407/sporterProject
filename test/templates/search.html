@@ -76,10 +76,11 @@
 		  </div>
 		</div>
 		<div class = "row d-none d-lg-flex my-3 w-100">
-
 		  {% if user %}
 		  <div class = "col-8">
-			<h5 class = "d-inline-block">Xin chào {{user}}</h5>
+			<a href = "/user">
+			  <h5 class = "d-inline-block text-black">Xin chào {{user}}</h5>
+			</a>
 		  </div>
 		  <div class = "col-2">
 			<a href = "{{url_for('logout')}}">
@@ -87,7 +88,6 @@
 			</a>
 		  </div>
 		  {% else %}
-
 		  <div class = "col-8">
 			<a href = "{{url_for('login')}}">
 			  <h5 class = "d-inline-block text-black">Đăng nhập</h5>
@@ -99,7 +99,6 @@
 			</a>
 		  </div>
 		  {% endif %}
-
 		</div>
 	  </div>
 	</div>

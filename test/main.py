@@ -225,7 +225,6 @@ def login():
             session['user'] = True
             session['user_id'] = user[0]
             session['user_username'] = username
-            session['user_email'] = user[3]
             session['user_fname'] = user[4]
             session['user_lname'] = user[5]
             cart = get_cart(user[0])
@@ -247,39 +246,10 @@ def logout():
     session.pop('user', None)
     session.pop('user_id', None)
     session.pop('user_username', None)
-    session.pop('user_email', None)
     session.pop('user_fname', None)
     session.pop('user_lname', None)
     # Xoa cac gia tri session va redirect ve index
     return redirect(url_for('index'))
-
-
-@app.route('/user', methods=['GET', 'POST'])
-def user():
-    conn = sqlite3.connect(sqldbname)
-    c = conn.cursor()
-    if request.method == 'POST':
-        req = request.get_json()
-        user_id = session['user_id']
-        user_email = session['user_email']
-        user_fname = session['user_fname']
-        user_lname = session['user_lname']
-        user_phone = req['phone']
-        c.execute('UPDATE users SET firstName = ?, lastName = ?, email = ?, phone = ? WHERE userId = ?',
-                  (user_fname, user_lname, user_email, user_phone, user_id))
-        conn.commit()
-        res = make_response(jsonify({'Status': 1}))
-        return res
-    else:
-        user_id = session['user_id']
-        user_email = session['user_email']
-        user_fname = session['user_fname']
-        user_lname = session['user_lname']
-        c.execute('SELECT phone FROM users WHERE userId = ?', (user_id,))
-        phone = c.fetchone()[0]
-        data = {'user_id': user_id, 'user_email': user_email, 'user_fname': user_fname, 'user_lname': user_lname,
-                'phone': phone}
-        return render_template('user.html', user=session['user_lname'], data=data)
 
 
 # Dinh tuyen ham register cho url '/register'
@@ -312,6 +282,57 @@ def register():
     else:
         # Neu method la GET, render file register.html
         return render_template('register.html')
+
+
+@app.route('/user', methods=['GET', 'POST'])
+def user():
+    conn = sqlite3.connect(sqldbname)
+    c = conn.cursor()
+    if request.method == 'POST':
+        req = request.get_json()
+        user_id = session['user_id']
+        user_email = session['user_email']
+        user_fname = session['user_fname']
+        user_lname = session['user_lname']
+        user_phone = req['phone']
+        c.execute('UPDATE users SET firstName = ?, lastName = ?, email = ?, phone = ? WHERE userId = ?',
+                  (user_fname, user_lname, user_email, user_phone, user_id))
+        conn.commit()
+        res = make_response(jsonify({'Status': 1}))
+        return res
+    else:
+        user_id = session['user_id']
+        user_email = session['user_email']
+        user_fname = session['user_fname']
+        user_lname = session['user_lname']
+        c.execute('SELECT phone FROM users WHERE userId = ?', (user_id,))
+        phone = c.fetchone()[0]
+        data = {'user_id': user_id, 'user_email': user_email, 'user_fname': user_fname, 'user_lname': user_lname,
+                'phone': phone}
+        return render_template('user.html', user=session['user_lname'], data=data)
+
+
+@app.route('/user/change-password', methods=['POST'])
+def user_change_password():
+    req = request.get_json()
+    user_id = session['user_id']
+    old_password = req['old_password']
+    new_password = req['new_password']
+    conn = sqlite3.connect(sqldbname)
+    c = conn.cursor()
+    c.execute('SELECT password FROM users WHERE userId = ?', (user_id,))
+    password = c.fetchone()[0]
+    if old_password != password:
+        res = make_response(jsonify({'code': 0}))
+        return res
+    elif new_password == password:
+        res = make_response(jsonify({'code': 1}))
+        return res
+    else:
+        c.execute('UPDATE users SET password = ? WHERE userId = ?', (new_password, user_id))
+        conn.commit()
+        res = make_response(jsonify({'code': 2}))
+        return res
 
 
 # Ham get_cart voi tham so id dung de lay ra cac ban ghi trong table cart
@@ -430,6 +451,8 @@ def view_cart():
 @app.route('/checkout', methods=['GET', 'POST'])
 def checkout():
     if 'user' in session and len(session.get('cart')) > 0:
+        conn = sqlite3.connect(sqldbname)
+        c = conn.cursor()
         if request.method == 'POST':
             order_id = get_max_id('order')
             user_id = session['user_id']
@@ -444,8 +467,6 @@ def checkout():
             payment = req['payment']
             total = req['total']
 
-            conn = sqlite3.connect(sqldbname)
-            c = conn.cursor()
             c.execute('SELECT productId, quantity FROM cart WHERE userId = ?', (user_id,))
             order = c.fetchall()
 
@@ -468,8 +489,14 @@ def checkout():
         else:
             session['cart'] = get_cart(session['user_id'])
             cart = session.get('cart', [])
-            return render_template('checkout.html', user=session['user_lname'], fname=session['user_fname'],
-                                   email=session['user_email'], items=cart)
+            user_id = session['user_id']
+            c.execute('SELECT phone, email FROM users WHERE userId = ?', (user_id,))
+            result = c.fetchone()
+            phone = result[0]
+            email = result[1]
+            user = {'user_fname': session['user_fname'], 'user_lname': session['user_lname'], 'phone': phone,
+                    'email': email}
+            return render_template('checkout.html', user=user, items=cart)
     else:
         return redirect(url_for('index'))
 
@@ -822,6 +849,41 @@ def admin_tracking_order(order_id):
             return render_template('order.html', item=item)
     else:
         return redirect(url_for('admin_login'))
+
+
+@app.route('/admin/manage', methods=['GET'])
+def admin_manage():
+    if check_admin():
+        conn = sqlite3.connect(sqldbname)
+        c = conn.cursor()
+        c.execute('SELECT username, email, lastName FROM admin')
+        results = c.fetchall()
+        admins = []
+        for result in results:
+            admin = {'username': result[0], 'email': result[1], 'lastName': result[2]}
+            admins.append(admin)
+        return render_template('adminManage.html', admins=admins)
+    else:
+        return redirect(url_for('admin_login'))
+    
+
+# @app.route('/admin/manage/<admin_id>', methods=['GET', 'POST'])
+# def admin_manage_account(admin_id):
+#     if check_admin():
+#         conn = sqlite3.connect(sqldbname)
+#         c = conn.cursor()
+#         if request.method == 'POST':
+#
+#
+#             return
+#         else:
+#             c.execute('SELECT email, firstName, lastName FROM admin WHERE adminId = ?', (admin_id,))
+#             result = c.fetchone()
+#             admin = {'email': result[0], 'firstName': result[1], 'lastName': result[2]}
+#             return render_template('adminManageAccount.html', admin=admin)
+#
+#     else:
+#         return redirect(url_for('admin_login'))
 
 
 if __name__ == '__main__':
